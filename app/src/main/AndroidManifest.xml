@@ -19,7 +19,8 @@
         <activity android:name=".Home" />
         <activity android:name=".MainVisitor" />
         <activity android:name=".MainEmployee" />
-        <activity android:name=".EmployeeProfile"></activity>
+        <activity android:name=".EmployeeProfile" />
+        <activity android:name=".VisitorLogout"></activity>
     </application>
 
 </manifest>
