@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Home"
+    android:background="#E0F7FA">
+
+    <ImageView
+        android:layout_width="280dp"
+        android:layout_height="235dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="56dp"
+        android:elevation="10dp"
+        android:padding="10dp"
+        android:src="@drawable/logo_short"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayoutCompat"
+        app:layout_constraintLeft_toLeftOf="@id/home"
+        app:layout_constraintRight_toRightOf="@id/home"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.421" />
+
+    <LinearLayout
+        android:id="@+id/linearLayoutCompat"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/button"
+            android:onClick="toVisitor"
+            android:text="VISITOR"
+            android:textSize="14sp"
+            android:fontFamily="@android:rubik-medium"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/button"
+            android:onClick="toEmployee"
+            android:text="EMPLOYEE"
+            android:textSize="14sp"
+            android:fontFamily="@android:rubik-medium"/>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
