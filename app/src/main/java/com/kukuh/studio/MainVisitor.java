@@ -91,7 +91,8 @@ public class MainVisitor extends AppCompatActivity {
                         && (validatePhone()) && (validateKep())){
                     database.updateDatabase(vis,date);
                     sendEmail();
-                    onRestart();
+                    Intent intent = new Intent(MainVisitor.this, Home.class);
+                    startActivity(intent);
                 }
 
             }
