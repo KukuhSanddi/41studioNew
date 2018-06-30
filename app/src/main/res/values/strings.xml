@@ -1,3 +1,36 @@
 <resources>
-    <string name="app_name">41studioNew</string>
+    <string name="app_name">41 Studio</string>
+    <string name="action_settings">Settings</string>
+    <string name="hint_name">Masukkan Nama</string>
+    <string name="hint_email">Masukkan Email</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_phone">Masukkan No. Hp</string>
+    <string name="btn_submit">SUBMIT</string>
+    <string name="err_msg_form">Form tidak boleh kosong</string>
+    <string name="err_msg_email">Masukkan email yang valid</string>
+    <string name="err_msg_phone">Masukkan nomor hp yang benar</string>
+    <string name="txt_cam">Foto data diri :</string>
+    <string-array name="item_dropdown">
+        <item>Yang akan anda temui</item>
+        <item>Orang 1</item>
+        <item>Orang 2</item>
+        <item>Orang 3</item>
+    </string-array>
+    <string name="hint_keperluan">Tulis keperluan anda disini</string>
+    <string name="title_activity_admin">ADMIN</string>
+    <string-array name="employee">
+        <item>Employee 1</item>
+        <item>Employee 2</item>
+        <item>Employee 3</item>
+        <item>Employee 4</item>
+        <item>Employee 5</item>
+        <item>Employee 6</item>
+        <item>Employee 7</item>
+        <item>Employee 8</item>
+        <item>Employee 9</item>
+        <item>Employee 10</item>
+        <item>Employee 11</item>
+        <item>Employee 12</item>
+        <item>Employee 13</item>
+    </string-array>
 </resources>
