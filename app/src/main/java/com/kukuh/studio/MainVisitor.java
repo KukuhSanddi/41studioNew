@@ -18,6 +18,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
+import com.kukuh.studio.Visitor;
+import com.kukuh.studio.Database;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 
 public class MainVisitor extends AppCompatActivity {
 //    Spinner spinner = (Spinner) findViewById(R.id.dropdown);
@@ -34,9 +40,11 @@ public class MainVisitor extends AppCompatActivity {
 
 //    -----------------------------------------------------------
 
-        private EditText inputName, inputEmail, inputNo, inputKep;
-        private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutNo, inputLayoutKep;
-
+    private EditText inputName, inputEmail, inputNo, inputKep;
+    private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutNo, inputLayoutKep;
+    private Calendar calendar;
+    private SimpleDateFormat dateFormat;
+    private String date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +54,12 @@ public class MainVisitor extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 //
+        calendar = Calendar.getInstance();
+        dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+        date = dateFormat.format(calendar.getTime());
+        SimpleDateFormat jamFormat = new SimpleDateFormat("HH:mm:ss");
+        final String jamCheckin = jamFormat.format(calendar.getTime());
+
         inputName = findViewById(R.id.input_name);
         inputEmail = findViewById(R.id.input_email);
         inputNo = findViewById(R.id.input_phone);
@@ -65,9 +79,18 @@ public class MainVisitor extends AppCompatActivity {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final String namaVis = inputName.getText().toString();
+                final String emailVis = inputEmail.getText().toString();
+                final String noVis = inputNo.getText().toString();
+                final String kepVis = inputKep.getText().toString();
+
                 submitForm();
+                Visitor vis = new Visitor(namaVis,emailVis,noVis,jamCheckin,kepVis);
+                Database database = new Database();
                 if ((validateName())&& (validateEmail())
                         && (validatePhone()) && (validateKep())){
+                    database.updateDatabase(vis,date);
+                    sendEmail();
                     onRestart();
                 }
 
@@ -229,5 +252,22 @@ public class MainVisitor extends AppCompatActivity {
                     break;
             }
         }
+    }
+
+    //Sending Email
+    private void sendEmail() {
+        final String namaVis = inputName.getText().toString();
+        final String kepVis = inputKep.getText().toString();
+
+        //Getting content for email
+        String email = "adli.rahman23@gmail.com";
+        String subject = "41Studio Visitor";
+        String message = namaVis+" sedang menunggu dibawah dan ingin bertemu dengan anda, dengan keperluan "+kepVis+".";
+
+        //Creating SendMail object
+        SendMail sm = new SendMail(this, email, subject, message);
+
+        //Executing sendmail to send email
+        sm.execute();
     }
 }
