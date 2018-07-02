@@ -18,11 +18,16 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.kukuh.studio.Visitor;
 import com.kukuh.studio.Database;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class MainVisitor extends AppCompatActivity {
@@ -42,9 +47,13 @@ public class MainVisitor extends AppCompatActivity {
 
     private EditText inputName, inputEmail, inputNo, inputKep;
     private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutNo, inputLayoutKep;
+
+    Visitor vis;
+    Database database = new Database();
     private Calendar calendar;
     private SimpleDateFormat dateFormat;
     private String date;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +62,13 @@ public class MainVisitor extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-//
-        calendar = Calendar.getInstance();
-        dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
         date = dateFormat.format(calendar.getTime());
         SimpleDateFormat jamFormat = new SimpleDateFormat("HH:mm:ss");
         final String jamCheckin = jamFormat.format(calendar.getTime());
+
 
         inputName = findViewById(R.id.input_name);
         inputEmail = findViewById(R.id.input_email);
@@ -85,12 +95,12 @@ public class MainVisitor extends AppCompatActivity {
                 final String kepVis = inputKep.getText().toString();
 
                 submitForm();
-                Visitor vis = new Visitor(namaVis,emailVis,noVis,jamCheckin,kepVis);
-                Database database = new Database();
                 if ((validateName())&& (validateEmail())
                         && (validatePhone()) && (validateKep())){
-                    database.updateDatabase(vis,date);
-                    sendEmail();
+                    vis = new Visitor(namaVis,emailVis,noVis,jamCheckin,null,kepVis);
+                    database.updateDatabase(vis);
+//                    sendEmail();
+                    finish();
                     Intent intent = new Intent(MainVisitor.this, Home.class);
                     startActivity(intent);
                 }

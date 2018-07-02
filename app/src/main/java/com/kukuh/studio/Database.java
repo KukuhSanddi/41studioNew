@@ -10,22 +10,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Database {
-    private Calendar calendar;
-    private SimpleDateFormat dateFormat;
-    private String date;
     Map<String, Visitor> visitors = new HashMap<>();
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
 
 
+    public void updateDatabase(Visitor vis){
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+        String date = dateFormat.format(calendar.getTime());
 
-    public void updateDatabase(Visitor vis,String date){
         DatabaseReference myRef = database.getReference("visitors/"+date);
+
         String email = vis.getEmail().toString();
         visitors.put(vis.getNama(), new Visitor(vis.getNama(),email,vis.getPhone(),vis.getCheckin(),null,vis.getKeperluan()));
-        myRef.setValue(visitors);
+        myRef.push().setValue(visitors);
     }
-
-
-
 }
