@@ -2,26 +2,39 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+
     >
-    <TableRow>
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:id="@+id/img"/>
-        <TextView
-            android:layout_width="wrap_content"
+        <TableRow
+            android:id="@+id/aaa"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:id="@+id/label"
-            android:layout_alignParentLeft="true"
-            android:gravity="center" />
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="#ffffff">
 
-    </TableRow>
+                <ImageView
+                    android:id="@+id/img"
+                    android:layout_width="40dp"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="5dp"
+                    android:paddingRight="10dp"
+                    android:src="@drawable/bg_circle" />
+
+                <TextView
+                    android:id="@+id/label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+        </TableRow>
 
 </TableLayout>
 

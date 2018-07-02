@@ -33,12 +33,13 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="?android:attr/actionBarSize"
+            android:layout_marginTop="5dp"
             android:orientation="vertical"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
@@ -49,6 +50,12 @@
                 android:id="@+id/input_layout_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginBottom="3dp"
+                android:background="@drawable/bg_edit_txt"
+                android:elevation="2dp"
+                android:padding="10dp"
+
                 >
 
                 <EditText
@@ -57,13 +64,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_name"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/input_layout_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="3dp"
+                android:background="@drawable/bg_edit_txt"
+                android:elevation="2dp"
+                android:padding="10dp"
                 >
 
                 <EditText
@@ -78,6 +92,12 @@
                 android:id="@+id/input_layout_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="3dp"
+                android:background="@drawable/bg_edit_txt"
+                android:elevation="2dp"
+                android:padding="10dp"
                 >
 
                 <EditText
@@ -99,7 +119,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_margin="5dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="3dp"
+                android:background="@drawable/bg_corner_radius"
+                android:elevation="2dp"
+                android:padding="20dp">
 
                 <Button
                     android:layout_width="150dp"
@@ -114,7 +140,8 @@
                     android:layout_gravity="center"
                     android:layout_weight="2"
                     android:layout_marginLeft="20dp"
-                    android:text="judul foto.jpg" />
+                    android:text="judul foto.jpg"
+                    android:paddingLeft="20dp"/>
 
 
             </LinearLayout>
@@ -124,12 +151,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:entries="@array/item_dropdown"
+                android:layout_margin="5dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="3dp"
+                android:background="@drawable/bg_corner_radius"
+                android:elevation="2dp"
+                android:paddingLeft="20dp"
+
                 />
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/input_layout_keperluan"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="3dp"
+                android:background="@drawable/bg_edit_txt"
+                android:elevation="2dp"
+                android:padding="10dp">
 
                 <EditText
                     android:id="@+id/input_kep"
@@ -147,7 +187,7 @@
                 android:background="@drawable/button2"
                 android:text="@string/btn_submit"
                 android:textColor="@android:color/white"
-                android:layout_marginBottom="80dp"/>
+                android:layout_marginBottom="40dp"/>
 
 
         </LinearLayout>

@@ -21,7 +21,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Arrays;
 
 public class MainEmployee extends AppCompatActivity {
     ListView list;
@@ -71,7 +74,10 @@ public class MainEmployee extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Toast.makeText(MainEmployee.this,"Anda Memilih" + listArr[i],Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(MainEmployee.this,EmployeeProfile.class);
+                String name = listArr[i];
+
+                Intent intent = new Intent(getApplicationContext(),EmployeeProfile.class);
+                intent.putExtra("name", name);
                 startActivity(intent);
 
             }
