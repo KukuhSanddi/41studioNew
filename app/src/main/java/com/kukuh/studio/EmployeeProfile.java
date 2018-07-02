@@ -6,12 +6,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 public class EmployeeProfile extends AppCompatActivity {
 
     Button enable, disable;
     EditText employName, employEmail, employPhone;
+    Spinner spinner;
 
 
     @Override
@@ -27,10 +29,12 @@ public class EmployeeProfile extends AppCompatActivity {
         employName = findViewById(R.id.employee_name);
         employEmail = findViewById(R.id.employee_email);
         employPhone = findViewById(R.id.employee_phone);
+        spinner = findViewById(R.id.dropdown_employee);
 
         employName.setEnabled(false);
         employEmail.setEnabled(false);
         employPhone.setEnabled(false);
+        spinner.setEnabled(false);
 
 
         enable.setOnClickListener(new View.OnClickListener() {
@@ -39,6 +43,7 @@ public class EmployeeProfile extends AppCompatActivity {
                 employName.setEnabled(true);
                 employEmail.setEnabled(true);
                 employPhone.setEnabled(true);
+                spinner.setEnabled(true);
                 Toast.makeText(EmployeeProfile.this, "EditText Enable", Toast.LENGTH_SHORT).show();
             }
         });
@@ -49,6 +54,7 @@ public class EmployeeProfile extends AppCompatActivity {
                 employName.setEnabled(false);
                 employEmail.setEnabled(false);
                 employPhone.setEnabled(false);
+                spinner.setEnabled(false);
                 Toast.makeText(EmployeeProfile.this, "EditText Disable", Toast.LENGTH_SHORT).show();
             }
         });

@@ -1,6 +1,7 @@
 package com.kukuh.studio;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
 import com.kukuh.studio.Visitor;
@@ -45,6 +47,7 @@ public class MainVisitor extends AppCompatActivity {
     private Calendar calendar;
     private SimpleDateFormat dateFormat;
     private String date;
+    private Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,11 +67,18 @@ public class MainVisitor extends AppCompatActivity {
         inputEmail = findViewById(R.id.input_email);
         inputNo = findViewById(R.id.input_phone);
         inputKep = findViewById(R.id.input_kep);
+        spinner = findViewById(R.id.dropdown);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(MainVisitor.this, R.array.employee,R.layout.spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
 
         inputLayoutName = findViewById(R.id.input_layout_name);
         inputLayoutEmail = findViewById(R.id.input_layout_email);
         inputLayoutNo = findViewById(R.id.input_layout_phone);
         inputLayoutKep = findViewById(R.id.input_layout_keperluan);
+
+
 
         inputName.addTextChangedListener(new MyTextWatcher(inputName));
         inputEmail.addTextChangedListener(new MyTextWatcher(inputEmail));
@@ -88,7 +98,7 @@ public class MainVisitor extends AppCompatActivity {
                 Visitor vis = new Visitor(namaVis,emailVis,noVis,jamCheckin,kepVis);
                 Database database = new Database();
                 if ((validateName())&& (validateEmail())
-                        && (validatePhone()) && (validateKep())){
+                        && (validatePhone()) && (validateKep()) &&validateSpinner()){
                     database.updateDatabase(vis,date);
                     sendEmail();
                     Intent intent = new Intent(MainVisitor.this, Home.class);
@@ -129,12 +139,34 @@ public class MainVisitor extends AppCompatActivity {
             return;
         }
 
+        if (!validateSpinner()){
+            return;
+        }
+
         if (!validateKep()){
             return;
         }
 
+
         Toast.makeText(getApplicationContext(), "Thank You!", Toast.LENGTH_SHORT).show();
     }
+
+    /**
+     * Spinner Validation
+     */
+    private boolean validateSpinner(){
+       if (spinner.getSelectedItem().toString().trim().equals("Yang akan anda temui")){
+           TextView erorText = (TextView) spinner.getSelectedView();
+           erorText.setError("No one selected");
+           erorText.setTextColor(Color.RED);
+           erorText.setText("Pilih orang yang akan anda temui");
+           requestFocus(spinner);
+           return false;
+       }
+
+        return true;
+    }
+
 
     /**
      *

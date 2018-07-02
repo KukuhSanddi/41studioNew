@@ -102,8 +102,8 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:layout_width="181dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="150dp"
+                    android:layout_height="120dp"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:background="@drawable/cam_button" />

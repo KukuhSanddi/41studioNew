@@ -18,6 +18,12 @@
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:logo="@mipmap/ic_launcher" />
+        <!--<EditText-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/search_edit"-->
+            <!--android:inputType="text"-->
+            <!--android:imeOptions="actionSearch"/>-->
     </android.support.design.widget.AppBarLayout>
 
     <ScrollView
@@ -57,12 +63,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:src="@drawable/profile"
+        android:src="@drawable/add"
         tools:layout_editor_absoluteX="328dp"
         tools:layout_editor_absoluteY="511dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="10dp"/>
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"/>
 
 </android.support.constraint.ConstraintLayout>

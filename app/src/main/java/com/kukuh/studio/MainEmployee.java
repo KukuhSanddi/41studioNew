@@ -13,17 +13,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
 public class MainEmployee extends AppCompatActivity {
+    ListView list;
 
-    String[] listArr = {"Employee 1", "Employee 2", "Employee 3", "Employee 4",
-            "Employee 5", "Employee 6", "Employee 7"};
+    String[] listArr;
+
+
     Context context;
 //    Button btn1;
 
@@ -42,15 +47,32 @@ public class MainEmployee extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ListViewAdapter adapter = new ListViewAdapter(this, R.layout.activity_list_view, R.id.label, listArr);
 
-        context = this;
+//        ListViewAdapter adapter = new ListViewAdapter(this, R.layout.activity_list_view, R.id.label, listArr);
+//
+//        context = this;
+//
+//        ListView listView = findViewById(R.id.list);
+//        listView.setAdapter(adapter);
+//
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+//            public void onItemClick(AdapterView<?> parent, View view, int positon, long id){
+//                Toast.makeText(context,"Item clicked", Toast.LENGTH_LONG).show();
+//
+//            }
+//        });
+        listArr = getResources().getStringArray(R.array.employee);
+        ListViewAdapter adapter = new ListViewAdapter(MainEmployee.this, listArr);
 
-        ListView listView = findViewById(R.id.list);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-            public void onItemClick(AdapterView<?> parent, View view, int positon, long id){
-                Toast.makeText(context,"Item clicked", Toast.LENGTH_LONG).show();
+        list = findViewById(R.id.list);
+        list.setAdapter(adapter);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(MainEmployee.this,"Anda Memilih" + listArr[i],Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(MainEmployee.this,EmployeeProfile.class);
+                startActivity(intent);
 
             }
         });
@@ -64,24 +86,22 @@ public class MainEmployee extends AppCompatActivity {
         });
     }
 
-
-
-    public void info_Employee(View view){
-        Button btn = (Button) view;
-        Toast.makeText(this, "Button"+ btn.getText().toString(), Toast.LENGTH_SHORT).show();
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainEmployee.this);
-        builder.setTitle("EMPLOYEE");
-        builder.setCancelable(true);
-        builder.setMessage("Nama Karyawan");
-        builder.setPositiveButton("Profile", null);
-        builder.setNegativeButton("Cancel", null);
-        builder.create();
-
-        Intent intent = new Intent(this,EmployeeProfile.class);
-        startActivity(intent);
-
-
-    }
+    //    public void info_Employee(View view){
+//        Button btn = (Button) view;
+//        Toast.makeText(this, "Button"+ btn.getText().toString(), Toast.LENGTH_SHORT).show();
+//        AlertDialog.Builder builder = new AlertDialog.Builder(MainEmployee.this);
+//        builder.setTitle("EMPLOYEE");
+//        builder.setCancelable(true);
+//        builder.setMessage("Nama Karyawan");
+//        builder.setPositiveButton("Profile", null);
+//        builder.setNegativeButton("Cancel", null);
+//        builder.create();
+//
+//        Intent intent = new Intent(this,EmployeeProfile.class);
+//        startActivity(intent);
+//
+//
+//    }
 
 
 }

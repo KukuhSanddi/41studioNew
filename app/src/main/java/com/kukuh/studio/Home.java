@@ -26,11 +26,11 @@ public class Home extends AppCompatActivity {
             public void onClick(View view) {
                 AlertDialog.Builder dialogBox = new AlertDialog.Builder(context);
 
-                dialogBox.setTitle("Hello Visitor");
+                dialogBox.setTitle("Selamat Datang di 41 studio");
 
                 dialogBox
                         .setMessage(" ")
-                        .setCancelable(false)
+                        .setCancelable(true)
                         .setPositiveButton("Masuk", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
