@@ -1,5 +1,6 @@
 package com.kukuh.studio;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class EmployeeProfile extends AppCompatActivity {
@@ -24,39 +26,47 @@ public class EmployeeProfile extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        enable = findViewById(R.id.btn_edit);
-        disable = findViewById(R.id.btn_ok);
-        employName = findViewById(R.id.employee_name);
-        employEmail = findViewById(R.id.employee_email);
-        employPhone = findViewById(R.id.employee_phone);
-        spinner = findViewById(R.id.dropdown_employee);
+        TextView txtName = findViewById(R.id.user_profile_name);
 
-        employName.setEnabled(false);
-        employEmail.setEnabled(false);
-        employPhone.setEnabled(false);
-        spinner.setEnabled(false);
+        Intent intent = getIntent();
+        String name = intent.getStringExtra("name");
+        txtName.setText(name);
 
 
-        enable.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                employName.setEnabled(true);
-                employEmail.setEnabled(true);
-                employPhone.setEnabled(true);
-                spinner.setEnabled(true);
-                Toast.makeText(EmployeeProfile.this, "EditText Enable", Toast.LENGTH_SHORT).show();
-            }
-        });
 
-        disable.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                employName.setEnabled(false);
-                employEmail.setEnabled(false);
-                employPhone.setEnabled(false);
-                spinner.setEnabled(false);
-                Toast.makeText(EmployeeProfile.this, "EditText Disable", Toast.LENGTH_SHORT).show();
-            }
-        });
+//        enable = findViewById(R.id.btn_edit);
+//        disable = findViewById(R.id.btn_ok);
+//        employName = findViewById(R.id.employee_name);
+//        employEmail = findViewById(R.id.employee_email);
+//        employPhone = findViewById(R.id.employee_phone);
+//        spinner = findViewById(R.id.dropdown_employee);
+//
+//        employName.setEnabled(false);
+//        employEmail.setEnabled(false);
+//        employPhone.setEnabled(false);
+//        spinner.setEnabled(false);
+//
+//
+//        enable.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                employName.setEnabled(true);
+//                employEmail.setEnabled(true);
+//                employPhone.setEnabled(true);
+//                spinner.setEnabled(true);
+//                Toast.makeText(EmployeeProfile.this, "EditText Enable", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
+//        disable.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                employName.setEnabled(false);
+//                employEmail.setEnabled(false);
+//                employPhone.setEnabled(false);
+//                spinner.setEnabled(false);
+//                Toast.makeText(EmployeeProfile.this, "EditText Disable", Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 }
