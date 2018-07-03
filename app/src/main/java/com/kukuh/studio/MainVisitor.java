@@ -1,8 +1,14 @@
 package com.kukuh.studio;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -22,14 +28,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.kukuh.studio.Visitor;
 import com.kukuh.studio.Database;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 
 public class MainVisitor extends AppCompatActivity {
@@ -56,6 +71,12 @@ public class MainVisitor extends AppCompatActivity {
     private SimpleDateFormat dateFormat;
     private String date;
     private Spinner spinner;
+    public int REQUEST_TAKE_PHOTO = 1;
+
+    String mCurrentPhotoPath;
+    private StorageReference mStorRef;
+    private Uri filePath;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,12 +85,15 @@ public class MainVisitor extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-//
-        calendar = Calendar.getInstance();
-        dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
         date = dateFormat.format(calendar.getTime());
         SimpleDateFormat jamFormat = new SimpleDateFormat("HH:mm:ss");
         final String jamCheckin = jamFormat.format(calendar.getTime());
+
+        mStorRef = FirebaseStorage.getInstance().getReference();
+
 
         inputName = findViewById(R.id.input_name);
         inputEmail = findViewById(R.id.input_email);
@@ -85,8 +109,6 @@ public class MainVisitor extends AppCompatActivity {
         inputLayoutEmail = findViewById(R.id.input_layout_email);
         inputLayoutNo = findViewById(R.id.input_layout_phone);
         inputLayoutKep = findViewById(R.id.input_layout_keperluan);
-
-
 
         inputName.addTextChangedListener(new MyTextWatcher(inputName));
         inputEmail.addTextChangedListener(new MyTextWatcher(inputEmail));
@@ -106,6 +128,7 @@ public class MainVisitor extends AppCompatActivity {
                 if ((validateName())&& (validateEmail())
                         && (validatePhone()) && (validateKep())){
                     vis = new Visitor(namaVis,emailVis,noVis,jamCheckin,null,kepVis);
+                    uploadImage();
                     database.updateDatabase(vis);
 //                    sendEmail();
                     finish();
@@ -154,7 +177,6 @@ public class MainVisitor extends AppCompatActivity {
         if (!validateKep()){
             return;
         }
-
 
         Toast.makeText(getApplicationContext(), "Thank You!", Toast.LENGTH_SHORT).show();
     }
@@ -311,4 +333,107 @@ public class MainVisitor extends AppCompatActivity {
         //Executing sendmail to send email
         sm.execute();
     }
+
+    //Starting camera
+    public void dispatchTakePictureIntent(View view) {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "com.kukuh.studio.fileprovider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+                filePath = Uri.fromFile(photoFile);
+            }
+        }
+
+    }
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (requestCode == 1) {
+//            if (resultCode == RESULT_OK) {
+//                btnCam.setBackgroundUri(filePath);
+//                try {
+//                    jdlFoto.setText(createImageFile().getName());
+//                    btnCam.setBackground();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//    }
+
+    //Upload image to Firebase Storage
+    public void uploadImage()  {
+
+        if(filePath != null)
+        {
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Uploading...");
+            progressDialog.show();
+
+            StorageReference ref = null;
+            try {
+                ref = mStorRef.child("images/"+createImageFile().getName());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            ref.putFile(filePath)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            progressDialog.dismiss();
+                            Toast.makeText(MainVisitor.this, "Uploaded", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                            Toast.makeText(MainVisitor.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
+                                    .getTotalByteCount());
+                            progressDialog.setMessage("Uploaded "+(int)progress+"%");
+                        }
+                    });
+        }
+
+
+    }
+
+    //Create image.jpg file
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("ddMMMMyyyy_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        String mCurrentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+
 }
