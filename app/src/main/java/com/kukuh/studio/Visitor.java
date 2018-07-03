@@ -37,6 +37,9 @@ public class Visitor {
         this.urlFoto = urlFoto;
     }
 
+    public Visitor() {
+    }
+
     public String getNama() {
         return nama;
     }

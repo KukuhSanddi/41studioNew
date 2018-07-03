@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class VisitorLogout extends AppCompatActivity {
 
@@ -15,14 +16,21 @@ public class VisitorLogout extends AppCompatActivity {
     Button btnLogout;
     Database database = new Database();
     EditText email;
+    TextView txt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_visitor_logout);
 
+        txt = findViewById(R.id.text_email);
         btnLogout = findViewById(R.id.btn_logout);
         email = findViewById(R.id.email_log);
+
+        final String emailVis = email.getText().toString();
+
+        txt.setText(database.getNama(emailVis));
+
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
