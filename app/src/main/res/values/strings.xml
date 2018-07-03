@@ -16,8 +16,7 @@
         <item>Orang 2</item>
         <item>Orang 3</item>
     </string-array>
-    <string name="hint_keperluan">Tulis keperluan anda disini</string>
-    <string name="title_activity_admin">ADMIN</string>
+    <string name="hint_keperluan">Tulis keperluan anda</string>
     <string-array name="employee">
         <item>Employee 1</item>
         <item>Employee 2</item>

@@ -126,7 +126,7 @@ public class MainVisitor extends AppCompatActivity {
 
                 submitForm();
                 if ((validateName())&& (validateEmail())
-                        && (validatePhone()) && (validateKep())){
+                        && (validatePhone()) && (validateKep()) && (validateSpinner())){
                     vis = new Visitor(namaVis,emailVis,noVis,jamCheckin,null,kepVis);
                     uploadImage();
                     database.updateDatabase(vis);

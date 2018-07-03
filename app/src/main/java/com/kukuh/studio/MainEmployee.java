@@ -29,6 +29,7 @@ import java.util.Arrays;
 public class MainEmployee extends AppCompatActivity {
     ListView list;
 
+
     String[] listArr;
 
 
@@ -64,6 +65,7 @@ public class MainEmployee extends AppCompatActivity {
 //
 //            }
 //        });
+
         listArr = getResources().getStringArray(R.array.employee);
         ListViewAdapter adapter = new ListViewAdapter(MainEmployee.this, listArr);
 
@@ -87,7 +89,8 @@ public class MainEmployee extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(),"Floating button has been pressed", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(getApplicationContext(), AddEmployee.class);
+                startActivity(i);
             }
         });
     }

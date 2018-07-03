@@ -61,7 +61,7 @@
 
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/add_friend"
+                    android:id="@+id/edit_profile"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginRight="16dp"
@@ -101,167 +101,104 @@
                 android:layout_marginTop="5dp"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="fill_parent"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="horizontal"
                     android:layout_margin="5dp"
                     android:background="#fff"
                     android:clickable="true"
                     android:elevation="2dp"
-                    android:padding="20dp"
-                    android:text="Email Employee" />
+                    android:padding="20dp">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ic_email"
+                        android:layout_gravity="center"
+                        />
+                    <TextView
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="Employee Email"
+                        android:textSize="16sp"
+                        />
+                </LinearLayout>
 
-                <TextView
-                    android:layout_width="fill_parent"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="horizontal"
                     android:layout_margin="5dp"
-                    android:layout_marginBottom="3dp"
-                    android:layout_marginTop="3dp"
                     android:background="#fff"
                     android:clickable="true"
                     android:elevation="2dp"
-                    android:padding="20dp"
-                    android:text="Nomor Hp Employee" />
+                    android:padding="20dp">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ic_phone"
+                        android:layout_gravity="center"
+                        />
+                    <TextView
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="Employe Phone Number"
+                        android:textSize="16sp"/>
+                </LinearLayout>
 
-                <TextView
-                    android:layout_width="fill_parent"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="horizontal"
                     android:layout_margin="5dp"
                     android:background="#fff"
                     android:clickable="true"
                     android:elevation="2dp"
-                    android:padding="20dp"
-                    android:text="Status Employee" />
+                    android:padding="20dp">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ic_location"
+                        android:layout_gravity="center"
+                        />
+                    <TextView
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="Employee Address"
+                        android:textSize="16sp"/>
+                </LinearLayout>
 
-                <TextView
-                    android:layout_width="fill_parent"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="horizontal"
                     android:layout_margin="5dp"
-                    android:layout_marginBottom="3dp"
-                    android:layout_marginTop="3dp"
                     android:background="#fff"
                     android:clickable="true"
                     android:elevation="2dp"
-                    android:padding="20dp"
-                    android:text="Alamat Employee" />
+                    android:padding="20dp">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ic_status"
+                        android:layout_gravity="center"
+                        />
+                    <TextView
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="Employee Status"
+                        android:textSize="16sp"/>
+                </LinearLayout>
 
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>
-    <!--<ScrollView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_marginTop="?attr/actionBarSize"-->
-        <!--app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--app:layout_constraintHorizontal_bias="0.0"-->
-        <!--app:layout_constraintLeft_toLeftOf="parent"-->
-        <!--app:layout_constraintRight_toRightOf="parent"-->
-        <!--app:layout_constraintTop_toTopOf="parent"-->
-        <!--app:layout_constraintVertical_bias="0.0"-->
-        <!--android:layout_marginLeft="10dp"-->
-        <!--android:layout_marginRight="10dp">-->
-
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="30dp"-->
-            <!--android:orientation="vertical"-->
-            <!--android:paddingBottom="30dp"-->
-            <!--android:descendantFocusability="beforeDescendants"-->
-            <!--android:focusableInTouchMode="true">-->
-
-            <!--<com.joooonho.SelectableRoundedImageView-->
-                <!--android:layout_width="150dp"-->
-                <!--android:layout_height="150dp"-->
-                <!--android:scaleType="centerCrop"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:src="@drawable/profilenew"-->
-                <!--app:sriv_border_color="#ffffff"-->
-                <!--app:sriv_border_width="1dp"-->
-                <!--app:sriv_oval="true"/>-->
-
-            <!--<android.support.design.widget.TextInputLayout-->
-                <!--android:id="@+id/input_layout_emp_name"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content">-->
-
-                <!--<EditText-->
-                    <!--android:id="@+id/employee_name"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:hint="Nama Employee"-->
-                    <!--android:inputType="textPersonName"-->
-                    <!--android:singleLine="true" />-->
-            <!--</android.support.design.widget.TextInputLayout>-->
-
-            <!--<android.support.design.widget.TextInputLayout-->
-                <!--android:id="@+id/input_layout_emp_email"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content">-->
-
-                <!--<EditText-->
-                    <!--android:id="@+id/employee_email"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:hint="Email Employee"-->
-                    <!--android:inputType="textEmailAddress"-->
-                    <!--android:singleLine="true" />-->
-            <!--</android.support.design.widget.TextInputLayout>-->
-
-            <!--<android.support.design.widget.TextInputLayout-->
-                <!--android:id="@+id/input_layout_name"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content">-->
-
-                <!--<EditText-->
-                    <!--android:id="@+id/employee_phone"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:hint="Nomor HP Employee"-->
-                    <!--android:inputType="phone"-->
-                    <!--android:singleLine="true" />-->
-            <!--</android.support.design.widget.TextInputLayout>-->
-
-            <!--<Spinner-->
-                <!--android:id="@+id/dropdown_employee"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="50dp"-->
-                <!--android:entries="@array/employee" />-->
-
-            <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginBottom="10dp"-->
-                <!--android:orientation="horizontal"-->
-                <!--app:layout_constraintBottom_toBottomOf="parent"-->
-                <!--android:layout_marginTop="20dp">-->
-
-                <!--<Button-->
-                    <!--android:id="@+id/btn_edit"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:text="Edit"-->
-                    <!--android:background="@drawable/button2"-->
-                    <!--android:layout_marginRight="10dp"/>-->
-
-                <!--<Button-->
-                    <!--android:id="@+id/btn_ok"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:text="OK"-->
-                    <!--android:background="@drawable/button2"-->
-                    <!--android:layout_marginLeft="10dp"/>-->
-
-            <!--</LinearLayout>-->
-
-
-
-        <!--</LinearLayout>-->
-
-    <!--</ScrollView>-->
-
-
-
 </android.support.constraint.ConstraintLayout>

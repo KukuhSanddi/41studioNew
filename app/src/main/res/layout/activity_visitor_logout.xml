@@ -21,22 +21,24 @@
             app:logo="@mipmap/ic_launcher" />
     </android.support.design.widget.AppBarLayout>
 
-
-    <ScrollView
+    <android.support.design.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="20dp">
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:elevation="4dp"
+        >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:focusableInTouchMode="true"
             android:descendantFocusability="beforeDescendants"
-            android:layout_marginTop="?android:attr/actionBarSize"
+            android:layout_marginTop="20dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp">
 
@@ -47,9 +49,9 @@
                 android:layout_margin="5dp"
                 android:layout_marginBottom="3dp"
                 android:layout_marginTop="3dp"
-                android:background="#ECEFF1"
                 android:elevation="2dp"
-                android:padding="20dp"
+                style="@style/Widget.Shrine.TextInputLayout"
+                android:hint="@string/hint_email"
                 >
 
                 <EditText
@@ -57,7 +59,6 @@
                     android:id="@+id/email_log"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint_email"
                     android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
 
@@ -72,12 +73,13 @@
 
             <Button
                 android:layout_marginTop="30dp"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:id="@+id/btn_logout"
                 android:text="Logout"
-                android:background="@drawable/button2"/>
+                android:background="@drawable/button2"
+                android:layout_marginBottom="20dp"/>
         </LinearLayout>
-    </ScrollView>
-
+    </android.support.design.card.MaterialCardView>
 </android.support.constraint.ConstraintLayout>
