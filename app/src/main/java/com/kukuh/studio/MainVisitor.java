@@ -2,6 +2,7 @@ package com.kukuh.studio;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
@@ -334,6 +335,11 @@ public class MainVisitor extends AppCompatActivity {
         sm.execute();
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
     //Starting camera
     public void dispatchTakePictureIntent(View view) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -348,6 +354,7 @@ public class MainVisitor extends AppCompatActivity {
                 // Error occurred while creating the File
 
             }
+
             // Continue only if the File was successfully created
             if (photoFile != null) {
                 Uri photoURI = FileProvider.getUriForFile(this,
