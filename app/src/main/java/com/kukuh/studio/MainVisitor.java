@@ -2,6 +2,8 @@ package com.kukuh.studio;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
@@ -23,6 +25,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,6 +67,9 @@ public class MainVisitor extends AppCompatActivity {
 
     private EditText inputName, inputEmail, inputNo, inputKep;
     private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutNo, inputLayoutKep;
+    private ImageButton btnFoto;
+    private TextView jdlFoto;
+    public String namaFoto;
 
     Visitor vis;
     Database database = new Database();
@@ -115,6 +121,8 @@ public class MainVisitor extends AppCompatActivity {
         inputNo.addTextChangedListener(new MyTextWatcher(inputNo));
         inputKep.addTextChangedListener(new MyTextWatcher(inputKep));
 
+//        btnFoto = findViewById(R.id.btnFoto);
+
         Button btnSubmit = findViewById(R.id.btn_submit);
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,12 +134,11 @@ public class MainVisitor extends AppCompatActivity {
 
                 submitForm();
                 if ((validateName())&& (validateEmail())
-                        && (validatePhone()) && (validateKep()) && (validateSpinner())){
-                    vis = new Visitor(namaVis,emailVis,noVis,jamCheckin,null,kepVis);
+                        && (validatePhone()) && (validateKep())){
+                    vis = new Visitor(namaVis,emailVis,noVis,jamCheckin,"",kepVis);
                     uploadImage();
-                    database.updateDatabase(vis);
+                    database.checkinVis(vis);
 //                    sendEmail();
-                    finish();
                     Intent intent = new Intent(MainVisitor.this, Home.class);
                     startActivity(intent);
                 }
@@ -348,6 +355,7 @@ public class MainVisitor extends AppCompatActivity {
                 // Error occurred while creating the File
 
             }
+
             // Continue only if the File was successfully created
             if (photoFile != null) {
                 Uri photoURI = FileProvider.getUriForFile(this,
@@ -365,10 +373,11 @@ public class MainVisitor extends AppCompatActivity {
 //    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        if (requestCode == 1) {
 //            if (resultCode == RESULT_OK) {
-//                btnCam.setBackgroundUri(filePath);
+////                btnFoto.setBackgroundUri(filePath);
 //                try {
-//                    jdlFoto.setText(createImageFile().getName());
-//                    btnCam.setBackground();
+//                    jdlFoto.setText(namaFoto);
+//                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),filePath);
+//                    btnFoto.setImageBitmap(bitmap);
 //                } catch (IOException e) {
 //                    e.printStackTrace();
 //                }
@@ -432,7 +441,8 @@ public class MainVisitor extends AppCompatActivity {
         );
 
         // Save a file: path for use with ACTION_VIEW intents
-        String mCurrentPhotoPath = image.getAbsolutePath();
+        mCurrentPhotoPath = image.getAbsolutePath();
+//        namaFoto = imageFileName;
         return image;
     }
 
