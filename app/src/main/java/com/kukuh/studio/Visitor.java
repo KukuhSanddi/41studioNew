@@ -8,6 +8,7 @@ public class Visitor {
     public String checkin;
     public String checkout;
     public String keperluan;
+    public String urlFoto;
 
     public Visitor(String nama, String email, String phone, String checkin, String checkout, String keperluan) {
         this.nama = nama;
@@ -24,6 +25,16 @@ public class Visitor {
         this.phone = phone;
         this.checkin = checkin;
         this.keperluan = keperluan;
+    }
+
+    public Visitor(String nama, String email, String phone, String checkin, String checkout, String keperluan, String urlFoto) {
+        this.nama = nama;
+        this.email = email;
+        this.phone = phone;
+        this.checkin = checkin;
+        this.checkout = checkout;
+        this.keperluan = keperluan;
+        this.urlFoto = urlFoto;
     }
 
     public String getNama() {
@@ -72,5 +83,13 @@ public class Visitor {
 
     public void setKeperluan(String keperluan) {
         this.keperluan = keperluan;
+    }
+
+    public String getUrlFoto() {
+        return urlFoto;
+    }
+
+    public void setUrlFoto(String urlFoto) {
+        this.urlFoto = urlFoto;
     }
 }

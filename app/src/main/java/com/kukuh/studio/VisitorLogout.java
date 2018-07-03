@@ -7,11 +7,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 public class VisitorLogout extends AppCompatActivity {
 
     final Context context = this;
     Button btnLogout;
+    Database database = new Database();
+    EditText email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,11 +22,14 @@ public class VisitorLogout extends AppCompatActivity {
         setContentView(R.layout.activity_visitor_logout);
 
         btnLogout = findViewById(R.id.btn_logout);
+        email = findViewById(R.id.email_log);
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder dialogBox = new AlertDialog.Builder(context);
+
+
 
                 dialogBox.setTitle("Confirm logout?");
 
@@ -40,6 +46,8 @@ public class VisitorLogout extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 AlertDialog.Builder box2 = new AlertDialog.Builder(context);
+                                final String emailVis = email.getText().toString();
+                                database.checkoutVis(emailVis);
 
                                 box2.setTitle("Anda Berhasil Keluar");
                                 box2
@@ -59,6 +67,8 @@ public class VisitorLogout extends AppCompatActivity {
                 AlertDialog alertDialog = dialogBox.create();
 
                 alertDialog.show();
+
+
             }
         });
 
