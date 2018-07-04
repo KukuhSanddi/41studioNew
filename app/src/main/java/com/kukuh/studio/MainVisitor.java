@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,7 +73,7 @@ public class MainVisitor extends AppCompatActivity {
     private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutNo, inputLayoutKep;
     private ImageButton btnFoto;
     private TextView jdlFoto;
-    public String namaFoto;
+
 
     //Var untuk Database visitor
     Visitor vis;
@@ -85,6 +86,8 @@ public class MainVisitor extends AppCompatActivity {
     private StorageReference mStorRef;
     private Uri filePath;
     public int REQUEST_TAKE_PHOTO = 1;
+    public String namaFoto;
+    public String urlFoto = "";
 
 
     @Override
@@ -141,7 +144,7 @@ public class MainVisitor extends AppCompatActivity {
                 submitForm();
                 if ((validateName())&& (validateEmail())
                         && (validatePhone()) && (validateKep())){
-                    vis = new Visitor(namaVis,emailVis,noVis,jamCheckin,"",kepVis);
+                    vis = new Visitor(namaVis,emailVis,noVis,jamCheckin,"",kepVis,urlFoto);
                     database.checkinVis(vis);
 //                    sendEmail();
                     Intent intent = new Intent(MainVisitor.this, Home.class);
@@ -179,7 +182,8 @@ public class MainVisitor extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-//        uploadImage();
+        uploadImage();
+        btnFoto.setImageURI(filePath);
     }
 
     /**
@@ -363,6 +367,10 @@ public class MainVisitor extends AppCompatActivity {
         sm.execute();
     }
 
+
+    /*
+    /Camera and Upload
+     */
     //Starting camera
     public void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -391,31 +399,11 @@ public class MainVisitor extends AppCompatActivity {
 
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (requestCode == 1) {
-//            if (resultCode == RESULT_OK) {
-////                btnFoto.setBackgroundUri(filePath);
-//                try {
-//                    jdlFoto.setText(namaFoto);
-//                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),filePath);
-//                    btnFoto.setImageBitmap(bitmap);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//    }
-
     //Upload image to Firebase Storage
     public void uploadImage()  {
-
+        UploadTask uploadTask;
         if(filePath != null)
         {
-            final ProgressDialog progressDialog = new ProgressDialog(this);
-            progressDialog.setTitle("Uploading...");
-            progressDialog.show();
-
             StorageReference ref = null;
             try {
                 ref = mStorRef.child("images/visitorID/"+createImageFile().getName());
@@ -423,29 +411,20 @@ public class MainVisitor extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            ref.putFile(filePath)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            progressDialog.dismiss();
-                            Toast.makeText(MainVisitor.this, "Uploaded", Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            progressDialog.dismiss();
-                            Toast.makeText(MainVisitor.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
-                                    .getTotalByteCount());
-                            progressDialog.setMessage("Uploaded "+(int)progress+"%");
-                        }
-                    });
+            uploadTask = ref.putFile(filePath);
+            uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
+                            .getTotalByteCount());
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(MainVisitor.this,"Uploaded",Toast.LENGTH_SHORT).show();
+                }
+            });
+
         }
 
 
