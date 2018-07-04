@@ -1,5 +1,6 @@
 package com.kukuh.studio;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,6 +11,8 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -71,17 +74,17 @@ public class MainVisitor extends AppCompatActivity {
     private TextView jdlFoto;
     public String namaFoto;
 
+    //Var untuk Database visitor
     Visitor vis;
     Database database = new Database();
-    private Calendar calendar;
-    private SimpleDateFormat dateFormat;
-    private String date;
     private Spinner spinner;
-    public int REQUEST_TAKE_PHOTO = 1;
 
+
+    //Var untuk foto dan upload foto
     String mCurrentPhotoPath;
     private StorageReference mStorRef;
     private Uri filePath;
+    public int REQUEST_TAKE_PHOTO = 1;
 
 
     @Override
@@ -93,8 +96,6 @@ public class MainVisitor extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
-        date = dateFormat.format(calendar.getTime());
         SimpleDateFormat jamFormat = new SimpleDateFormat("HH:mm:ss");
         final String jamCheckin = jamFormat.format(calendar.getTime());
 
@@ -121,7 +122,12 @@ public class MainVisitor extends AppCompatActivity {
         inputNo.addTextChangedListener(new MyTextWatcher(inputNo));
         inputKep.addTextChangedListener(new MyTextWatcher(inputKep));
 
-//        btnFoto = findViewById(R.id.btnFoto);
+        btnFoto = findViewById(R.id.btnFoto);
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            btnFoto.setEnabled(false);
+            ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
+        }
 
         Button btnSubmit = findViewById(R.id.btn_submit);
         btnSubmit.setOnClickListener(new View.OnClickListener() {
@@ -136,13 +142,19 @@ public class MainVisitor extends AppCompatActivity {
                 if ((validateName())&& (validateEmail())
                         && (validatePhone()) && (validateKep())){
                     vis = new Visitor(namaVis,emailVis,noVis,jamCheckin,"",kepVis);
-                    uploadImage();
                     database.checkinVis(vis);
 //                    sendEmail();
                     Intent intent = new Intent(MainVisitor.this, Home.class);
                     startActivity(intent);
                 }
 
+            }
+        });
+
+        btnFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dispatchTakePictureIntent();
             }
         });
 
@@ -153,11 +165,21 @@ public class MainVisitor extends AppCompatActivity {
      * new session
      */
     @Override
-    protected void onRestart() {
-        super.onRestart();
-        Intent i = new Intent(MainVisitor.this,MainVisitor.class);
-        startActivity(i);
-        finish();
+    protected void onPause() {
+        super.onPause();
+        jdlFoto = findViewById(R.id.jdlFoto);
+        try{
+            jdlFoto.setText(createImageFile().getName());
+        }
+        catch (IOException e){
+
+        }
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+//        uploadImage();
     }
 
     /**
@@ -342,7 +364,7 @@ public class MainVisitor extends AppCompatActivity {
     }
 
     //Starting camera
-    public void dispatchTakePictureIntent(View view) {
+    public void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -396,7 +418,8 @@ public class MainVisitor extends AppCompatActivity {
 
             StorageReference ref = null;
             try {
-                ref = mStorRef.child("images/"+createImageFile().getName());
+                ref = mStorRef.child("images/visitorID/"+createImageFile().getName());
+                namaFoto = createImageFile().getName();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -442,8 +465,17 @@ public class MainVisitor extends AppCompatActivity {
 
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentPhotoPath = image.getAbsolutePath();
-//        namaFoto = imageFileName;
         return image;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == 0) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                    && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                btnFoto.setEnabled(true);
+            }
+        }
     }
 
 }
