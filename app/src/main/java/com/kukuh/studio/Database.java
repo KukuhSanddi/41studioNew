@@ -1,6 +1,9 @@
 package com.kukuh.studio;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -53,6 +56,8 @@ public class Database {
                         String key = data.getKey();
                         ref.child(key).child("checkout").setValue(jamCheckout);
                     }
+                }else {
+
                 }
             }
 

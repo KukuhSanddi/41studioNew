@@ -125,6 +125,8 @@ public class MainVisitor extends AppCompatActivity {
         inputNo.addTextChangedListener(new MyTextWatcher(inputNo));
         inputKep.addTextChangedListener(new MyTextWatcher(inputKep));
 
+        final String namaVis = inputName.getText().toString();
+
         btnFoto = findViewById(R.id.btnFoto);
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -407,7 +409,6 @@ public class MainVisitor extends AppCompatActivity {
             StorageReference ref = null;
             try {
                 ref = mStorRef.child("images/visitorID/"+createImageFile().getName());
-                namaFoto = createImageFile().getName();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -422,6 +423,14 @@ public class MainVisitor extends AppCompatActivity {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Toast.makeText(MainVisitor.this,"Uploaded",Toast.LENGTH_SHORT).show();
+                }
+            });
+            ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    urlFoto = uri.toString();
+                    Log.e("test","url: "+uri.toString());
+                    Toast.makeText(MainVisitor.this,uri.toString(),Toast.LENGTH_LONG).show();
                 }
             });
 

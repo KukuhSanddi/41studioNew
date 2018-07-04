@@ -2,6 +2,7 @@ package com.kukuh.studio;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -76,6 +77,8 @@ public class VisitorLogout extends AppCompatActivity {
 
                 alertDialog.show();
 
+                Intent intent = new Intent(VisitorLogout.this, Home.class);
+                startActivity(intent);
 
             }
         });
