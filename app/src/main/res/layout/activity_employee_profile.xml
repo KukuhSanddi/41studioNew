@@ -50,7 +50,7 @@
                 android:src="@drawable/img_button_bg"
                 android:clickable="true"/>
 
-            <RelativeLayout
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -60,16 +60,14 @@
                 android:paddingBottom="24dp">
 
 
-                <de.hdodenhof.circleimageview.CircleImageView
+                <ImageView
                     android:id="@+id/edit_profile"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="10dp"
-                    android:src="@drawable/add"
-                    android:layout_alignParentRight="true"
-                    app:civ_border_color="@android:color/black"
-                    app:civ_border_width="2dp"/>
+                    android:src="@drawable/ic_mode_edit"
+                    android:layout_alignParentRight="true" />
                 <TextView
                     android:id="@+id/user_profile_name"
                     android:layout_width="wrap_content"
@@ -91,7 +89,7 @@
                     android:text="Posisi Employee"
                     android:textColor="#fff"
                     android:textSize="14sp" />
-            </RelativeLayout>
+            </de.hdodenhof.circleimageview.CircleImageView>
 
 
             <LinearLayout
