@@ -432,6 +432,7 @@ public class MainVisitor extends AppCompatActivity {
 
             //Uploading bitmap to firebase
             uploadTask = ref.putBytes(data);
+            final StorageReference finalRef = ref;
             uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
@@ -441,15 +442,14 @@ public class MainVisitor extends AppCompatActivity {
             }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    finalRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Uri downloadUrl = uri;
+                            urlFoto = downloadUrl.toString();
+                        }
+                    });
                     Toast.makeText(MainVisitor.this,"Uploaded",Toast.LENGTH_SHORT).show();
-                }
-            });
-            ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-                    urlFoto = uri.toString();
-                    Log.e("test","url: "+uri.toString());
-                    Toast.makeText(MainVisitor.this,uri.toString(),Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -458,7 +458,7 @@ public class MainVisitor extends AppCompatActivity {
     //Create image.jpg file
     private File createImageFile() throws IOException {
         // Create an image file name
-        String timeStamp = new SimpleDateFormat("ddMMMMyyyy_HHmmss").format(new Date());
+        String timeStamp = new SimpleDateFormat("ddMMyyyy_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(

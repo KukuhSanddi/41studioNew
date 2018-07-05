@@ -74,7 +74,7 @@ public class MainEmployee extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(MainEmployee.this,"Anda Memilih" + listArr[i],Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainEmployee.this,"Anda Memilih " + listArr[i],Toast.LENGTH_SHORT).show();
 
                 String name = listArr[i];
 
@@ -111,6 +111,11 @@ public class MainEmployee extends AppCompatActivity {
 //
 //
 //    }
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        finish();
+    }
 
 
 }

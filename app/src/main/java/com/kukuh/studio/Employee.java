@@ -2,12 +2,12 @@ package com.kukuh.studio;
 
 public class Employee {
     public String nama;
-    public String Posisi;
+    public String posisi;
     public String email;
     public String phone;
-    public String Alamat;
-    public String Checkin;
-    public String Checkout;
+    public String alamat;
+    public String checkin;
+    public String checkout;
     public String urlFoto;
 
     public String getNama() {
@@ -19,11 +19,11 @@ public class Employee {
     }
 
     public String getPosisi() {
-        return Posisi;
+        return posisi;
     }
 
     public void setPosisi(String posisi) {
-        Posisi = posisi;
+        this.posisi = posisi;
     }
 
     public String getEmail() {
@@ -43,27 +43,27 @@ public class Employee {
     }
 
     public String getAlamat() {
-        return Alamat;
+        return alamat;
     }
 
     public void setAlamat(String alamat) {
-        Alamat = alamat;
+        this.alamat = alamat;
     }
 
     public String getCheckin() {
-        return Checkin;
+        return checkin;
     }
 
     public void setCheckin(String checkin) {
-        Checkin = checkin;
+        this.checkin = checkin;
     }
 
     public String getCheckout() {
-        return Checkout;
+        return checkout;
     }
 
     public void setCheckout(String checkout) {
-        Checkout = checkout;
+        this.checkout = checkout;
     }
 
     public String getUrlFoto() {
@@ -76,28 +76,28 @@ public class Employee {
 
     public Employee(String nama, String posisi, String email, String phone, String alamat, String checkin, String checkout, String urlFoto) {
         this.nama = nama;
-        Posisi = posisi;
+        this.posisi = posisi;
         this.email = email;
         this.phone = phone;
-        Alamat = alamat;
-        Checkin = checkin;
-        Checkout = checkout;
+        this.alamat = alamat;
+        this.checkin = checkin;
+        this.checkout = checkout;
         this.urlFoto = urlFoto;
     }
 
     public Employee(String nama, String posisi, String email, String phone, String alamat, String urlFoto) {
         this.nama = nama;
-        Posisi = posisi;
+        this.posisi = posisi;
         this.email = email;
         this.phone = phone;
-        Alamat = alamat;
+        this.alamat = alamat;
         this.urlFoto = urlFoto;
     }
 
     public Employee(String nama, String email, String checkin, String checkout) {
         this.nama = nama;
         this.email = email;
-        Checkin = checkin;
-        Checkout = checkout;
+        this.checkin = checkin;
+        this.checkout = checkout;
     }
 }

@@ -98,11 +98,21 @@ public class Database {
 
     //Add Employee
     public void addEmployee(Employee emp){
-        DatabaseReference dRef = database.getReference("employees").child("data karyawan");
+        DatabaseReference dRef = database.getReference("employees").child("dataKaryawan");
         dRef.push().setValue(emp);
     }
 
 //    public ArrayList getEmployee(){
 //
 //    }
+
+    //Checkin Employee
+    public void checkinEmp(Employee emp){
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+        final String date = dateFormat.format(calendar.getTime());
+
+        DatabaseReference dRef = database.getReference("employees").child("absensi").child(date);
+        dRef.push().setValue(emp);
+    }
 }
