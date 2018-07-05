@@ -41,30 +41,9 @@ public class MainEmployee extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_employee);
 
-//        btn1 = findViewById(R.id.info_button);
-//        btn1.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(getApplicationContext(), "Button"+ btn1.getText().toString(), Toast.LENGTH_LONG).show();
-//            }
-//        });
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-//        ListViewAdapter adapter = new ListViewAdapter(this, R.layout.activity_list_view, R.id.label, listArr);
-//
-//        context = this;
-//
-//        ListView listView = findViewById(R.id.list);
-//        listView.setAdapter(adapter);
-//
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-//            public void onItemClick(AdapterView<?> parent, View view, int positon, long id){
-//                Toast.makeText(context,"Item clicked", Toast.LENGTH_LONG).show();
-//
-//            }
-//        });
 
         listArr = getResources().getStringArray(R.array.employee);
         ListViewAdapter adapter = new ListViewAdapter(MainEmployee.this, listArr);
@@ -95,22 +74,7 @@ public class MainEmployee extends AppCompatActivity {
         });
     }
 
-    //    public void info_Employee(View view){
-//        Button btn = (Button) view;
-//        Toast.makeText(this, "Button"+ btn.getText().toString(), Toast.LENGTH_SHORT).show();
-//        AlertDialog.Builder builder = new AlertDialog.Builder(MainEmployee.this);
-//        builder.setTitle("EMPLOYEE");
-//        builder.setCancelable(true);
-//        builder.setMessage("Nama Karyawan");
-//        builder.setPositiveButton("Profile", null);
-//        builder.setNegativeButton("Cancel", null);
-//        builder.create();
-//
-//        Intent intent = new Intent(this,EmployeeProfile.class);
-//        startActivity(intent);
-//
-//
-//    }
+
     @Override
     public void onBackPressed(){
         super.onBackPressed();

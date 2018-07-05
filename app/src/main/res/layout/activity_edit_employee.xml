@@ -78,7 +78,7 @@
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
-                <TextView
+                <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/user_profile_short_bio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -112,13 +112,13 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/ic_email" />
+                        android:src="@drawable/ic_email"
+                        android:alpha="0.7"/>
 
                     <android.support.design.widget.TextInputLayout
                         android:id="@+id/layout_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
                         android:textColor="@android:color/black">
 
                         <android.support.design.widget.TextInputEditText
@@ -155,10 +155,11 @@
                         android:id="@+id/layout_phone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:alpha="0.7"
                         >
 
                         <android.support.design.widget.TextInputEditText
-                            android:text="Employee Email"
+                            android:text="Employee Phone Number"
                             android:id="@+id/input_phone"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
@@ -185,7 +186,8 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/ic_location" />
+                        android:src="@drawable/ic_location"
+                        android:alpha="0.7"/>
 
                     <android.support.design.widget.TextInputLayout
                         android:id="@+id/layout_address"
@@ -194,7 +196,7 @@
                         >
 
                         <android.support.design.widget.TextInputEditText
-                            android:text="Employee Email"
+                            android:text="Employee Address"
                             android:id="@+id/input_address"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
@@ -221,7 +223,8 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/ic_status" />
+                        android:src="@drawable/ic_status"
+                        android:alpha="0.7"/>
 
                     <android.support.design.widget.TextInputLayout
                         android:id="@+id/layout_status"
@@ -230,7 +233,7 @@
                         >
 
                         <android.support.design.widget.TextInputEditText
-                            android:text="Employee Email"
+                            android:text="Employee Status"
                             android:id="@+id/input_status"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
@@ -245,8 +248,11 @@
 
                 <Button
                     android:id="@+id/save"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:textSize="16sp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
                     android:layout_gravity="center"
                     android:background="@drawable/button2"
                     android:text="SAVE" />

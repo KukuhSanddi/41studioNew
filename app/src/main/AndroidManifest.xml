@@ -37,7 +37,9 @@
         <activity android:name=".VisitorLogout"
             android:parentActivityName=".MainVisitor"/>
         <activity android:name=".AddEmployee"
-            android:parentActivityName=".MainEmployee"></activity>
+            android:parentActivityName=".MainEmployee"/>
+        <activity android:name=".EditEmployee"
+            android:parentActivityName=".EmployeeProfile"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

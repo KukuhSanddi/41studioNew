@@ -149,7 +149,7 @@ public class MainVisitor extends AppCompatActivity {
 
                 submitForm();
                 if ((validateName())&& (validateEmail())
-                        && (validatePhone()) && (validateKep())){
+                        && (validatePhone()) && (validateKep()) && (validateSpinner())){
                     vis = new Visitor(namaVis,emailVis,noVis,jamCheckin,"",kepVis,urlFoto);
                     database.checkinVis(vis);
 //                    sendEmail();
