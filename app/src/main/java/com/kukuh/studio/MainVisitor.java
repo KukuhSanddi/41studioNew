@@ -37,6 +37,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -176,20 +177,11 @@ public class MainVisitor extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        jdlFoto = findViewById(R.id.jdlFoto);
-        try{
-            jdlFoto.setText(createImageFile().getName());
-        }
-        catch (IOException e){
-
-        }
     }
 
     @Override
     protected void onResume(){
         super.onResume();
-        uploadImage();
-        btnFoto.setImageURI(filePath);
     }
 
     /**
@@ -410,6 +402,22 @@ public class MainVisitor extends AppCompatActivity {
             }
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
+            jdlFoto = findViewById(R.id.jdlFoto);
+            try{
+                jdlFoto.setText(createImageFile().getName());
+            }
+            catch (IOException e){
+
+            }
+            uploadImage();
+            btnFoto.setImageURI(filePath);
+        }
     }
 
     //Upload image to Firebase Storage
