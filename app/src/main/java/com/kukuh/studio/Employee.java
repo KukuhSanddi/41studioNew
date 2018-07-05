@@ -100,4 +100,8 @@ public class Employee {
         this.checkin = checkin;
         this.checkout = checkout;
     }
+
+    public Employee(){
+
+    }
 }

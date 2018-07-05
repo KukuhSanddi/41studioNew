@@ -84,6 +84,11 @@ public class ListViewAdapter extends ArrayAdapter<String> {
 
     }
 
-
+//    listNama = dbase.getNamaEmployee();
+//        listArr = new String[listNama.size()];
+//        for (int i=0; i<listNama.size();i++){
+//            listArr[i]=listNama.get(i).getNama();
+//            Log.e("Main",listNama.get(i).getNama());
+//        }
 
 }

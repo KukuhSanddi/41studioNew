@@ -2,9 +2,12 @@ package com.kukuh.studio;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -102,9 +105,36 @@ public class Database {
         dRef.push().setValue(emp);
     }
 
-//    public ArrayList getEmployee(){
-//
-//    }
+    public String[] getNamaEmployee(){
+        final ArrayList<Employee> listNama = new ArrayList<>();
+        final String[] namaArr;
+        final DatabaseReference dRef = database.getReference("employees").child("dataKaryawan");
+        dRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot data : dataSnapshot.getChildren()){
+                    Employee emp = data.getValue(Employee.class);
+                    listNama.add(emp);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+        namaArr = new String[listNama.size()];
+        for (int i=0; i<listNama.size();i++){
+            namaArr[i]=listNama.get(i).getNama();
+            Log.e("adloy ",namaArr[i].toString());
+        }
+
+        return namaArr;
+    }
 
     //Checkin Employee
     public void checkinEmp(Employee emp){
