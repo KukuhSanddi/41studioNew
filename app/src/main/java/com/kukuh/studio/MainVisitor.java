@@ -155,6 +155,7 @@ public class MainVisitor extends AppCompatActivity {
                     database.checkinVis(vis);
 //                    sendEmail();
                     Intent intent = new Intent(MainVisitor.this, Home.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                 }
 
@@ -317,6 +318,22 @@ public class MainVisitor extends AppCompatActivity {
 
     private static boolean isValidPhone(String phone){
         return !TextUtils.isEmpty(phone) && android.util.Patterns.PHONE.matcher(phone).matches();
+    }
+
+    /**
+     *
+     * Spinner index
+     */
+
+    private int getIndex(Spinner spinner, String s){
+        int index = 0;
+
+        for (int i=0; i<spinner.getCount(); i++){
+            if (spinner.getItemAtPosition(i).equals(s)){
+                index = i;
+            }
+        }
+        return index;
     }
 
     private void requestFocus(View view){
