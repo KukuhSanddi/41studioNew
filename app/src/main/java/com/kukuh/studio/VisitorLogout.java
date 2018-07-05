@@ -76,8 +76,9 @@ public class VisitorLogout extends AppCompatActivity {
                                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialogInterface, int i) {
-                                                //
-                                            }
+                                                Intent intent = new Intent(VisitorLogout.this, Home.class);
+                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                startActivity(intent);                                            }
                                         });
                                 AlertDialog alertDia = box2.create();
 
@@ -87,10 +88,6 @@ public class VisitorLogout extends AppCompatActivity {
                 AlertDialog alertDialog = dialogBox.create();
 
                 alertDialog.show();
-
-                Intent intent = new Intent(VisitorLogout.this, Home.class);
-                startActivity(intent);
-
             }
         });
 

@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -23,6 +24,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.MotionEvent;
@@ -73,6 +75,7 @@ public class MainVisitor extends AppCompatActivity {
     private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutNo, inputLayoutKep;
     private ImageButton btnFoto;
     private TextView jdlFoto;
+    private String prompt;
 
 
     //Var untuk Database visitor
@@ -112,9 +115,16 @@ public class MainVisitor extends AppCompatActivity {
         inputNo = findViewById(R.id.input_phone);
         inputKep = findViewById(R.id.input_kep);
         spinner = findViewById(R.id.dropdown);
+        String[] listArr = getResources().getStringArray(R.array.employee);
+
+        String[] newArr = new String[listArr.length+1];
+        newArr [0] = "Yang akan anda temui";
+        for (int i = 1; i<newArr.length; i++){
+            newArr[i] = listArr[i-1];
+        }
 
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(MainVisitor.this, R.array.employee,R.layout.spinner_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainVisitor.this, R.layout.spinner_item, newArr);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
@@ -170,6 +180,8 @@ public class MainVisitor extends AppCompatActivity {
         });
 
     }
+
+
 
 
     /**
@@ -328,7 +340,7 @@ public class MainVisitor extends AppCompatActivity {
     private int getIndex(Spinner spinner, String s){
         int index = 0;
 
-        for (int i=0; i<spinner.getCount(); i++){
+        for (int i=1; i<spinner.getCount(); i++){
             if (spinner.getItemAtPosition(i).equals(s)){
                 index = i;
             }

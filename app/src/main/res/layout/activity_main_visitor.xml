@@ -175,10 +175,9 @@
                     android:layout_marginTop="20dp"
                     android:background="@drawable/dropdown"
                     android:elevation="1dp"
-                    android:entries="@array/item_dropdown"
-                    android:paddingLeft="20dp"
-
-                    />
+                    android:spinnerMode="dropdown"
+                    android:prompt="@string/selected_one"
+                    android:paddingLeft="20dp" />
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/input_layout_keperluan"
