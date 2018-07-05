@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
@@ -46,7 +47,11 @@ import com.google.firebase.storage.UploadTask;
 import com.kukuh.studio.Visitor;
 import com.kukuh.studio.Database;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -88,6 +93,8 @@ public class MainVisitor extends AppCompatActivity {
     public int REQUEST_TAKE_PHOTO = 1;
     public String namaFoto;
     public String urlFoto = "";
+    private File destFile;
+    private SimpleDateFormat dateFormatter;
 
 
     @Override
@@ -412,7 +419,19 @@ public class MainVisitor extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            uploadTask = ref.putFile(filePath);
+            Bitmap bmp = null;
+            try {
+                bmp = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            //Compressing image to bitmap
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+            byte[] data = baos.toByteArray();
+
+            //Uploading bitmap to firebase
+            uploadTask = ref.putBytes(data);
             uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
@@ -433,10 +452,7 @@ public class MainVisitor extends AppCompatActivity {
                     Toast.makeText(MainVisitor.this,uri.toString(),Toast.LENGTH_LONG).show();
                 }
             });
-
         }
-
-
     }
 
     //Create image.jpg file
@@ -465,5 +481,4 @@ public class MainVisitor extends AppCompatActivity {
             }
         }
     }
-
 }
