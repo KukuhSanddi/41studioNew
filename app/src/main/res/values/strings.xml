@@ -18,6 +18,7 @@
     </string-array>
     <string name="hint_keperluan">Tulis keperluan anda</string>
     <string-array name="employee">
+        <item>Yang akan anda temui</item>
         <item>Employee 1</item>
         <item>Employee 2</item>
         <item>Employee 3</item>
