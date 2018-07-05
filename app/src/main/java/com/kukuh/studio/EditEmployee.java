@@ -16,10 +16,10 @@ public class EditEmployee extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_employee);
 
-//        final EditText EName = findViewById(R.id.input_name_employee);
-//        Intent intent = getIntent();
-//        final String nameE = intent.getStringExtra("nameE");
-//        EName.setText(nameE);
+        final EditText EName = findViewById(R.id.input_name_employee);
+        Intent intent = getIntent();
+        final String nameE = intent.getStringExtra("nameE");
+        EName.setText(nameE);
 
         save = findViewById(R.id.save);
 
