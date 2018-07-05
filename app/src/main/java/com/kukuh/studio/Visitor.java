@@ -10,6 +10,7 @@ public class Visitor {
     public String keperluan;
     public String urlFoto;
 
+
     public Visitor(String nama, String email, String phone, String checkin, String checkout, String keperluan) {
         this.nama = nama;
         this.email = email;

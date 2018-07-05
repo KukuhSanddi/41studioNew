@@ -38,7 +38,7 @@ public class Home extends AppCompatActivity {
                                 startActivity(intent);
                             }
                         })
-                        .setNegativeButton("Check Out", new DialogInterface.OnClickListener() {
+                        .setNegativeButton("Keluar", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 Intent intent = new Intent(Home.this, VisitorLogout.class);

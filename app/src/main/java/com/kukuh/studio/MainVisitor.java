@@ -2,11 +2,14 @@ package com.kukuh.studio;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -22,14 +25,17 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -60,20 +66,8 @@ import java.util.Date;
 
 
 public class MainVisitor extends AppCompatActivity {
-//    Spinner spinner = (Spinner) findViewById(R.id.dropdown);
-//    ArrayAdapter<CharSequence> adapter = ArrayAdapter
-//            .createFromResource(this,R.array.item_dropdown,
-//                    android.R.layout.simple_spinner_item);
-
-    // Specify the layout to use when the list of choices appears
-
-//    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//    // Apply the adapter to the spinner
-//    spinner.setAdapter(adapter);
-
-
-//    -----------------------------------------------------------
-
+    //-----------------------------------------------------------//
+    //Var XML
     private EditText inputName, inputEmail, inputNo, inputKep;
     private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutNo, inputLayoutKep;
     private ImageButton btnFoto;
@@ -118,6 +112,7 @@ public class MainVisitor extends AppCompatActivity {
         inputKep = findViewById(R.id.input_kep);
         spinner = findViewById(R.id.dropdown);
 
+
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(MainVisitor.this, R.array.employee,R.layout.spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -132,6 +127,7 @@ public class MainVisitor extends AppCompatActivity {
         inputNo.addTextChangedListener(new MyTextWatcher(inputNo));
         inputKep.addTextChangedListener(new MyTextWatcher(inputKep));
 
+
         final String namaVis = inputName.getText().toString();
 
         btnFoto = findViewById(R.id.btnFoto);
@@ -140,6 +136,7 @@ public class MainVisitor extends AppCompatActivity {
             btnFoto.setEnabled(false);
             ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
         }
+
 
         Button btnSubmit = findViewById(R.id.btn_submit);
         btnSubmit.setOnClickListener(new View.OnClickListener() {
@@ -202,6 +199,7 @@ public class MainVisitor extends AppCompatActivity {
     private void submitForm() {
         if (!validateName()) {
             return;
+
         }
 
         if (!validateEmail()) {
@@ -246,10 +244,12 @@ public class MainVisitor extends AppCompatActivity {
      */
     private boolean validateName(){
         if (inputName.getText().toString().trim().isEmpty()){
-            inputLayoutName.setError(getString(R.string.err_msg_form));
+            inputName.setError(getString(R.string.err_msg_form));
+            inputLayoutName.setError(" ");
             requestFocus(inputName);
             return false;
         } else {
+
             inputLayoutName.setErrorEnabled(false);
         }
         return true;
@@ -263,7 +263,8 @@ public class MainVisitor extends AppCompatActivity {
         String email = inputEmail.getText().toString().trim();
 
         if (email.isEmpty()||!isValidEmail(email)){
-            inputLayoutEmail.setError((getString(R.string.err_msg_email)));
+            inputEmail.setError(getString(R.string.err_msg_email));
+            inputLayoutEmail.setError(" ");
             requestFocus(inputEmail);
             return false;
         } else {
@@ -280,7 +281,9 @@ public class MainVisitor extends AppCompatActivity {
         String numb = inputNo.getText().toString().trim();
 
         if (numb.isEmpty()||!isValidPhone(numb)){
-            inputLayoutNo.setError((getString(R.string.err_msg_phone)));
+            inputNo.setError((getString(R.string.err_msg_phone)));
+            inputLayoutNo.setError(" ");
+
             requestFocus(inputNo);
             return false;
         } else {
@@ -296,7 +299,8 @@ public class MainVisitor extends AppCompatActivity {
 
     private boolean validateKep(){
         if (inputKep.getText().toString().trim().isEmpty()){
-            inputLayoutKep.setError(getString(R.string.err_msg_form));
+            inputKep.setError(getString(R.string.err_msg_form));
+            inputLayoutKep.setError(" ");
             requestFocus(inputKep);
             return false;
         } else {
