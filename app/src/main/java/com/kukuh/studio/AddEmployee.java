@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 public class AddEmployee extends AppCompatActivity {
     private EditText inputName, inputEmail, inputNo, inputPosisi, inputAlamat, inputStatus;
     private TextInputLayout layoutEmail, layoutNo,layoutAddress,layoutStatus;
-    private String nama,email,phone,alamat,status;
+    private String nama,email,phone,alamat,status,posisiEmp;
     private String urlFoto = "";
     Database database = new Database();
     Employee emp;
@@ -65,7 +66,7 @@ public class AddEmployee extends AppCompatActivity {
             }
         });
 
-        Spinner posisi = findViewById(R.id.spin_posisi);
+        final Spinner posisi = findViewById(R.id.spin_posisi);
         Spinner stats = findViewById(R.id.spin_status);
 
 //        -----------------------Spinner Status Karyawan -------------------
@@ -82,6 +83,18 @@ public class AddEmployee extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         stats.setAdapter(adapter);
 
+        stats.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                status = (String) adapterView.getItemAtPosition(i).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
 //      ------------------------Spinner Posisi--------------------
 
         String[] listPos = getResources().getStringArray(R.array.item_posisi);
@@ -95,6 +108,17 @@ public class AddEmployee extends AppCompatActivity {
         ArrayAdapter<String> adapter2 = new ArrayAdapter<>(AddEmployee.this, R.layout.spinner_item, posArr);
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         posisi.setAdapter(adapter2);
+        posisi.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                posisiEmp = (String) adapterView.getItemAtPosition(i).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
 
         findViewById(R.id.scroll_employee).setOnTouchListener(new View.OnTouchListener() {
@@ -110,7 +134,6 @@ public class AddEmployee extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 inputName = findViewById(R.id.input_name_employee);
-//                inputPosisi = findViewById(R.id.user_profile_short_bio);
                 inputEmail = findViewById(R.id.input_email);
                 inputNo = findViewById(R.id.input_phone);
                 inputAlamat = findViewById(R.id.input_address);
@@ -124,15 +147,13 @@ public class AddEmployee extends AppCompatActivity {
                 nama = inputName.getText().toString();
                 email = inputEmail.getText().toString();
                 phone = inputNo.getText().toString();
-//                posisi = inputPosisi.getText().toString();
                 alamat = inputAlamat.getText().toString();
-                status = inputStatus.getText().toString();
 
                 submitEmployee();
                 if ((validateName())&& (validateEmail())
-                        && (validatePhone()) && (validateAddress()) && (validateStatus())){
+                        && (validatePhone()) && (validateAddress())){
 
-                    emp = new Employee(nama,"",email,phone,alamat,"",status);
+                    emp = new Employee(nama,posisiEmp,email,phone,alamat,urlFoto,status);
                     database.addEmployee(emp);
 
 //                  addArray();
@@ -166,9 +187,9 @@ public class AddEmployee extends AppCompatActivity {
             return;
         }
 
-        if (!validateStatus()){
-
-        }
+//        if (!validateStatus()){
+//
+//        }
     }
 
     private boolean validateName(){
@@ -221,17 +242,17 @@ public class AddEmployee extends AppCompatActivity {
         return true;
     }
 
-    private boolean validateStatus(){
-        if (inputStatus.getText().toString().trim().isEmpty()){
-            inputStatus.setError(getString(R.string.err_msg_form));
-            layoutStatus.setError(" ");
-            requestFocus(inputStatus);
-            return false;
-        } else {
-            layoutAddress.setErrorEnabled(false);
-        }
-        return true;
-    }
+//    private boolean validateStatus(){
+//        if (inputStatus.getText().toString().trim().isEmpty()){
+//            inputStatus.setError(getString(R.string.err_msg_form));
+//            layoutStatus.setError(" ");
+//            requestFocus(inputStatus);
+//            return false;
+//        } else {
+//            layoutAddress.setErrorEnabled(false);
+//        }
+//        return true;
+//    }
 
     private static boolean isValidEmail(String email){
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();

@@ -81,6 +81,7 @@ public class Database {
         dRef.push().setValue(emp);
     }
 
+    //Edit data Employee
     public void editEmployee(Employee emp,String email){
         final Employee empEdit = emp;
         final DatabaseReference dRef = database.getReference("employees").child("dataKaryawan");
@@ -97,6 +98,29 @@ public class Database {
                         dRef.child(key).child("alamat").setValue(empEdit.getAlamat());
                         dRef.child(key).child("status").setValue(empEdit.getStatus());
                     }
+                }else {
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    //Delete Employee
+    public void deleteEmployee(String email){
+        final DatabaseReference dRef = database.getReference("employees").child("dataKaryawan");
+        dRef.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    for (DataSnapshot data : dataSnapshot.getChildren()){
+                        String key = data.getKey();
+                        dRef.child(key).removeValue();
+                    }
+
                 }else {
                 }
             }

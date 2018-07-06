@@ -22,6 +22,7 @@ public class EmployeeProfile extends AppCompatActivity {
     Spinner spinner;
     Employee emp;
     final Context context = this;
+    Database database = new Database();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +77,7 @@ public class EmployeeProfile extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 AlertDialog.Builder aler = new AlertDialog.Builder(context);
-
+                                database.deleteEmployee(emp.getEmail());
                                 aler.setTitle("Berhasil dihapus")
                                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                             @Override
