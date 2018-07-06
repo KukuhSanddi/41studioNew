@@ -3,6 +3,7 @@ package com.kukuh.studio;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -16,11 +17,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public class VisitorLogout extends AppCompatActivity {
 
     final Context context = this;
     Button btnLogout;
-    Database database = new Database();
+    Database dBase = new Database();
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+
     EditText email;
     TextInputLayout inputLayoutEmail;
     TextView txt;
@@ -40,8 +52,27 @@ public class VisitorLogout extends AppCompatActivity {
 
         final String emailVis = email.getText().toString();
 
-        txt.setText(database.getNama(emailVis));
 
+        //Get name visitor from database
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+        final String date = dateFormat.format(calendar.getTime());
+        final DatabaseReference ref = database.getReference("visitors").child(date);
+        ref.orderByChild("email").equalTo(emailVis).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    String key = dataSnapshot.getKey();
+                    String nama = dataSnapshot.child(key).child("nama").getValue().toString();
+                    txt.setText(nama);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
@@ -69,7 +100,7 @@ public class VisitorLogout extends AppCompatActivity {
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 AlertDialog.Builder box2 = new AlertDialog.Builder(context);
                                 final String emailVis = email.getText().toString();
-                                database.checkoutVis(emailVis);
+                                dBase.checkoutVis(emailVis);
 
                                 box2.setTitle("Anda Berhasil Keluar");
                                 box2

@@ -71,30 +71,6 @@ public class Database {
         });
     }
 
-    public String getNama(String email){
-        final String[] nama = new String[1];
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
-        final String date = dateFormat.format(calendar.getTime());
-        final DatabaseReference ref = database.getReference("visitors").child(date);
-
-        ref.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()){
-                    String key = dataSnapshot.getKey();
-                    nama[0] = dataSnapshot.child("visitors").child(key).child("nama").getValue().toString();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        return nama[0];
-    }
-
     /**
      * Employee Section
      */
@@ -103,6 +79,33 @@ public class Database {
     public void addEmployee(Employee emp){
         DatabaseReference dRef = database.getReference("employees").child("dataKaryawan");
         dRef.push().setValue(emp);
+    }
+
+    public void editEmployee(Employee emp,String email){
+        final Employee empEdit = emp;
+        final DatabaseReference dRef = database.getReference("employees").child("dataKaryawan");
+        dRef.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    for (DataSnapshot data : dataSnapshot.getChildren()){
+                        String key = data.getKey();
+                        dRef.child(key).child("nama").setValue(empEdit.getNama());
+                        dRef.child(key).child("posisi").setValue(empEdit.getPosisi());
+                        dRef.child(key).child("email").setValue(empEdit.getEmail());
+                        dRef.child(key).child("phone").setValue(empEdit.getPhone());
+                        dRef.child(key).child("alamat").setValue(empEdit.getAlamat());
+                        dRef.child(key).child("status").setValue(empEdit.getStatus());
+                    }
+                }else {
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
 

@@ -47,8 +47,11 @@ import android.support.v7.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -76,11 +79,13 @@ public class MainVisitor extends AppCompatActivity {
     private ImageButton btnFoto;
     private TextView jdlFoto;
     private String prompt;
+    private String emailEmp;
 
 
     //Var untuk Database visitor
     Visitor vis;
     Database database = new Database();
+    FirebaseDatabase fbase = FirebaseDatabase.getInstance();
     private Spinner spinner;
 
 
@@ -89,10 +94,8 @@ public class MainVisitor extends AppCompatActivity {
     private StorageReference mStorRef;
     private Uri filePath;
     public int REQUEST_TAKE_PHOTO = 1;
-    public String namaFoto;
-    public String urlFoto = "";
-    private File destFile;
-    private SimpleDateFormat dateFormatter;
+    public String urlFoto;
+    String[] listArr;
 
 
     @Override
@@ -108,6 +111,8 @@ public class MainVisitor extends AppCompatActivity {
         final String jamCheckin = jamFormat.format(calendar.getTime());
 
         mStorRef = FirebaseStorage.getInstance().getReference();
+
+        getNamaEmployee();
 
         ImageView img = findViewById(R.id.long_logo);
         inputName = findViewById(R.id.input_name);
@@ -180,6 +185,8 @@ public class MainVisitor extends AppCompatActivity {
                         && (validatePhone()) && (validateKep()) && (validateSpinner())){
                     vis = new Visitor(namaVis,emailVis,noVis,jamCheckin,"",kepVis,urlFoto);
                     database.checkinVis(vis);
+                    Log.e("adloy",emailEmp);
+
 //                    sendEmail();
                     Intent intent = new Intent(MainVisitor.this, Home.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -357,7 +364,7 @@ public class MainVisitor extends AppCompatActivity {
 
     /**
      *
-     * Spinner index spinner
+     * Spinner index
      */
 
     private int getIndex(Spinner spinner, String s){

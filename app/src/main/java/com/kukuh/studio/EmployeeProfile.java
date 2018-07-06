@@ -106,9 +106,10 @@ public class EmployeeProfile extends AppCompatActivity {
 
 //                -----------------Pindah Page ------------------
                 Employee empEdit = emp;
-                String nameE = emp.getNama();
+
+
                 Intent i = new Intent(getApplicationContext(), EditEmployee.class);
-                i.putExtra("name", nameE);
+
                 i.putExtra("parcelEmp",empEdit);
                 startActivity(i);
 
@@ -135,6 +136,11 @@ public class EmployeeProfile extends AppCompatActivity {
 //                save.setVisibility(View.GONE);
 //            }
 //        });
+
+
+
+
+
 
     }
 }
