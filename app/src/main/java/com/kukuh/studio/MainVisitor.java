@@ -357,7 +357,7 @@ public class MainVisitor extends AppCompatActivity {
 
     /**
      *
-     * Spinner index
+     * Spinner index spinner
      */
 
     private int getIndex(Spinner spinner, String s){

@@ -62,15 +62,15 @@
                 android:paddingBottom="24dp">
 
 
-
                 <ImageView
                     android:id="@+id/edit_profile"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="10dp"
-                    android:src="@drawable/ic_mode_edit"
-                    android:layout_toLeftOf="@id/delete_profile"/>
+                    android:layout_toStartOf="@id/delete_profile"
+                    android:background="@drawable/btn_edit"
+                    android:src="@drawable/ic_mode_edit" />
 
                 <ImageView
                     android:id="@+id/delete_profile"
@@ -80,6 +80,7 @@
                     android:layout_marginTop="10dp"
                     android:src="@drawable/ic_delete"
                     android:layout_alignParentRight="true"
+                    android:background="@drawable/btn_edit"
                     />
 
                 <EditText

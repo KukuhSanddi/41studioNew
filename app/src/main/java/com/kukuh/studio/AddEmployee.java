@@ -68,6 +68,8 @@ public class AddEmployee extends AppCompatActivity {
         Spinner posisi = findViewById(R.id.spin_posisi);
         Spinner stats = findViewById(R.id.spin_status);
 
+//        -----------------------Spinner Status Karyawan -------------------
+
         String[] listArr = getResources().getStringArray(R.array.item_status);
 
         String[] newArr = new String[listArr.length+1];
@@ -76,6 +78,12 @@ public class AddEmployee extends AppCompatActivity {
             newArr[i] = listArr[i-1];
         }
 
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(AddEmployee.this, R.layout.spinner_item, newArr);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        stats.setAdapter(adapter);
+
+//      ------------------------Spinner Posisi--------------------
+
         String[] listPos = getResources().getStringArray(R.array.item_posisi);
 
         String[] posArr = new String[listPos.length+1];
@@ -83,10 +91,6 @@ public class AddEmployee extends AppCompatActivity {
         for (int i = 1; i<posArr.length; i++){
             posArr[i] = listPos[i-1];
         }
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(AddEmployee.this, R.layout.spinner_item, newArr);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        stats.setAdapter(adapter);
 
         ArrayAdapter<String> adapter2 = new ArrayAdapter<>(AddEmployee.this, R.layout.spinner_item, posArr);
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -240,9 +244,23 @@ public class AddEmployee extends AppCompatActivity {
     private void requestFocus(View view){
         if (view.requestFocus()){
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-
-
         }
+    }
+
+    /**
+     *
+     * get index spinner
+     */
+
+    private int getIndex(Spinner spinner, String s){
+        int index = 0;
+
+        for (int i=1; i<spinner.getCount(); i++){
+            if (spinner.getItemAtPosition(i).equals(s)){
+                index = i;
+            }
+        }
+        return index;
     }
 
 

@@ -82,7 +82,7 @@
                         android:gravity="center"
                         android:layout_below="@id/input_name_employee"
                         android:paddingStart="20dp"
-                        android:paddingEnd="40dp"
+                        android:paddingEnd="30dp"
                         android:spinnerMode="dropdown"
                         android:textSize="14sp" />
 

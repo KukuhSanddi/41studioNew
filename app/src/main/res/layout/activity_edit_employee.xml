@@ -79,15 +79,17 @@
                     android:textStyle="bold" />
 
                 <android.support.v7.widget.AppCompatSpinner
-                    android:id="@+id/user_profile_short_bio"
+                    android:id="@+id/spin_posisi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/input_name_employee"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="12dp"
-                    android:text="Posisi Employee"
+                    android:paddingStart="10dp"
+                    android:background="@drawable/dropdown"
                     android:textColor="#fff"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:paddingEnd="30dp"/>
             </RelativeLayout>
 
 
