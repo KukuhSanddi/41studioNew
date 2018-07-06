@@ -1,6 +1,9 @@
 package com.kukuh.studio;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -18,6 +21,7 @@ public class EmployeeProfile extends AppCompatActivity {
     EditText employName, employEmail, employPhone, employAddress, employStatus;
     Spinner spinner;
     Employee emp;
+    final Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +61,43 @@ public class EmployeeProfile extends AppCompatActivity {
         txtStatus.setText(emp.getStatus());
 
         ImageView btnEdit = findViewById(R.id.edit_profile);
+        ImageView btnDelete = findViewById(R.id.delete_profile);
+
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+
+                dialog
+                        .setTitle("User ini akan dihapus?")
+                        .setMessage("")
+                        .setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                AlertDialog.Builder aler = new AlertDialog.Builder(context);
+
+                                aler.setTitle("Berhasil dihapus")
+                                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                Intent intent = new Intent(getApplicationContext(), MainEmployee.class);
+                                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                startActivity(intent);
+                                            }
+                                        });
+                                aler.show();
+                            }
+                        })
+                        .setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        });
+                dialog.show();
+            }
+        });
 
 
         btnEdit.setOnClickListener(new View.OnClickListener() {
