@@ -120,17 +120,6 @@ public class MainVisitor extends AppCompatActivity {
         inputNo = findViewById(R.id.input_phone);
         inputKep = findViewById(R.id.input_kep);
         spinner = findViewById(R.id.dropdown);
-        String[] listArr = getResources().getStringArray(R.array.employee);
-
-        String[] newArr = new String[listArr.length+1];
-        newArr [0] = "Yang akan anda temui";
-        for (int i = 1; i<newArr.length; i++){
-            newArr[i] = listArr[i-1];
-        }
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainVisitor.this, R.layout.spinner_item, newArr);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
 
         img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -362,22 +351,6 @@ public class MainVisitor extends AppCompatActivity {
         return !TextUtils.isEmpty(phone) && android.util.Patterns.PHONE.matcher(phone).matches();
     }
 
-    /**
-     *
-     * Spinner index
-     */
-
-    private int getIndex(Spinner spinner, String s){
-        int index = 0;
-
-        for (int i=1; i<spinner.getCount(); i++){
-            if (spinner.getItemAtPosition(i).equals(s)){
-                index = i;
-            }
-        }
-        return index;
-    }
-
     private void requestFocus(View view){
         if (view.requestFocus()){
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
@@ -551,5 +524,53 @@ public class MainVisitor extends AppCompatActivity {
                 btnFoto.setEnabled(true);
             }
         }
+    }
+
+    //Read data employee from database
+    public void getNamaEmployee(){
+        final ArrayList<Employee> listNama = new ArrayList<>();
+        final DatabaseReference dRef = fbase.getReference("employees").child("dataKaryawan");
+        dRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                listNama.clear();
+                for (DataSnapshot data : dataSnapshot.getChildren()){
+                    Employee emp = data.getValue(Employee.class);
+                    listNama.add(emp);
+                }
+                listArr = new String[listNama.size()];
+                for (int i=0; i<listNama.size();i++){
+                    listArr[i]=listNama.get(i).getNama();
+                }
+
+                String[] newArr = new String[listArr.length];
+                for (int i = 0; i<newArr.length; i++){
+                    newArr[i] = listArr[i];
+                }
+
+                final ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainVisitor.this, R.layout.spinner_item, newArr);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner.setAdapter(adapter);
+
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        emailEmp = listNama.get(i).getEmail();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 }

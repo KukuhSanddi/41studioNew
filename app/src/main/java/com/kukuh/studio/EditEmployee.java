@@ -60,13 +60,7 @@ public class EditEmployee extends AppCompatActivity {
 
                 Toast.makeText(EditEmployee.this,"Saved",Toast.LENGTH_SHORT).show();
 
-//                Intent i = new Intent(getApplicationContext(), EmployeeProfile.class);
 
-//              ----------------------sementara---------------------
-                Intent i = new Intent(getApplicationContext(), MainEmployee.class);
-//              ----------------------------------------------------
-
-//                i.putExtra("nameE", name);
                 Intent i = new Intent(getApplicationContext(), EmployeeProfile.class);
                 i.putExtra("parcelObject",empEdit);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
