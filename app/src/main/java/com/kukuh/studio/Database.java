@@ -105,36 +105,6 @@ public class Database {
         dRef.push().setValue(emp);
     }
 
-    public String[] getNamaEmployee(){
-        final ArrayList<Employee> listNama = new ArrayList<>();
-        final String[] namaArr;
-        final DatabaseReference dRef = database.getReference("employees").child("dataKaryawan");
-        dRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot data : dataSnapshot.getChildren()){
-                    Employee emp = data.getValue(Employee.class);
-                    listNama.add(emp);
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-
-
-        namaArr = new String[listNama.size()];
-        for (int i=0; i<listNama.size();i++){
-            namaArr[i]=listNama.get(i).getNama();
-            Log.e("adloy ",namaArr[i].toString());
-        }
-
-        return namaArr;
-    }
 
     //Checkin Employee
     public void checkinEmp(Employee emp){

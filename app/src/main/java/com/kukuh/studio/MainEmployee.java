@@ -31,6 +31,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -76,9 +77,9 @@ public class MainEmployee extends AppCompatActivity {
         finish();
     }
 
+    //Read data employee from database
     public void getNamaEmployee(){
         final ArrayList<Employee> listNama = new ArrayList<>();
-        final String[] namaArr;
         final DatabaseReference dRef = database.getReference("employees").child("dataKaryawan");
         dRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -87,12 +88,10 @@ public class MainEmployee extends AppCompatActivity {
                 for (DataSnapshot data : dataSnapshot.getChildren()){
                     Employee emp = data.getValue(Employee.class);
                     listNama.add(emp);
-                    Log.e("adloy",emp.getNama());
                 }
                 listArr = new String[listNama.size()];
                 for (int i=0; i<listNama.size();i++){
                     listArr[i]=listNama.get(i).getNama();
-                    Log.e("ewe ",listArr[i].toString());
                 }
 
                 ListViewAdapter adapter = new ListViewAdapter(MainEmployee.this, listArr);
@@ -105,9 +104,12 @@ public class MainEmployee extends AppCompatActivity {
                         Toast.makeText(MainEmployee.this,"Anda Memilih " + listArr[i],Toast.LENGTH_SHORT).show();
 
                         String name = listArr[i];
+                        Log.e("Adloy",listNama.get(i).getEmail());
+                        Employee emp = new Employee(listNama.get(i).getNama(),listNama.get(i).getPosisi(),listNama.get(i).getEmail(),listNama.get(i).getPhone(),listNama.get(i).getAlamat(),listNama.get(i).getUrlFoto(),"");
 
                         Intent intent = new Intent(getApplicationContext(),EmployeeProfile.class);
                         intent.putExtra("name", name);
+                        intent.putExtra("parcelObject",emp);
                         startActivity(intent);
 
                     }
@@ -121,15 +123,7 @@ public class MainEmployee extends AppCompatActivity {
             }
         });
 
-
-//        namaArr = new String[listNama.size()];
-//        for (int i=0; i<listNama.size();i++){
-//            namaArr[i]=listNama.get(i).getNama();
-//            Log.e("adloy ",namaArr[i].toString());
-//        }
-
     }
-
 
 }
 

@@ -17,7 +17,7 @@ public class EmployeeProfile extends AppCompatActivity {
     Button save;
     EditText employName, employEmail, employPhone, employAddress, employStatus;
     Spinner spinner;
-
+    Employee emp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +42,19 @@ public class EmployeeProfile extends AppCompatActivity {
 
 
         final TextView txtName = findViewById(R.id.user_profile_name);
+        final TextView txtEmail = findViewById(R.id.user_email);
+        final TextView txtPhone = findViewById(R.id.user_phone);
+        final TextView txtAlamat = findViewById(R.id.user_address);
+        final TextView txtStatus = findViewById(R.id.user_status);
 
         Intent intent = getIntent();
         final String name = intent.getStringExtra("name");
-        txtName.setText(name);
+        final Employee emp = intent.getParcelableExtra("parcelObject");
+        txtName.setText(emp.getNama());
+        txtEmail.setText(emp.getEmail());
+        txtPhone.setText(emp.getPhone());
+        txtAlamat.setText(emp.getAlamat());
+        txtStatus.setText(emp.getStatus());
 
         ImageView btnEdit = findViewById(R.id.edit_profile);
 
@@ -55,10 +64,11 @@ public class EmployeeProfile extends AppCompatActivity {
             public void onClick(View view) {
 
 //                -----------------Pindah Page ------------------
-
-                String nameE = txtName.getText().toString();
+                Employee empEdit = emp;
+                String nameE = emp.getNama();
                 Intent i = new Intent(getApplicationContext(), EditEmployee.class);
                 i.putExtra("name", nameE);
+                i.putExtra("parcelEmp",empEdit);
                 startActivity(i);
 
 

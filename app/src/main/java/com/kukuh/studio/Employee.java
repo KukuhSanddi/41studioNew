@@ -1,6 +1,9 @@
 package com.kukuh.studio;
 
-public class Employee {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Employee implements Parcelable{
     public String nama;
     public String posisi;
     public String email;
@@ -9,6 +12,7 @@ public class Employee {
     public String checkin;
     public String checkout;
     public String urlFoto;
+    public String status;
 
     public String getNama() {
         return nama;
@@ -74,6 +78,14 @@ public class Employee {
         this.urlFoto = urlFoto;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public Employee(String nama, String posisi, String email, String phone, String alamat, String checkin, String checkout, String urlFoto) {
         this.nama = nama;
         this.posisi = posisi;
@@ -85,13 +97,14 @@ public class Employee {
         this.urlFoto = urlFoto;
     }
 
-    public Employee(String nama, String posisi, String email, String phone, String alamat, String urlFoto) {
+    public Employee(String nama, String posisi, String email, String phone, String alamat, String urlFoto, String status) {
         this.nama = nama;
         this.posisi = posisi;
         this.email = email;
         this.phone = phone;
         this.alamat = alamat;
         this.urlFoto = urlFoto;
+        this.status = status;
     }
 
     public Employee(String nama, String email, String checkin, String checkout) {
@@ -104,4 +117,43 @@ public class Employee {
     public Employee(){
 
     }
+
+    public Employee(Parcel parcel){
+        nama = parcel.readString();
+        posisi = parcel.readString();
+        email = parcel.readString();
+        phone = parcel.readString();
+        alamat = parcel.readString();
+        urlFoto = parcel.readString();
+        status = parcel.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return hashCode();
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(nama);
+        parcel.writeString(posisi);
+        parcel.writeString(email);
+        parcel.writeString(phone);
+        parcel.writeString(alamat);
+        parcel.writeString(urlFoto);
+        parcel.writeString(status);
+    }
+
+    public static final Parcelable.Creator<Employee> CREATOR = new Parcelable.Creator<Employee>(){
+
+        @Override
+        public Employee createFromParcel(Parcel parcel) {
+            return new Employee(parcel);
+        }
+
+        @Override
+        public Employee[] newArray(int i) {
+            return new Employee[i];
+        }
+    };
 }

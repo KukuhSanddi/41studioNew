@@ -59,7 +59,7 @@ public class AddEmployee extends AppCompatActivity {
                 if ((validateName())&& (validateEmail())
                         && (validatePhone()) && (validateAddress()) && (validateStatus())){
 
-                    emp = new Employee(nama,"",email,phone,alamat,"");
+                    emp = new Employee(nama,"",email,phone,alamat,"",status);
                     database.addEmployee(emp);
 
 //                  addArray();
@@ -75,20 +75,6 @@ public class AddEmployee extends AppCompatActivity {
             }
         });
     }
-
-//    private void addArray(){
-//        String[] myArr = getResources().getStringArray(R.array.employee);
-//        final int size = myArr.length;
-//        final int newSize = size +1;
-//
-//        String[] tempArray = new String[newSize];
-//        for (int i=0; i<size; i++){
-//            tempArray[i] = myArr[i];
-//        }
-//        tempArray[newSize-1] = inputName.getText().toString();
-//        myArr = tempArray;
-//
-//    }
 
     private void submitEmployee(){
         if(!validateName()){
