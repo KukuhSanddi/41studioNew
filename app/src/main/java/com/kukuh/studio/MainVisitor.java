@@ -82,6 +82,7 @@ public class MainVisitor extends AppCompatActivity {
     private String emailEmp;
 
 
+
     //Var untuk Database visitor
     Visitor vis;
     Database database = new Database();
@@ -120,6 +121,8 @@ public class MainVisitor extends AppCompatActivity {
         inputNo = findViewById(R.id.input_phone);
         inputKep = findViewById(R.id.input_kep);
         spinner = findViewById(R.id.dropdown);
+
+
 
         img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -530,6 +533,7 @@ public class MainVisitor extends AppCompatActivity {
     public void getNamaEmployee(){
         final ArrayList<Employee> listNama = new ArrayList<>();
         final DatabaseReference dRef = fbase.getReference("employees").child("dataKaryawan");
+
         dRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -538,6 +542,7 @@ public class MainVisitor extends AppCompatActivity {
                     Employee emp = data.getValue(Employee.class);
                     listNama.add(emp);
                 }
+
                 listArr = new String[listNama.size()];
                 for (int i=0; i<listNama.size();i++){
                     listArr[i]=listNama.get(i).getNama();
@@ -552,15 +557,18 @@ public class MainVisitor extends AppCompatActivity {
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner.setAdapter(adapter);
 
+
                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                         emailEmp = listNama.get(i).getEmail();
+                        Toast.makeText(MainVisitor.this, emailEmp.toString(), Toast.LENGTH_SHORT).show();
+
                     }
 
                     @Override
                     public void onNothingSelected(AdapterView<?> adapterView) {
-
+                        setTitle(R.string.selected_one);
                     }
                 });
 
