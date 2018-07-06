@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.view.WindowManager;
@@ -52,28 +53,7 @@ public class VisitorLogout extends AppCompatActivity {
 
         final String emailVis = email.getText().toString();
 
-
-        //Get name visitor from database
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
-        final String date = dateFormat.format(calendar.getTime());
-        final DatabaseReference ref = database.getReference("visitors").child(date);
-        ref.orderByChild("email").equalTo(emailVis).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()){
-                    String key = dataSnapshot.getKey();
-                    String nama = dataSnapshot.child(key).child("nama").getValue().toString();
-                    txt.setText(nama);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
+        getNamaVis(emailVis);
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,5 +135,30 @@ public class VisitorLogout extends AppCompatActivity {
 
     private static boolean isValidEmail(String email){
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+
+    //Get name visitor from database
+    public void getNamaVis(String emailVis){
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+        final String date = dateFormat.format(calendar.getTime());
+        final DatabaseReference ref = database.getReference("visitors").child(date);
+        ref.orderByChild("email").equalTo(emailVis).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    String key = dataSnapshot.getKey();
+                    String nama = dataSnapshot.child(key).child("nama").getValue().toString();
+                    txt.setText(nama);
+                    Log.e("visit",nama);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }
