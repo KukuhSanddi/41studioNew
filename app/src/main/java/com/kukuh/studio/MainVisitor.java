@@ -109,7 +109,7 @@ public class MainVisitor extends AppCompatActivity {
 
         mStorRef = FirebaseStorage.getInstance().getReference();
 
-
+        ImageView img = findViewById(R.id.long_logo);
         inputName = findViewById(R.id.input_name);
         inputEmail = findViewById(R.id.input_email);
         inputNo = findViewById(R.id.input_phone);
@@ -123,10 +123,27 @@ public class MainVisitor extends AppCompatActivity {
             newArr[i] = listArr[i-1];
         }
 
-
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainVisitor.this, R.layout.spinner_item, newArr);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+
+            }
+        });
+
+
+        findViewById(R.id.visitor).setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),0);
+                return true;
+            }
+        });
 
         inputLayoutName = findViewById(R.id.input_layout_name);
         inputLayoutEmail = findViewById(R.id.input_layout_email);
@@ -181,8 +198,14 @@ public class MainVisitor extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent in = new Intent(getApplicationContext(), Home.class);
+        in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        finish();
 
-
+    }
 
     /**
      * new session

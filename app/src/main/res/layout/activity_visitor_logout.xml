@@ -18,7 +18,9 @@
             android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:logo="@mipmap/ic_launcher" />
+            app:logo="@mipmap/ic_launcher"
+            app:title="@string/app_name"
+            app:titleMarginStart="32dp"/>
     </android.support.design.widget.AppBarLayout>
 
     <android.support.design.card.MaterialCardView

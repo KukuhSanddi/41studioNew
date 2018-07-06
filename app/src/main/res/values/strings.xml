@@ -10,11 +10,15 @@
     <string name="err_msg_email">Masukkan email yang valid</string>
     <string name="err_msg_phone">Masukkan nomor hp yang benar</string>
     <string name="txt_cam">Foto data diri :</string>
-    <string-array name="item_dropdown">
-        <item>Yang akan anda temui</item>
-        <item>Orang 1</item>
-        <item>Orang 2</item>
-        <item>Orang 3</item>
+    <string-array name="item_status">
+        <item>Internsip</item>
+        <item>Karyawan Tetap</item>
+    </string-array>
+    <string-array name="item_posisi">
+        <item>Front-End Web Developer</item>
+        <item>Back-End Web Developer</item>
+        <item>Front-End Android Developer</item>
+        <item>Back-End Android Developer</item>
     </string-array>
     <string name="selected_one">Yang akan anda temui</string>
     <string name="hint_keperluan">Tulis keperluan anda</string>

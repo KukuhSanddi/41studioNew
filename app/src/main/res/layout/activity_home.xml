@@ -40,6 +40,8 @@
             android:id="@+id/btn_Visitor"
             android:text="VISITOR"
             android:textSize="14sp"
+            android:layout_marginStart="10dp"
+            android:layout_margin="10dp"
             android:fontFamily="@android:rubik-medium"/>
 
         <Button
@@ -49,6 +51,8 @@
             android:layout_weight="1"
             android:background="@drawable/button"
             android:onClick="toEmployee"
+            android:layout_marginStart="10dp"
+            android:layout_margin="10dp"
             android:text="EMPLOYEE"
             android:textSize="14sp"
             android:fontFamily="@android:rubik-medium"/>

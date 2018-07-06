@@ -7,6 +7,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
@@ -29,6 +30,9 @@ public class VisitorLogout extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_visitor_logout);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         inputLayoutEmail = findViewById(R.id.input_layout_email_log);
         txt = findViewById(R.id.text_email);
         btnLogout = findViewById(R.id.btn_logout);
@@ -48,8 +52,6 @@ public class VisitorLogout extends AppCompatActivity {
                     return;
                 }
                 AlertDialog.Builder dialogBox = new AlertDialog.Builder(context);
-
-
 
                 dialogBox.setTitle("Confirm logout?");
 
