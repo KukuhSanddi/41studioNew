@@ -2,11 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.kukuh.studio">
 
-    <uses-feature android:name="android.hardware.camera"
-        android:required="true"></uses-feature>
-    <uses-permission android:name="android.permission.CAMERA"></uses-permission>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <uses-feature
         android:name="android.hardware.camera2"
         android:required="true" />
@@ -28,18 +31,25 @@
             </intent-filter>
         </activity>
         <activity android:name=".Home" />
-        <activity android:name=".MainVisitor"
-            android:parentActivityName=".Home"/>
-        <activity android:name=".MainEmployee"
-            android:parentActivityName=".Home"/>
-        <activity android:name=".EmployeeProfile"
-            android:parentActivityName=".MainEmployee"/>
-        <activity android:name=".VisitorLogout"
-            android:parentActivityName=".MainVisitor"/>
-        <activity android:name=".AddEmployee"
-            android:parentActivityName=".MainEmployee"/>
-        <activity android:name=".EditEmployee"
-            android:parentActivityName=".EmployeeProfile"/>
+        <activity
+            android:name=".MainVisitor"
+            android:parentActivityName=".Home"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".MainEmployee"
+            android:parentActivityName=".Home" />
+        <activity
+            android:name=".EmployeeProfile"
+            android:parentActivityName=".MainEmployee" />
+        <activity
+            android:name=".VisitorLogout"
+            android:parentActivityName=".MainVisitor" />
+        <activity
+            android:name=".AddEmployee"
+            android:parentActivityName=".MainEmployee" />
+        <activity
+            android:name=".EditEmployee"
+            android:parentActivityName=".EmployeeProfile" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -51,6 +61,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+        <activity android:name=".SpeechEmployee"></activity>
     </application>
 
 </manifest>

@@ -70,7 +70,7 @@ public class Home extends AppCompatActivity {
 //    }
 
     public void toEmployee (View view){
-        Intent intent = new Intent (this, MainEmployee.class);
+        Intent intent = new Intent (this, SpeechEmployee.class);
         startActivity(intent);
     }
 

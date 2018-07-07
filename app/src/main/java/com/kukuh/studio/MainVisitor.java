@@ -35,6 +35,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -87,7 +88,7 @@ public class MainVisitor extends AppCompatActivity {
     Visitor vis;
     Database database = new Database();
     FirebaseDatabase fbase = FirebaseDatabase.getInstance();
-    private Spinner spinner;
+    private AutoCompleteTextView spinner;
 
 
     //Var untuk foto dan upload foto
@@ -121,6 +122,18 @@ public class MainVisitor extends AppCompatActivity {
         inputNo = findViewById(R.id.input_phone);
         inputKep = findViewById(R.id.input_kep);
         spinner = findViewById(R.id.dropdown);
+
+        spinner.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (b){
+                    spinner.showDropDown();
+
+                } else {
+
+                }
+            }
+        });
 
 
 
@@ -252,11 +265,10 @@ public class MainVisitor extends AppCompatActivity {
      * Spinner Validation
      */
     private boolean validateSpinner(){
-       if (spinner.getSelectedItem().toString().trim().equals("Yang akan anda temui")){
-           TextView erorText = (TextView) spinner.getSelectedView();
-           erorText.setError("No one selected");
-           erorText.setTextColor(Color.RED);
-           erorText.setText("Pilih orang yang akan anda temui");
+       if (spinner.getText().toString().trim().isEmpty()){
+           spinner.setError(getString(R.string.err_msg_form));
+           spinner.setHint(getString(R.string.err_msg_form));
+           spinner.setTextColor(Color.RED);
            requestFocus(spinner);
            return false;
        }
@@ -310,7 +322,6 @@ public class MainVisitor extends AppCompatActivity {
         if (numb.isEmpty()||!isValidPhone(numb)){
             inputNo.setError((getString(R.string.err_msg_phone)));
             inputLayoutNo.setError(" ");
-
             requestFocus(inputNo);
             return false;
         } else {

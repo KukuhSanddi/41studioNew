@@ -187,6 +187,7 @@ public class AddEmployee extends AppCompatActivity {
             return;
         }
 
+        Toast.makeText(AddEmployee.this, " Berhasil Menambahkan Karyawan", Toast.LENGTH_SHORT).show();
 //        if (!validateStatus()){
 //
 //        }
