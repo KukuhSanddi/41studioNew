@@ -44,15 +44,18 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
         super.onPreExecute();
         //Showing progress dialog while sending email
         progressDialog = ProgressDialog.show(context,"Sending message","Please wait...",false,false);
+        progressDialog.dismiss();
     }
 
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        //Dismissing the progress dialog
-        progressDialog.dismiss();
-        //Showing a success message
-        Toast.makeText(context,"Message Sent",Toast.LENGTH_LONG).show();
+        if(aVoid != null){
+            //Dismissing the progress dialog
+            progressDialog.dismiss();
+            //Showing a success message
+            Toast.makeText(context,"Message Sent",Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

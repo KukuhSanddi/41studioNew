@@ -3,6 +3,10 @@ package com.kukuh.studio;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -21,7 +25,17 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class AddEmployee extends AppCompatActivity {
     private EditText inputName, inputEmail, inputNo, inputPosisi, inputAlamat, inputStatus;
@@ -30,8 +44,14 @@ public class AddEmployee extends AppCompatActivity {
     private String urlFoto = "";
     Database database = new Database();
     Employee emp;
+
+    //Var foto profil
     ImageView imgBtn;
     final Context context = this;
+    String mCurrentPhotoPath;
+    private Uri filePath;
+    private StorageReference mStorRef;
+    private int PICK_IMAGE_REQUEST = 1;
 
 
 
@@ -243,18 +263,6 @@ public class AddEmployee extends AppCompatActivity {
         return true;
     }
 
-//    private boolean validateStatus(){
-//        if (inputStatus.getText().toString().trim().isEmpty()){
-//            inputStatus.setError(getString(R.string.err_msg_form));
-//            layoutStatus.setError(" ");
-//            requestFocus(inputStatus);
-//            return false;
-//        } else {
-//            layoutAddress.setErrorEnabled(false);
-//        }
-//        return true;
-//    }
-
     private static boolean isValidEmail(String email){
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
@@ -283,6 +291,76 @@ public class AddEmployee extends AppCompatActivity {
             }
         }
         return index;
+    }
+
+    /**
+     *Foto Profil employee
+     */
+    public void getPhotoFromGallery(){
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        galleryIntent.setType("image/*");
+        galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(galleryIntent,PICK_IMAGE_REQUEST);
+    }
+
+
+    //Upload image to Firebase Storage
+    public void uploadImage(String namaEmp)  {
+        UploadTask uploadTask;
+        if(filePath != null)
+        {
+            StorageReference ref = mStorRef.child("images/employeeProfil/").child(namaEmp);
+            Bitmap bmp = null;
+            try {
+                bmp = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            //Compressing image to bitmap
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+            byte[] data = baos.toByteArray();
+
+            //Uploading bitmap to firebase
+            uploadTask = ref.putBytes(data);
+            final StorageReference finalRef = ref;
+            uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
+                            .getTotalByteCount());
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    finalRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Uri downloadUrl = uri;
+                            urlFoto = downloadUrl.toString();
+                        }
+                    });
+                    Toast.makeText(AddEmployee.this,"Uploaded",Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+    //Create image.jpg file
+    private File createImageFile(String namaEmp) throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("ddMMyyyy_HHmmss").format(new Date());
+        String imageFileName = "Profile_" + namaEmp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        mCurrentPhotoPath = image.getAbsolutePath();
+        return image;
     }
 
 

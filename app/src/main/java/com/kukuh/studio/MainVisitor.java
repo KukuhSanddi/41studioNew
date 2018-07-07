@@ -81,6 +81,7 @@ public class MainVisitor extends AppCompatActivity {
     private TextView jdlFoto;
     private String prompt;
     private String emailEmp;
+    String email;
 
 
 
@@ -114,7 +115,7 @@ public class MainVisitor extends AppCompatActivity {
 
         mStorRef = FirebaseStorage.getInstance().getReference();
 
-        getNamaEmployee();
+        getEmailEmployee();
 
         ImageView img = findViewById(R.id.long_logo);
         inputName = findViewById(R.id.input_name);
@@ -185,14 +186,14 @@ public class MainVisitor extends AppCompatActivity {
                 final String noVis = inputNo.getText().toString();
                 final String kepVis = inputKep.getText().toString();
 
+
+
                 submitForm();
                 if ((validateName())&& (validateEmail())
                         && (validatePhone()) && (validateKep()) && (validateSpinner())){
                     vis = new Visitor(namaVis,emailVis,noVis,jamCheckin,"",kepVis,urlFoto);
                     database.checkinVis(vis);
-                    Log.e("adloy",emailEmp);
-
-//                    sendEmail();
+                    sendEmail();
                     Intent intent = new Intent(MainVisitor.this, Home.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
@@ -407,9 +408,9 @@ public class MainVisitor extends AppCompatActivity {
         final String kepVis = inputKep.getText().toString();
 
         //Getting content for email
-        String email = "adli.rahman23@gmail.com";
+        String email = emailEmp;
         String subject = "41Studio Visitor";
-        String message = namaVis+" sedang menunggu dibawah dan ingin bertemu dengan anda, dengan keperluan "+kepVis+".";
+        String message = namaVis+" sedang menunggu dan ingin bertemu dengan anda, dengan keperluan "+kepVis+".";
 
         //Creating SendMail object
         SendMail sm = new SendMail(this, email, subject, message);
@@ -541,7 +542,7 @@ public class MainVisitor extends AppCompatActivity {
     }
 
     //Read data employee from database
-    public void getNamaEmployee(){
+    public void getEmailEmployee(){
         final ArrayList<Employee> listNama = new ArrayList<>();
         final DatabaseReference dRef = fbase.getReference("employees").child("dataKaryawan");
 
@@ -572,7 +573,7 @@ public class MainVisitor extends AppCompatActivity {
                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                        emailEmp = listNama.get(i).getEmail();
+                        getEmailEmp(listNama.get(i).getEmail().toString());
                         Toast.makeText(MainVisitor.this, emailEmp.toString(), Toast.LENGTH_SHORT).show();
 
                     }
@@ -590,6 +591,9 @@ public class MainVisitor extends AppCompatActivity {
 
             }
         });
+    }
 
+    public void getEmailEmp(String email){
+        emailEmp= email;
     }
 }
