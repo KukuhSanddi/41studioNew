@@ -98,7 +98,9 @@
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/cam_button" />
+                    android:background="@drawable/cam_button"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"/>
             </LinearLayout>
 
             <TextView
