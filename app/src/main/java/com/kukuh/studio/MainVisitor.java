@@ -483,7 +483,7 @@ public class MainVisitor extends AppCompatActivity {
             }
             //Compressing image to bitmap
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bmp.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 20, baos);
             byte[] data = baos.toByteArray();
 
             //Uploading bitmap to firebase
