@@ -129,6 +129,11 @@ public class Employee implements Parcelable{
     }
 
     @Override
+    public String toString(){
+        return nama;
+    }
+
+    @Override
     public int describeContents() {
         return hashCode();
     }
@@ -156,4 +161,6 @@ public class Employee implements Parcelable{
             return new Employee[i];
         }
     };
+
+
 }

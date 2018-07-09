@@ -79,9 +79,8 @@ public class MainVisitor extends AppCompatActivity {
     private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutNo, inputLayoutKep;
     private ImageButton btnFoto;
     private TextView jdlFoto;
-    private String prompt;
     private String emailEmp;
-    String email;
+    Bitmap bmp = null;
 
 
 
@@ -90,6 +89,7 @@ public class MainVisitor extends AppCompatActivity {
     Database database = new Database();
     FirebaseDatabase fbase = FirebaseDatabase.getInstance();
     private AutoCompleteTextView spinner;
+    private EmployeeAdapter empAdapter;
 
 
     //Var untuk foto dan upload foto
@@ -166,9 +166,6 @@ public class MainVisitor extends AppCompatActivity {
         inputNo.addTextChangedListener(new MyTextWatcher(inputNo));
         inputKep.addTextChangedListener(new MyTextWatcher(inputKep));
 
-
-        final String namaVis = inputName.getText().toString();
-
         btnFoto = findViewById(R.id.btnFoto);
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -185,8 +182,6 @@ public class MainVisitor extends AppCompatActivity {
                 final String emailVis = inputEmail.getText().toString();
                 final String noVis = inputNo.getText().toString();
                 final String kepVis = inputKep.getText().toString();
-
-
 
                 submitForm();
                 if ((validateName())&& (validateEmail())
@@ -454,16 +449,18 @@ public class MainVisitor extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        //Result for camera activity
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
             jdlFoto = findViewById(R.id.jdlFoto);
             try{
                 jdlFoto.setText(createImageFile().getName());
+                bmp = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                btnFoto.setImageBitmap(bmp);
+                uploadImage();
             }
             catch (IOException e){
 
             }
-            uploadImage();
-            btnFoto.setImageURI(filePath);
         }
     }
 
@@ -478,7 +475,7 @@ public class MainVisitor extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Bitmap bmp = null;
+
             try {
                 bmp = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
             } catch (IOException e) {
@@ -508,7 +505,6 @@ public class MainVisitor extends AppCompatActivity {
                             urlFoto = downloadUrl.toString();
                         }
                     });
-                    Toast.makeText(MainVisitor.this,"Uploaded",Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -543,7 +539,7 @@ public class MainVisitor extends AppCompatActivity {
 
     //Read data employee from database
     public void getEmailEmployee(){
-        final ArrayList<Employee> listNama = new ArrayList<>();
+        final ArrayList<Employee> listNama = new ArrayList<Employee>();
         final DatabaseReference dRef = fbase.getReference("employees").child("dataKaryawan");
 
         dRef.addValueEventListener(new ValueEventListener() {
@@ -560,40 +556,24 @@ public class MainVisitor extends AppCompatActivity {
                     listArr[i]=listNama.get(i).getNama();
                 }
 
-                String[] newArr = new String[listArr.length];
-                for (int i = 0; i<newArr.length; i++){
-                    newArr[i] = listArr[i];
-                }
+                //Set dropdown resource from database
+                empAdapter = new EmployeeAdapter(MainVisitor.this, R.layout.spinner_item, listNama);
+                empAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                spinner.setThreshold(1);
+                spinner.setAdapter(empAdapter);
 
-                final ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainVisitor.this, R.layout.spinner_item, newArr);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner.setAdapter(adapter);
-
-
-                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
-                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                        getEmailEmp(listNama.get(i).getEmail().toString());
-                        Toast.makeText(MainVisitor.this, emailEmp.toString(), Toast.LENGTH_SHORT).show();
-
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> adapterView) {
-                        setTitle(R.string.selected_one);
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        Employee emp = (Employee) adapterView.getItemAtPosition(i);
+                        emailEmp = emp.getEmail().toString();
                     }
                 });
-
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
-    }
-
-    public void getEmailEmp(String email){
-        emailEmp= email;
     }
 }
