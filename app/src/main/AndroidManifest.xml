@@ -34,16 +34,19 @@
         <activity
             android:name=".MainVisitor"
             android:parentActivityName=".Home"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".MainEmployee"
-            android:parentActivityName=".Home" />
+            android:parentActivityName=".Home"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".EmployeeProfile"
             android:parentActivityName=".MainEmployee" />
         <activity
             android:name=".VisitorLogout"
-            android:parentActivityName=".MainVisitor" />
+            android:parentActivityName=".MainVisitor"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".AddEmployee"
             android:parentActivityName=".MainEmployee" />
