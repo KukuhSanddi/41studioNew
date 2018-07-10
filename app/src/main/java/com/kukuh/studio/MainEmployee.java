@@ -104,7 +104,6 @@ public class MainEmployee extends AppCompatActivity {
                         Toast.makeText(MainEmployee.this,"Anda Memilih " + listArr[i],Toast.LENGTH_SHORT).show();
 
                         String name = listArr[i];
-                        Log.e("Adloy",listNama.get(i).getEmail());
                         Employee emp = new Employee(listNama.get(i).getNama(),listNama.get(i).getPosisi(),listNama.get(i).getEmail(),listNama.get(i).getPhone(),listNama.get(i).getAlamat(),listNama.get(i).getUrlFoto(),"");
 
                         Intent intent = new Intent(getApplicationContext(),EmployeeProfile.class);

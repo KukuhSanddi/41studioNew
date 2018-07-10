@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,10 +26,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chibde.visualizer.LineBarVisualizer;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class SpeechEmployee extends AppCompatActivity {
@@ -41,7 +49,8 @@ public class SpeechEmployee extends AppCompatActivity {
     private Intent mSpeechRecognizerIntent;
     private boolean mIslistening;
     TextView mText;
-
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    Database dbase = new Database();
     public static final String DIRECTORY_NAME_TMP = "tmp";
     public static final int REPEAT_INTERVAL = 40;
     VisualizerView visualizerView;
@@ -56,7 +65,6 @@ public class SpeechEmployee extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_speech_employee);
         ImageView speechBtn =  findViewById(R.id.speech_btn);
-//        wordList = (ListView) findViewById(R.id.word_list);
         PackageManager packManager = getPackageManager();
         List<ResolveInfo> intActivities = packManager.queryIntentActivities(
                 new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
@@ -172,6 +180,7 @@ public class SpeechEmployee extends AppCompatActivity {
                 str += matches.get(i);
             }
             mText.setText(matches.get(1));
+            dbase.searchEmployee(matches.get(1));
         }
 
         @Override
@@ -207,4 +216,6 @@ public class SpeechEmployee extends AppCompatActivity {
             }
         }
     };
+
+
 }

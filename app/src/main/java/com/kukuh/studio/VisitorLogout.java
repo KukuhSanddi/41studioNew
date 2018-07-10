@@ -17,6 +17,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class VisitorLogout extends AppCompatActivity {
@@ -51,59 +53,80 @@ public class VisitorLogout extends AppCompatActivity {
         btnLogout = findViewById(R.id.btn_logout);
         email = findViewById(R.id.email_log);
 
-        final String emailVis = email.getText().toString();
-
-        getNamaVis(emailVis);
-
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if (!validateEmail()){
+                final String emailVis = email.getText().toString();
+                if (!validateEmail()) {
                     return;
                 }
-                AlertDialog.Builder dialogBox = new AlertDialog.Builder(context);
-
-                dialogBox.setTitle("Confirm logout?");
-
-                dialogBox
-                        .setMessage("")
-                        .setCancelable(false)
-                        .setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                // kembali ke halaman visitor logout
+                final String[] namaVis = new String[1];
+                Calendar calendar = Calendar.getInstance();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+                final String date = dateFormat.format(calendar.getTime());
+                final DatabaseReference ref = database.getReference("visitors").child(date);
+                ref.orderByChild("email").equalTo(emailVis).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            for (DataSnapshot data : dataSnapshot.getChildren()) {
+                                Visitor vis = data.getValue(Visitor.class);
+                                txt.setText(vis.getNama());
+                                namaVis[0] = vis.getNama();
                             }
-                        })
-                        .setPositiveButton("Ya", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                AlertDialog.Builder box2 = new AlertDialog.Builder(context);
-                                final String emailVis = email.getText().toString();
-                                dBase.checkoutVis(emailVis);
+                            AlertDialog.Builder dialogBox = new AlertDialog.Builder(context);
 
-                                box2.setTitle("Anda Berhasil Keluar");
-                                box2
-                                        .setCancelable(true)
-                                        .setMessage("")
-                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                Intent intent = new Intent(VisitorLogout.this, Home.class);
-                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                                startActivity(intent);                                            }
-                                        });
-                                AlertDialog alertDia = box2.create();
+                            dialogBox.setTitle("Confirm logout?");
 
-                                alertDia.show();
-                            }
-                        });
-                AlertDialog alertDialog = dialogBox.create();
+                            dialogBox
+                                    .setMessage("")
+                                    .setCancelable(false)
+                                    .setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            // kembali ke halaman visitor logout
+                                        }
+                                    })
+                                    .setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            AlertDialog.Builder box2 = new AlertDialog.Builder(context);
+                                            final String emailVis = email.getText().toString();
+                                            dBase.checkoutVis(emailVis);
 
-                alertDialog.show();
+                                            box2.setTitle("Anda Berhasil Keluar");
+                                            box2
+                                                    .setCancelable(true)
+                                                    .setMessage("Terimakasih "+ namaVis[0])
+                                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                                            Intent intent = new Intent(VisitorLogout.this, Home.class);
+                                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                            startActivity(intent);                                            }
+                                                    });
+                                            AlertDialog alertDia = box2.create();
+
+                                            alertDia.show();
+                                        }
+                                    });
+                            AlertDialog alertDialog = dialogBox.create();
+
+                            alertDialog.show();
+                        }
+                        else {
+                            Toast.makeText(VisitorLogout.this,"Email anda tidak ada",Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
             }
         });
-
     }
 
 
@@ -133,32 +156,8 @@ public class VisitorLogout extends AppCompatActivity {
      * Email format
      */
 
-    private static boolean isValidEmail(String email){
+    private boolean isValidEmail(String email){
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
-
-    //Get name visitor from database
-    public void getNamaVis(String emailVis){
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
-        final String date = dateFormat.format(calendar.getTime());
-        final DatabaseReference ref = database.getReference("visitors").child(date);
-        ref.orderByChild("email").equalTo(emailVis).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()){
-                    String key = dataSnapshot.getKey();
-                    String nama = dataSnapshot.child(key).child("nama").getValue().toString();
-                    txt.setText(nama);
-                    Log.e("visit",nama);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
 }

@@ -132,7 +132,31 @@ public class Database {
         });
     }
 
+    //Search Employee
+    public void searchEmployee(String nama){
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat jamFormat = new SimpleDateFormat("HH:mm:ss");
+        final String jamCheckin = jamFormat.format(calendar.getTime());
 
+        final DatabaseReference dRef = database.getReference("employees").child("dataKaryawan");
+        dRef.orderByChild("nama").equalTo(nama).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    for (DataSnapshot data : dataSnapshot.getChildren()){
+                        String key = data.getKey();
+                        Employee emp = new Employee(dRef.child(key).child("nama").toString(),dRef.child(key).child("email").toString(),jamCheckin,"");
+                        checkinEmp(emp);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
     //Checkin Employee
     public void checkinEmp(Employee emp){
         Calendar calendar = Calendar.getInstance();

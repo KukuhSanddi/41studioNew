@@ -67,7 +67,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/text_email"
-                android:text="Nama visitor"
+                android:text=" "
                 android:gravity="center"
                 android:layout_marginTop="30dp"
                 android:textSize="20sp" />
