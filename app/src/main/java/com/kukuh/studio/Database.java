@@ -145,7 +145,8 @@ public class Database {
                 if (dataSnapshot.exists()){
                     for (DataSnapshot data : dataSnapshot.getChildren()){
                         String key = data.getKey();
-                        Employee emp = new Employee(dRef.child(key).child("nama").toString(),dRef.child(key).child("email").toString(),jamCheckin,"");
+                        Employee empTemp = data.getValue(Employee.class);
+                        Employee emp = new Employee(empTemp.getNama(),empTemp.getEmail(),jamCheckin,"");
                         checkinEmp(emp);
                     }
                 }
