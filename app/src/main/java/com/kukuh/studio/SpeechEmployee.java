@@ -22,22 +22,35 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import com.github.zagum.speechrecognitionview.RecognitionProgressView;
 import com.github.zagum.speechrecognitionview.adapters.RecognitionListenerAdapter;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class SpeechEmployee extends AppCompatActivity {
 
     private static final int VR_REQUEST = 999;
     public static final String TAG = null;
-    private ListView wordList;
+
     private final String LOG_TAG = "SpeechRepeatActivity";
     private SpeechRecognizer mSpeechRecognizer;
     private Intent mSpeechRecognizerIntent;
     private boolean mIslistening;
     TextView mText;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    Database dbase = new Database();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +66,7 @@ public class SpeechEmployee extends AppCompatActivity {
 
         int[] heights = { 25, 29, 23, 28, 21 };
 
-
         ImageView speechBtn =  findViewById(R.id.speech_btn);
-//        wordList = (ListView) findViewById(R.id.word_list);
 
         PackageManager packManager = getPackageManager();
         List<ResolveInfo> intActivities = packManager.queryIntentActivities(
@@ -148,7 +159,8 @@ public class SpeechEmployee extends AppCompatActivity {
             Log.d(TAG,"result: "+matches.get(i));
             str += matches.get(i);
         }
-        mText.setText(matches.get(1).toString());
+        mText.setText(matches.get(0));
+        dbase.searchEmployee(matches.get(0));
     }
 
 }
