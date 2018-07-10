@@ -6,19 +6,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Home"
-    android:background="#fff">
+    android:background="@drawable/bg_41studio">
 
-    <ImageButton
+    <android.support.design.button.MaterialButton
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:id="@+id/logout"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginEnd="30dp"
         android:layout_marginTop="30dp"
-        android:src="@drawable/ic_logout_24dp"
-        android:background="@drawable/bg_logout"
-        android:elevation="3dp"/>
+        android:text="Logout"
+        app:iconPadding="10dp"
+        app:icon="@drawable/ic_exit_24dp"
+        android:background="@android:color/transparent"
+        android:textColor="@android:color/white"
+        app:iconTint="@android:color/white"/>
 
     <ImageView
         android:layout_width="280dp"
@@ -43,7 +47,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         >
 
-        <Button
+        <android.support.design.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:id="@+id/btn_Visitor"
             android:layout_width="199dp"
             android:layout_height="match_parent"
@@ -55,21 +60,27 @@
             android:fontFamily="@android:rubik-medium"
             android:text="VISITOR"
             android:textColor="@android:color/black"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            app:icon="@drawable/ic_people_24dp"
+            android:paddingStart="20dp"
+            app:iconTint="@android:color/black"/>
 
-        <Button
+        <android.support.design.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="201dp"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:layout_margin="10dp"
             android:layout_marginStart="10dp"
             android:layout_weight="1"
-            android:background="@drawable/button"
+            app:icon ="@drawable/ic_person_24dp"
             android:fontFamily="@android:rubik-medium"
             android:onClick="toEmployee"
+            android:paddingStart="20dp"
             android:text="EMPLOYEE"
             android:textColor="@android:color/black"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            app:iconTint="@android:color/black"/>
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

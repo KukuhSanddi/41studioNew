@@ -54,7 +54,7 @@ public class Home extends AppCompatActivity {
             }
         });
 
-        ImageButton btnLogout = findViewById(R.id.logout);
+        Button btnLogout = findViewById(R.id.logout);
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override

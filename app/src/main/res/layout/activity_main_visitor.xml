@@ -37,7 +37,7 @@
         app:layout_constraintRight_toRightOf="parent"
 
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintVertical_bias="0.0">
 
 
         <!--<android.support.design.card.MaterialCardView-->
@@ -98,20 +98,20 @@
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
+                    android:adjustViewBounds="true"
                     android:background="@drawable/cam_button"
-                    android:scaleType="fitCenter"
-                    android:adjustViewBounds="true"/>
+                    android:scaleType="fitCenter" />
             </LinearLayout>
 
             <TextView
                 android:id="@+id/jdlFoto"
                 android:layout_width="239dp"
                 android:layout_height="42dp"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
                 android:layout_gravity="center"
-                android:layout_marginEnd="17dp"
-                android:layout_marginLeft="54dp"
-                android:layout_marginTop="172dp"
+                android:layout_marginEnd="21dp"
+                android:layout_marginTop="144dp"
                 android:layout_weight="2"
                 android:paddingLeft="10dp"
                 android:text="Silahkan ambil foto data diri anda"
@@ -187,15 +187,15 @@
                 android:layout_marginEnd="5dp"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="20dp"
-                android:elevation="1dp"
-                android:paddingLeft="10dp"
-                android:paddingBottom="5dp"
-                android:hint="@string/selected_one"
-                android:spinnerMode="dropdown"
-                android:textSize="14sp"
-                android:drawableRight="@drawable/ic_dropdown_24"
                 android:completionThreshold="0"
-                android:singleLine="true"/>
+                android:drawableRight="@drawable/ic_dropdown_24"
+                android:elevation="1dp"
+                android:hint="@string/selected_one"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:spinnerMode="dropdown"
+                android:textSize="14sp" />
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/input_layout_keperluan"
@@ -206,8 +206,7 @@
                 android:layout_marginBottom="3dp"
                 android:layout_marginTop="3dp"
                 android:elevation="2dp"
-                android:hint="@string/hint_keperluan"
-                >
+                android:hint="@string/hint_keperluan">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/input_kep"
@@ -232,7 +231,6 @@
                 android:textSize="16sp">
 
             </android.support.design.button.MaterialButton>
-
 
 
         </RelativeLayout>
