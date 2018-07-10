@@ -5,13 +5,14 @@
 
     </style>
 
+
     <style name="MyMaterialTheme.Base" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-
+        <item name="android:startColor">@color/colorPrimary</item>
     </style>
 
     <style name="Widget.Shrine.Toolbar." parent="Widget.AppCompat.Toolbar">
@@ -28,8 +29,8 @@
         <!--<item name="android:windowBackground">@drawable/background_dialog</item>-->
 
     </style>
-
-
-
+    <style name="Button.Theme" parent="Widget.MaterialComponents.Button">
+        <item name="android:background">@drawable/gradient_bg</item>
+    </style>
 
 </resources>

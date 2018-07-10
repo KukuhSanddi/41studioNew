@@ -9,7 +9,7 @@
     android:focusableInTouchMode="true"
     android:clickable="true"
     android:focusable="true"
-    android:background="@drawable/bg_41studio"
+    android:background="@android:color/white"
     >
 
     <!--<android.support.design.widget.AppBarLayout-->
@@ -59,11 +59,12 @@
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/long_logo"
-                android:layout_width="200dp"
-                android:layout_height="60dp"
+                android:layout_width="250dp"
+                android:layout_height="80dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="30dp"
-                android:src="@drawable/logo_long" />
+                android:src="@drawable/logo_long"
+                />
 
 
             <ImageButton

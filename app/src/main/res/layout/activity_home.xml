@@ -18,10 +18,13 @@
         android:layout_marginEnd="10dp"
         android:layout_marginTop="10dp"
         android:text="Logout"
+        android:textSize="14dp"
         app:iconPadding="10dp"
+        app:iconSize="18dp"
         app:icon="@drawable/ic_exit_24dp"
-        android:textColor="@android:color/black"
-        app:iconTint="@android:color/black"/>
+        android:textColor="@android:color/white"
+        app:iconTint="@android:color/white"
+        android:gravity="center"/>
 
     <ImageView
         android:layout_width="280dp"
@@ -49,7 +52,7 @@
         <android.support.design.button.MaterialButton
             style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:id="@+id/btn_Visitor"
-            android:layout_width="199dp"
+            android:layout_width="200dp"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:layout_margin="10dp"
@@ -62,16 +65,20 @@
             android:textSize="16sp"
             app:icon="@drawable/ic_people_24dp"
             android:paddingStart="20dp"
+            android:layout_marginEnd="10dp"
             app:iconTint="@android:color/black"
-            android:elevation="3dp"/>
+            app:strokeColor="@android:color/white"
+            app:strokeWidth="2dp"
+
+            />
 
         <android.support.design.button.MaterialButton
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-            android:layout_width="201dp"
+            android:layout_width="200dp"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:layout_margin="10dp"
             android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:layout_weight="1"
             app:icon ="@drawable/ic_person_24dp"
             android:fontFamily="@android:rubik-medium"
@@ -81,7 +88,9 @@
             android:textColor="@android:color/black"
             android:textSize="16sp"
             app:iconTint="@android:color/black"
-            android:elevation="3dp"/>
+            android:elevation="3dp"
+            android:background="@drawable/gradient_bg"
+            />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
