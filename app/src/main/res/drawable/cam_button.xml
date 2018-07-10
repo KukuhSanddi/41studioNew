@@ -3,9 +3,15 @@
     <item android:state_pressed="false">
         <bitmap android:src="@drawable/cameras"
             android:alpha="0.5"/>
+        <shape>
+            <corners android:radius="8dp"/>
+            <stroke android:width="0.4dp"/>
+        </shape>
     </item>
     <item>
         <bitmap android:src="@drawable/cameras2"
             android:alpha="0.5"/>
+        <corners android:radius="8dp"/>
+        <stroke android:width="0.4dp"/>
     </item>
 </selector>

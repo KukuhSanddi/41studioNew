@@ -15,14 +15,13 @@
         android:layout_height="wrap_content"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginEnd="30dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
         android:text="Logout"
         app:iconPadding="10dp"
         app:icon="@drawable/ic_exit_24dp"
-        android:background="@android:color/transparent"
-        android:textColor="@android:color/white"
-        app:iconTint="@android:color/white"/>
+        android:textColor="@android:color/black"
+        app:iconTint="@android:color/black"/>
 
     <ImageView
         android:layout_width="280dp"
@@ -63,7 +62,8 @@
             android:textSize="16sp"
             app:icon="@drawable/ic_people_24dp"
             android:paddingStart="20dp"
-            app:iconTint="@android:color/black"/>
+            app:iconTint="@android:color/black"
+            android:elevation="3dp"/>
 
         <android.support.design.button.MaterialButton
             style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
@@ -80,7 +80,8 @@
             android:text="EMPLOYEE"
             android:textColor="@android:color/black"
             android:textSize="16sp"
-            app:iconTint="@android:color/black"/>
+            app:iconTint="@android:color/black"
+            android:elevation="3dp"/>
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

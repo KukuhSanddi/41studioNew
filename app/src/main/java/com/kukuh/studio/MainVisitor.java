@@ -76,7 +76,7 @@ public class MainVisitor extends AppCompatActivity {
     //-----------------------------------------------------------//
     //Var XML
     private EditText inputName, inputEmail, inputNo, inputKep;
-    private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutNo, inputLayoutKep;
+    private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutNo, inputLayoutKep, inputLayoutSpin;
     private ImageButton btnFoto;
     private TextView jdlFoto;
     private String emailEmp;
@@ -130,8 +130,6 @@ public class MainVisitor extends AppCompatActivity {
                 if (b){
                     spinner.showDropDown();
 
-                } else {
-
                 }
             }
         });
@@ -160,13 +158,14 @@ public class MainVisitor extends AppCompatActivity {
         inputLayoutEmail = findViewById(R.id.input_layout_email);
         inputLayoutNo = findViewById(R.id.input_layout_phone);
         inputLayoutKep = findViewById(R.id.input_layout_keperluan);
+        inputLayoutSpin = findViewById(R.id.input_layout_spinner);
 
         inputName.addTextChangedListener(new MyTextWatcher(inputName));
         inputEmail.addTextChangedListener(new MyTextWatcher(inputEmail));
         inputNo.addTextChangedListener(new MyTextWatcher(inputNo));
         inputKep.addTextChangedListener(new MyTextWatcher(inputKep));
 
-        btnFoto = findViewById(R.id.btnFoto);
+        btnFoto = findViewById(R.id.btn_cam);
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             btnFoto.setEnabled(false);
@@ -261,10 +260,12 @@ public class MainVisitor extends AppCompatActivity {
      * Spinner Validation
      */
     private boolean validateSpinner(){
+        String name = spinner.getText().toString();
        if (spinner.getText().toString().trim().isEmpty()){
            spinner.setError(getString(R.string.err_msg_form));
            spinner.setHint(getString(R.string.err_msg_form));
-           spinner.setTextColor(Color.RED);
+           spinner.setHintTextColor(Color.RED);
+           inputLayoutSpin.setError(" ");
            requestFocus(spinner);
            return false;
        }
@@ -359,6 +360,18 @@ public class MainVisitor extends AppCompatActivity {
 
     private static boolean isValidPhone(String phone){
         return !TextUtils.isEmpty(phone) && android.util.Patterns.PHONE.matcher(phone).matches();
+    }
+
+    /**
+     *
+     * Spinner Format
+     */
+
+    private boolean isValidSpinner(String name){
+        if (spinner.getText() != spinner.getOnItemSelectedListener()){
+            return false;
+        }
+        return true;
     }
 
     private void requestFocus(View view){

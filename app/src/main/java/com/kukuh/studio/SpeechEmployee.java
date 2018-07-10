@@ -64,7 +64,7 @@ public class SpeechEmployee extends AppCompatActivity {
                 ContextCompat.getColor(this, R.color.colorPrimaryDark),
         };
 
-        int[] heights = { 25, 29, 23, 28, 21 };
+        int[] heights = { 25, 29, 23, 28, 21, 25, };
 
         ImageView speechBtn =  findViewById(R.id.speech_btn);
 
@@ -85,7 +85,7 @@ public class SpeechEmployee extends AppCompatActivity {
 
         recogView.setColors(colors);
         recogView.setBarMaxHeightsInDp(heights);
-        recogView.setCircleRadiusInDp(7);
+        recogView.setCircleRadiusInDp(2);
         recogView.setSpacingInDp(7);
         recogView.setIdleStateAmplitudeInDp(7);
         recogView.setRotationRadiusInDp(15);

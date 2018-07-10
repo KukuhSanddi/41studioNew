@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +53,14 @@ public class VisitorLogout extends AppCompatActivity {
         txt = findViewById(R.id.text_email);
         btnLogout = findViewById(R.id.btn_logout);
         email = findViewById(R.id.email_log);
+        ImageView logo = findViewById(R.id.logo_out);
+
+        logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,8 +138,14 @@ public class VisitorLogout extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent in = new Intent(getApplicationContext(), Home.class);
+        in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        finish();
 
-
+    }
 
     private boolean validateEmail(){
         String inputEmail = email.getText().toString().trim();
