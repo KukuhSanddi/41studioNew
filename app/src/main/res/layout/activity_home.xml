@@ -50,7 +50,6 @@
         >
 
         <android.support.design.button.MaterialButton
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:id="@+id/btn_Visitor"
             android:layout_width="200dp"
             android:layout_height="match_parent"
@@ -67,12 +66,13 @@
             android:paddingStart="20dp"
             android:layout_marginEnd="10dp"
             app:iconTint="@android:color/black"
-            app:strokeColor="@android:color/white"
-            app:strokeWidth="2dp"
+            android:elevation="3dp"
+
 
             />
 
         <android.support.design.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="200dp"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
@@ -88,8 +88,9 @@
             android:textColor="@android:color/black"
             android:textSize="16sp"
             app:iconTint="@android:color/black"
-            android:elevation="3dp"
             android:background="@drawable/gradient_bg"
+            app:strokeColor="@android:color/white"
+            app:strokeWidth="2dp"
             />
     </LinearLayout>
 
