@@ -179,8 +179,8 @@ public class SpeechEmployee extends AppCompatActivity {
                 Log.d(TAG,"result: "+matches.get(i));
                 str += matches.get(i);
             }
-            mText.setText(matches.get(1));
-            dbase.searchEmployee(matches.get(1));
+            mText.setText(matches.get(0));
+            dbase.searchEmployee(matches.get(0));
         }
 
         @Override
