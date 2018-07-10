@@ -46,6 +46,8 @@ public class VisitorLogout extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_visitor_logout);
 
+        getWindow().getAttributes().windowAnimations = R.style.Fade;
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

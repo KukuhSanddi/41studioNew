@@ -17,6 +17,9 @@ public class Home extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        getWindow().getAttributes().windowAnimations = R.style.Fade;
+
         startService(new Intent(this,myService.class));
 
         Button btnVisitor = findViewById(R.id.btn_Visitor);

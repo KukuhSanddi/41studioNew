@@ -33,4 +33,8 @@
         <item name="android:background">@drawable/gradient_bg</item>
     </style>
 
+    <style name="Fade">
+        <item name="android:windowEnterAnimation">@anim/fadein</item>
+    </style>
+
 </resources>

@@ -106,6 +106,8 @@ public class MainVisitor extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_visitor);
 
+        getWindow().getAttributes().windowAnimations = R.style.Fade;
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -139,7 +141,10 @@ public class MainVisitor extends AppCompatActivity {
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onBackPressed();
+
+                Intent in = new Intent(getApplicationContext(), Home.class);
+                in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                finish();
 
             }
         });
@@ -205,14 +210,6 @@ public class MainVisitor extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent in = new Intent(getApplicationContext(), Home.class);
-        in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        finish();
-
-    }
 
     /**
      * new session

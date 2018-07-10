@@ -57,6 +57,8 @@ public class SpeechEmployee extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_speech_employee);
 
+        getWindow().getAttributes().windowAnimations = R.style.Fade;
+
         int[] colors = {
                 ContextCompat.getColor(this, R.color.colorAccent),
                 ContextCompat.getColor(this, R.color.colorControlActivated),
