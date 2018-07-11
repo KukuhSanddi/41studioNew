@@ -184,13 +184,15 @@ public class SpeechEmployee extends AppCompatActivity {
                     for (DataSnapshot data : dataSnapshot.getChildren()){
                         Employee empTemp = data.getValue(Employee.class);
                         final Employee emp = new Employee(empTemp.getNama(),empTemp.getEmail(),jamCheckin,"");
-                        refAbs.orderByChild("nama").equalTo(nama).addListenerForSingleValueEvent(new ValueEventListener() {
+                        refAbs.orderByChild("nama").equalTo(emp.getNama()).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 if(dataSnapshot.exists()){
                                     dbase.checkoutEmp(nama);
+                                    Toast.makeText(SpeechEmployee.this,"Anda berhasil checkout",Toast.LENGTH_SHORT).show();
                                 }else{
                                     dbase.checkinEmp(emp);
+                                    Toast.makeText(SpeechEmployee.this,"Anda berhasil checkin",Toast.LENGTH_SHORT).show();
                                 }
                             }
 
@@ -201,6 +203,7 @@ public class SpeechEmployee extends AppCompatActivity {
                         });
                     }
                 }else{
+                    Toast.makeText(SpeechEmployee.this,"Nama tidak ada",Toast.LENGTH_SHORT).show();
                 }
             }
 
