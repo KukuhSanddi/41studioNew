@@ -9,6 +9,7 @@ import android.os.Build;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -163,7 +164,51 @@ public class SpeechEmployee extends AppCompatActivity {
             str += matches.get(i);
         }
         mText.setText(matches.get(0));
-        dbase.searchEmployee(matches.get(0));
+        searchEmployee(matches.get(0));
+    }
+
+    //Search Employee
+    public void searchEmployee(final String nama){
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat jamFormat = new SimpleDateFormat("HH:mm:ss");
+        final String jamCheckin = jamFormat.format(calendar.getTime());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+        final String date = dateFormat.format(calendar.getTime());
+
+        final DatabaseReference dRef = database.getReference("employees").child("dataKaryawan");
+        final DatabaseReference refAbs = database.getReference("employees").child("absensi").child(date);
+        dRef.orderByChild("nama").equalTo(nama).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    for (DataSnapshot data : dataSnapshot.getChildren()){
+                        Employee empTemp = data.getValue(Employee.class);
+                        final Employee emp = new Employee(empTemp.getNama(),empTemp.getEmail(),jamCheckin,"");
+                        refAbs.orderByChild("nama").equalTo(nama).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.exists()){
+                                    dbase.checkoutEmp(nama);
+                                }else{
+                                    dbase.checkinEmp(emp);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+                }else{
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
 }
