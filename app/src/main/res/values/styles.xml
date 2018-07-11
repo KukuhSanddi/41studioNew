@@ -12,6 +12,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:buttonStyle">@style/ImageButton</item>
+        <item name="android:colorButtonNormal">@color/newColor</item>
         <item name="android:startColor">@color/colorPrimary</item>
     </style>
 
@@ -35,6 +37,10 @@
 
     <style name="Fade">
         <item name="android:windowEnterAnimation">@anim/fadein</item>
+    </style>
+
+    <style name="ImageButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:colorButtonNormal">@color/newColor</item>
     </style>
 
 </resources>

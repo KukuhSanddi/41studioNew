@@ -9,23 +9,8 @@
     android:focusableInTouchMode="true"
     android:clickable="true"
     android:focusable="true"
-    android:background="@android:color/white"
+    android:background="@drawable/bg_41studio"
     >
-
-    <!--<android.support.design.widget.AppBarLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">-->
-
-        <!--<android.support.v7.widget.Toolbar-->
-            <!--android:id="@+id/toolbar"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="?android:attr/actionBarSize"-->
-            <!--android:background="?attr/colorPrimary"-->
-            <!--app:layout_scrollFlags="scroll|enterAlways"-->
-            <!--app:popupTheme="@style/ThemeOverlay.AppCompat.Light"-->
-            <!--app:logo="@mipmap/ic_launcher" />-->
-    <!--</android.support.design.widget.AppBarLayout>-->
 
     <ScrollView
         android:layout_width="0dp"
@@ -36,212 +21,218 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
 
-
-        <!--<android.support.design.card.MaterialCardView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_margin="16dp"-->
-        <!--android:layout_marginTop="10dp"-->
-        <!--app:contentPadding="16dp"-->
-        <!--android:layout_marginBottom="20dp"-->
-        <!--android:descendantFocusability="beforeDescendants"-->
-        <!--android:focusableInTouchMode="true">-->
         <RelativeLayout
-            android:id="@+id/visitor"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/long_logo"
                 android:layout_width="200dp"
                 android:layout_height="60dp"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="30dp"
-                android:src="@drawable/logo_long"
-                />
+                android:layout_marginBottom="20dp"
+                android:src="@drawable/logo_long_white" />
 
-
-            <ImageButton
-                android:id="@+id/btn_cam"
-                android:layout_width="68dp"
-                android:layout_height="68dp"
-                android:layout_gravity="center"
+            <android.support.design.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/long_logo"
+                android:layout_margin="16dp"
                 android:layout_marginBottom="20dp"
-                android:layout_marginEnd="30dp"
-                android:layout_marginLeft="19dp"
-                android:layout_marginRight="57dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="20dp"                    android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:src="@drawable/ic_person_add_68"
-                android:scaleType="fitCenter"
-                android:background="@drawable/button2"
-                android:elevation="3dp"
+                android:layout_marginTop="10dp"
+                android:descendantFocusability="beforeDescendants"
+                android:focusableInTouchMode="true"
+                app:contentPadding="16dp">
 
-                />
-
-            <TextView
-                android:id="@+id/jdlFoto"
-                android:layout_width="240dp"
-                android:layout_height="42dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                android:layout_gravity="center"
-                android:layout_marginEnd="21dp"
-                android:layout_marginTop="125dp"
-                android:gravity="center"
-                android:layout_weight="2"
-                android:paddingLeft="10dp"
-                android:text="Silahkan ambil foto data diri anda"
-                android:textSize="14sp" />
-
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_layout_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/btn_cam"
-                android:layout_margin="5dp"
-                android:layout_marginBottom="3dp"
-                android:elevation="2dp"
-                android:hint="@string/hint_name"
-                >
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/input_name"
+                <RelativeLayout
+                    android:id="@+id/visitor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:singleLine="true"
-                    android:textSize="14sp"
-                    android:imeOptions="actionNext"/>
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_layout_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/input_layout_name"
-                android:layout_margin="5dp"
-                android:layout_marginBottom="3dp"
-                android:layout_marginTop="3dp"
-                android:elevation="2dp"
-                android:hint="@string/hint_email">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/input_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"
-                    android:textSize="14sp"
-                    android:imeOptions="actionNext"/>
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_layout_phone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/input_layout_email"
-                android:layout_margin="5dp"
-                android:layout_marginBottom="3dp"
-                android:layout_marginTop="3dp"
-                android:elevation="2dp"
-                android:hint="@string/hint_phone">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/input_phone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="phone"
-                    android:textSize="14sp"
-                    android:imeOptions="actionNext"/>
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_layout_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/input_layout_phone"
-                android:layout_margin="5dp"
-                android:layout_marginBottom="3dp"
-                android:layout_marginTop="3dp"
-                android:elevation="2dp"
-                >
-
-                <AutoCompleteTextView
-                    android:id="@+id/dropdown"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginBottom="3dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="20dp"
-                    android:completionThreshold="0"
-                    android:drawableRight="@drawable/ic_dropdown_24"
-                    android:elevation="1dp"
-                    android:hint="@string/selected_one"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true"
-                    android:inputType="text"
-                    android:spinnerMode="dropdown"
-                    android:textSize="14sp"
-                    android:imeOptions="actionNext"
-
-                    />
-
-            </android.support.design.widget.TextInputLayout>
+                    android:layout_margin="5dp"
+                    android:orientation="vertical">
 
 
+                    <ImageButton
+                        android:id="@+id/btn_cam"
+                        style="@style/ImageButton"
+                        android:layout_width="68dp"
+                        android:layout_height="68dp"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginEnd="30dp"
+                        android:layout_marginLeft="19dp"
+                        android:layout_marginRight="57dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:adjustViewBounds="true"
+                        android:elevation="3dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_person_add_68" />
+
+                    <TextView
+                        android:id="@+id/jdlFoto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_above="@id/input_layout_name"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="35dp"
+                        android:layout_marginEnd="30dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_toRightOf="@id/btn_cam"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:text="Ambil foto data diri anda"
+                        android:textSize="14sp" />
 
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_layout_keperluan"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/input_layout_spinner"
-                android:layout_margin="5dp"
-                android:layout_marginBottom="3dp"
-                android:layout_marginTop="3dp"
-                android:elevation="2dp"
-                android:hint="@string/hint_keperluan">
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/input_layout_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/btn_cam"
+                        android:layout_margin="5dp"
+                        android:layout_marginBottom="3dp"
+                        android:elevation="2dp"
+                        android:hint="@string/hint_name">
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/input_kep"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textMultiLine"
-                    android:textSize="14sp"
-                    android:imeOptions="actionDone"/>
-            </android.support.design.widget.TextInputLayout>
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/input_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:imeOptions="actionNext"
+                            android:inputType="textPersonName"
+                            android:singleLine="true"
+                            android:textSize="14sp" />
+                    </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.button.MaterialButton
-                android:id="@+id/btn_submit"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_below="@id/input_layout_keperluan"
-                android:layout_marginBottom="20dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/button2"
-                android:text="@string/btn_submit"
-                android:textColor="#fff"
-                android:textSize="16sp">
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/input_layout_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/input_layout_name"
+                        android:layout_margin="5dp"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginTop="3dp"
+                        android:elevation="2dp"
+                        android:hint="@string/hint_email">
 
-            </android.support.design.button.MaterialButton>
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/input_email"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:imeOptions="actionNext"
+                            android:inputType="textEmailAddress"
+                            android:textSize="14sp" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/input_layout_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/input_layout_email"
+                        android:layout_margin="5dp"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginTop="3dp"
+                        android:elevation="2dp"
+                        android:hint="@string/hint_phone">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/input_phone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:imeOptions="actionNext"
+                            android:inputType="phone"
+                            android:textSize="14sp" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/input_layout_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/input_layout_phone"
+                        android:layout_margin="5dp"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginTop="3dp"
+                        android:elevation="2dp">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/dropdown"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_marginTop="20dp"
+                            android:completionThreshold="0"
+                            android:drawableRight="@drawable/ic_dropdown_24"
+                            android:elevation="1dp"
+                            android:hint="@string/selected_one"
+                            android:imeOptions="actionNext"
+                            android:inputType="text"
+                            android:paddingBottom="5dp"
+                            android:paddingLeft="10dp"
+                            android:singleLine="true"
+                            android:spinnerMode="dropdown"
+                            android:textSize="14sp"
+
+                            />
+
+                    </android.support.design.widget.TextInputLayout>
 
 
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/input_layout_keperluan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/input_layout_spinner"
+                        android:layout_margin="5dp"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginTop="3dp"
+                        android:elevation="2dp"
+                        android:hint="@string/hint_keperluan">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/input_kep"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:imeOptions="actionDone"
+                            android:inputType="textMultiLine|textCapSentences"
+                            android:isScrollContainer="true"
+                            android:maxLength="2000"
+                            android:maxLines="20"
+                            android:scrollbars="vertical"
+                            android:textSize="14sp" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.button.MaterialButton
+                        android:id="@+id/btn_submit"
+                        style="@style/ImageButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_below="@id/input_layout_keperluan"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/btn_submit"
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp">
+
+                    </android.support.design.button.MaterialButton>
+
+
+                </RelativeLayout>
+
+            </android.support.design.card.MaterialCardView>
         </RelativeLayout>
 
-        <!--</android.support.design.card.MaterialCardView>-->
     </ScrollView>
 
 </android.support.constraint.ConstraintLayout>
+

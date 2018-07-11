@@ -6,5 +6,11 @@
     <color name="windowBackground">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>
     <color name="colorAccent">#29B6F6</color>
+    <color name="newColor">#FFAB00</color>
     <color name="colorControlActivated">#0086c3</color>
+    <color name="colorRed">#ef5a12</color>
+    <color name="colorBlue">#00b3e3</color>
+    <color name="colorYellow">#f8b700</color>
+    <color name="colorGreen">#96be00</color>
+    <color name="colorWhite">#fff</color>
 </resources>

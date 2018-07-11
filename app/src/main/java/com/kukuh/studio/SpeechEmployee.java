@@ -60,13 +60,14 @@ public class SpeechEmployee extends AppCompatActivity {
         getWindow().getAttributes().windowAnimations = R.style.Fade;
 
         int[] colors = {
-                ContextCompat.getColor(this, R.color.colorAccent),
-                ContextCompat.getColor(this, R.color.colorControlActivated),
-                ContextCompat.getColor(this, R.color.colorPrimary),
-                ContextCompat.getColor(this, R.color.colorPrimaryDark),
+                ContextCompat.getColor(this, R.color.colorBlue),
+                ContextCompat.getColor(this, R.color.colorRed),
+                ContextCompat.getColor(this, R.color.colorGreen),
+                ContextCompat.getColor(this, R.color.colorYellow),
+                ContextCompat.getColor(this, R.color.colorWhite)
         };
 
-        int[] heights = { 25, 29, 23, 28, 21, 25, };
+        int[] heights = { 55, 59, 53, 58, 51, 55, };
 
         ImageView speechBtn =  findViewById(R.id.speech_btn);
 
@@ -87,10 +88,10 @@ public class SpeechEmployee extends AppCompatActivity {
 
         recogView.setColors(colors);
         recogView.setBarMaxHeightsInDp(heights);
-        recogView.setCircleRadiusInDp(2);
-        recogView.setSpacingInDp(7);
-        recogView.setIdleStateAmplitudeInDp(7);
-        recogView.setRotationRadiusInDp(15);
+        recogView.setCircleRadiusInDp(8);
+        recogView.setSpacingInDp(20);
+        recogView.setIdleStateAmplitudeInDp(15);
+        recogView.setRotationRadiusInDp(30);
         recogView.play();
 
         speechBtn.setOnClickListener(new View.OnClickListener() {

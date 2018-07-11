@@ -76,7 +76,7 @@
                 android:layout_marginTop="30dp"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:textColor="#424242"
+                android:textColor="@android:color/white"
                 android:layout_gravity="center"
                 android:id="@+id/btn_logout"
                 android:text="Logout"
