@@ -181,7 +181,7 @@ public class SpeechEmployee extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat jamFormat = new SimpleDateFormat("HH:mm:ss");
         final String jamCheckin = jamFormat.format(calendar.getTime());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MM yyyy");
         final String date = dateFormat.format(calendar.getTime());
 
         final DatabaseReference dRef = database.getReference("employees").child("dataKaryawan");
