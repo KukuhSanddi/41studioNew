@@ -10,29 +10,23 @@
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="wrap_content"
-        android:layout_height="177dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.089">
 
         <TextView
             android:id="@+id/mText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/speech_btn"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="30dp"
-            android:text="test voice"/>
-
-        <ImageView
-            android:id="@+id/speech_btn"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_centerInParent="true"
-            android:src="@drawable/ic_mic_24dp"
-            />
+            android:text="test voice"
+            android:textSize="50sp"
+            android:fontFamily="@font/russo_one"/>
     </RelativeLayout>
 
     <com.github.zagum.speechrecognitionview.RecognitionProgressView
@@ -44,10 +38,43 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:layout_marginBottom="124dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_editor_absoluteX="0dp">
+
+        <android.support.design.button.MaterialButton
+            android:id="@+id/speech_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginEnd="10dp"
+            android:text="Start"
+            app:icon="@drawable/ic_mic_24dp" />
+
+        <android.support.design.button.MaterialButton
+            android:id="@+id/speech_btn_out"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="10dp"
+            android:text="Stop"
+            app:icon="@drawable/ic_stop_24dp" />
+
+    </LinearLayout>
 
 
 </android.support.constraint.ConstraintLayout>

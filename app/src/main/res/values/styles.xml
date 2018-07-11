@@ -1,18 +1,18 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="MyMaterialTheme" parent="MyMaterialTheme.Base">
+    <style name="MyMaterialTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
 
     </style>
 
 
-    <style name="MyMaterialTheme.Base" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="MyMaterialTheme.Base" parent="MyMaterialTheme">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:buttonStyle">@style/ImageButton</item>
+        <item name="buttonStyle">@style/Button.Theme</item>
         <item name="android:colorButtonNormal">@color/newColor</item>
         <item name="android:startColor">@color/colorPrimary</item>
     </style>
@@ -31,8 +31,8 @@
         <!--<item name="android:windowBackground">@drawable/background_dialog</item>-->
 
     </style>
-    <style name="Button.Theme" parent="Widget.MaterialComponents.Button">
-        <item name="android:background">@drawable/gradient_bg</item>
+    <style name="Button.Theme" parent="MyMaterialTheme">
+        <item name="android:background">@color/newColor</item>
     </style>
 
     <style name="Fade">

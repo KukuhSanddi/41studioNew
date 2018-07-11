@@ -70,7 +70,8 @@ public class SpeechEmployee extends AppCompatActivity {
 
         int[] heights = { 55, 59, 53, 58, 51, 55, };
 
-        ImageView speechBtn =  findViewById(R.id.speech_btn);
+        Button speechBtn =  findViewById(R.id.speech_btn);
+        Button stopBtn = findViewById(R.id.speech_btn_out);
 
         PackageManager packManager = getPackageManager();
         List<ResolveInfo> intActivities = packManager.queryIntentActivities(
@@ -113,9 +114,17 @@ public class SpeechEmployee extends AppCompatActivity {
             }
         });
 
+        stopBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                recogView.stop();
+                recogView.play();
+            }
+        });
 
 
-        mText = (TextView) findViewById(R.id.mText);
+
+        mText = findViewById(R.id.mText);
 
     }
 

@@ -67,11 +67,10 @@
             android:layout_marginEnd="10dp"
             app:iconTint="@android:color/white"
             android:elevation="3dp"
-
-
             />
 
         <android.support.design.button.MaterialButton
+            style="@style/MyMaterialTheme.Base"
             android:layout_width="200dp"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
