@@ -24,7 +24,7 @@
             android:layout_above="@+id/speech_btn"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="30dp"
-            android:text="test voice" />
+            android:text="test voice"/>
 
         <ImageView
             android:id="@+id/speech_btn"

@@ -30,30 +30,6 @@ public class Home extends AppCompatActivity {
 
                 Intent intent = new Intent(Home.this, MainVisitor.class);
                 startActivity(intent);
-//                AlertDialog.Builder dialogBox = new AlertDialog.Builder(context);
-//
-//                dialogBox.setTitle("Selamat Datang di 41 studio");
-//
-//                dialogBox
-//                        .setMessage(" ")
-//                        .setCancelable(true)
-//                        .setPositiveButton("Masuk", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialogInterface, int i) {
-//                                Intent intent = new Intent(Home.this, MainVisitor.class);
-//                                startActivity(intent);
-//                            }
-//                        })
-//                        .setNegativeButton("Keluar", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialogInterface, int i) {
-//                                Intent intent = new Intent(Home.this, VisitorLogout.class);
-//                                startActivity(intent);
-//                            }
-//                        });
-//                AlertDialog alertDialog = dialogBox.create();
-//
-//                alertDialog.show();
             }
         });
 
@@ -67,10 +43,6 @@ public class Home extends AppCompatActivity {
             }
         });
     }
-//    public void toVisitor (View view){
-//        Intent intent = new Intent (this, MainVisitor.class);
-//        startActivity(intent);
-//    }
 
     public void toEmployee (View view){
         Intent intent = new Intent (this, SpeechEmployee.class);

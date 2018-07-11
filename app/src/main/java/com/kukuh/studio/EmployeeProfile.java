@@ -115,31 +115,8 @@ public class EmployeeProfile extends AppCompatActivity {
                 startActivity(i);
 
 
-//              ------------------Tanpa Pindah Page-------------
-
-//                employName.setEnabled(true);
-//                employEmail.setEnabled(true);
-//                employPhone.setEnabled(true);
-//                employAddress.setEnabled(true);
-//                employStatus.setEnabled(true);
-//                save.setVisibility(View.VISIBLE);
             }
         });
-
-//        save.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                employName.setEnabled(false);
-//                employEmail.setEnabled(false);
-//                employPhone.setEnabled(false);
-//                employAddress.setEnabled(false);
-//                employStatus.setEnabled(false);
-//                save.setVisibility(View.GONE);
-//            }
-//        });
-
-
-
 
 
 

@@ -137,18 +137,35 @@ public class Database {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat jamFormat = new SimpleDateFormat("HH:mm:ss");
         final String jamCheckin = jamFormat.format(calendar.getTime());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+        final String date = dateFormat.format(calendar.getTime());
 
         final DatabaseReference dRef = database.getReference("employees").child("dataKaryawan");
+        final DatabaseReference refAbs = database.getReference("employees").child("absensi").child(date);
         dRef.orderByChild("nama").equalTo(nama).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){
                     for (DataSnapshot data : dataSnapshot.getChildren()){
-                        String key = data.getKey();
                         Employee empTemp = data.getValue(Employee.class);
-                        Employee emp = new Employee(empTemp.getNama(),empTemp.getEmail(),jamCheckin,"");
-                        checkinEmp(emp);
+                        final Employee emp = new Employee(empTemp.getNama(),empTemp.getEmail(),jamCheckin,"");
+                        refAbs.orderByChild("checkout").equalTo("").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.exists()){
+                                    checkoutEmp(emp.getNama());
+                                }else{
+                                    checkinEmp(emp);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
                     }
+                }else{
                 }
             }
 
@@ -166,5 +183,34 @@ public class Database {
 
         DatabaseReference dRef = database.getReference("employees").child("absensi").child(date);
         dRef.push().setValue(emp);
+    }
+
+    //Checkout Employee
+    public void checkoutEmp(String nama){
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+        final String date = dateFormat.format(calendar.getTime());
+        SimpleDateFormat jamFormat = new SimpleDateFormat("HH:mm:ss");
+        final String jamCheckout = jamFormat.format(calendar.getTime());
+
+        final DatabaseReference ref = database.getReference("employees").child("absensi").child(date);
+        ref.orderByChild("nama").equalTo(nama).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    for (DataSnapshot data : dataSnapshot.getChildren()){
+                        String key = data.getKey();
+                        ref.child(key).child("checkout").setValue(jamCheckout);
+                    }
+                }else {
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }

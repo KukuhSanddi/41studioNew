@@ -145,8 +145,8 @@ public class SpeechEmployee extends AppCompatActivity {
     private void startRecognition(){
         mSpeechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-
+                "id-ID");
+        mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_PROMPT,"Ucapkan nama anda");
         mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
                 this.getPackageName());
         mSpeechRecognizer.startListening(mSpeechRecognizerIntent);
