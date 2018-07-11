@@ -33,7 +33,7 @@ public class Database {
     //Visitor Checkin
     public void checkinVis(Visitor vis){
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MM yyyy");
         String date = dateFormat.format(calendar.getTime());
 
         DatabaseReference myRef = database.getReference("visitors/"+date);
@@ -45,7 +45,7 @@ public class Database {
     //Visitor Checkout
     public void checkoutVis(final String email){
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MM yyyy");
         final String date = dateFormat.format(calendar.getTime());
         SimpleDateFormat jamFormat = new SimpleDateFormat("HH:mm:ss");
         final String jamCheckout = jamFormat.format(calendar.getTime());
@@ -132,54 +132,11 @@ public class Database {
         });
     }
 
-//    //Search Employee
-//    public void searchEmployee(final String nama){
-//        Calendar calendar = Calendar.getInstance();
-//        SimpleDateFormat jamFormat = new SimpleDateFormat("HH:mm:ss");
-//        final String jamCheckin = jamFormat.format(calendar.getTime());
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
-//        final String date = dateFormat.format(calendar.getTime());
 //
-//        final DatabaseReference dRef = database.getReference("employees").child("dataKaryawan");
-//        final DatabaseReference refAbs = database.getReference("employees").child("absensi").child(date);
-//        dRef.orderByChild("nama").equalTo(nama).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                if (dataSnapshot.exists()){
-//                    for (DataSnapshot data : dataSnapshot.getChildren()){
-//                        Employee empTemp = data.getValue(Employee.class);
-//                        final Employee emp = new Employee(empTemp.getNama(),empTemp.getEmail(),jamCheckin,"");
-//                        refAbs.orderByChild("nama").equalTo(nama).addListenerForSingleValueEvent(new ValueEventListener() {
-//                            @Override
-//                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                                if(dataSnapshot.exists()){
-//                                    checkoutEmp(nama);
-//                                }else{
-//                                    checkinEmp(emp);
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                            }
-//                        });
-//                    }
-//                }else{
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//    }
-
     //Checkin Employee
     public void checkinEmp(Employee emp){
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MM yyyy");
         final String date = dateFormat.format(calendar.getTime());
 
         DatabaseReference dRef = database.getReference("employees").child("absensi").child(date);
@@ -189,7 +146,7 @@ public class Database {
     //Checkout Employee
     public void checkoutEmp(String nama){
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MM yyyy");
         final String date = dateFormat.format(calendar.getTime());
         SimpleDateFormat jamFormat = new SimpleDateFormat("HH:mm:ss");
         final String jamCheckout = jamFormat.format(calendar.getTime());
