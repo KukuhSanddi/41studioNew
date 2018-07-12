@@ -39,6 +39,8 @@ import java.util.List;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import pl.bclogic.pulsator4droid.library.PulsatorLayout;
+
 public class SpeechEmployee extends AppCompatActivity {
 
     private static final int VR_REQUEST = 999;
@@ -47,6 +49,7 @@ public class SpeechEmployee extends AppCompatActivity {
     private final String LOG_TAG = "SpeechRepeatActivity";
     private SpeechRecognizer mSpeechRecognizer;
     private Intent mSpeechRecognizerIntent;
+    private PulsatorLayout pulsator;
     private boolean mIslistening;
     TextView mText;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -72,6 +75,11 @@ public class SpeechEmployee extends AppCompatActivity {
 
         Button speechBtn =  findViewById(R.id.speech_btn);
         Button stopBtn = findViewById(R.id.speech_btn_out);
+        pulsator = findViewById(R.id.pulsator);
+        ImageView imgV = findViewById(R.id.circleImageView);
+        imgV.bringToFront();
+
+
 
         PackageManager packManager = getPackageManager();
         List<ResolveInfo> intActivities = packManager.queryIntentActivities(
@@ -80,6 +88,10 @@ public class SpeechEmployee extends AppCompatActivity {
 
         final RecognitionProgressView recogView = findViewById(R.id.recognition_view);
         mSpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
+
+        SpeechRecognitionListener listener = new SpeechRecognitionListener();
+        mSpeechRecognizer.setRecognitionListener(listener);
+
         recogView.setSpeechRecognizer(mSpeechRecognizer);
         recogView.setRecognitionListener(new RecognitionListenerAdapter() {
             @Override
@@ -102,6 +114,7 @@ public class SpeechEmployee extends AppCompatActivity {
                if (ContextCompat.checkSelfPermission(SpeechEmployee.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED){
                    requestRecordAudioPermission();
                } else {
+                   pulsator.start();
                    startRecognition();
                    Toast.makeText(SpeechEmployee.this,"Start Listening",Toast.LENGTH_SHORT).show();
                    recogView.postDelayed(new Runnable() {
@@ -117,6 +130,7 @@ public class SpeechEmployee extends AppCompatActivity {
         stopBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                pulsator.stop();
                 recogView.stop();
                 recogView.play();
             }
@@ -175,6 +189,80 @@ public class SpeechEmployee extends AppCompatActivity {
         mText.setText(toTitleCase(matches.get(0)));
         searchEmployee(toTitleCase(matches.get(0)));
     }
+
+    protected class SpeechRecognitionListener implements RecognitionListener
+    {
+
+        @Override
+        public void onBeginningOfSpeech()
+        {
+            Log.d(TAG, "onBeginingOfSpeech");
+        }
+
+        @Override
+        public void onBufferReceived(byte[] buffer)
+        {
+
+        }
+
+        @Override
+        public void onEndOfSpeech()
+        {
+            Log.d(TAG, "onEndOfSpeech");
+        }
+
+        @Override
+        public void onError(int error)
+        {
+            if(error == 8){
+                mSpeechRecognizer.cancel();
+                mSpeechRecognizer.startListening(mSpeechRecognizerIntent);
+            }
+            mSpeechRecognizer.startListening(mSpeechRecognizerIntent);
+
+            Log.d(TAG, "error = " + error);
+
+        }
+
+        @Override
+        public void onEvent(int eventType, Bundle params)
+        {
+
+        }
+
+        @Override
+        public void onPartialResults(Bundle partialResults)
+        {
+
+        }
+
+        @Override
+        public void onReadyForSpeech(Bundle params)
+        {
+            Log.d(TAG, "onReadyForSpeech"); //$NON-NLS-1$
+        }
+
+        @Override
+        public void onResults(Bundle results)
+        {
+            Log.d(TAG, "onResults" + results); //$NON-NLS-1$
+            ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+            // matches are the return values of speech recognition engine
+            // Use these values for whatever you wish to do
+            String str = new String();
+            for (int i=0; i<matches.size(); i++){
+                Log.d(TAG,"result: "+matches.get(i));
+                str += matches.get(i);
+            }
+            mText.setText("Results: "+String.valueOf(matches.size()));
+        }
+
+        @Override
+        public void onRmsChanged(float rmsdB)
+        {
+        }
+    }
+
 
     //Search Employee
     public void searchEmployee(final String nama){
