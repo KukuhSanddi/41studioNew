@@ -172,8 +172,8 @@ public class SpeechEmployee extends AppCompatActivity {
             Log.d(TAG,"result: "+matches.get(i));
             str += matches.get(i);
         }
-        mText.setText(sentenceCaseForText(matches.get(0)));
-        searchEmployee(sentenceCaseForText(matches.get(0)));
+        mText.setText(toTitleCase(matches.get(0)));
+        searchEmployee(toTitleCase(matches.get(0)));
     }
 
     //Search Employee
@@ -238,38 +238,32 @@ public class SpeechEmployee extends AppCompatActivity {
         });
     }
 
-    public static String sentenceCaseForText(String text) {
+    public static String toTitleCase(String str) {
 
-        if (text == null) return "";
-
-        int pos = 0;
-        boolean capitalize = true;
-        StringBuilder sb = new StringBuilder(text);
-
-        while (pos < sb.length()) {
-
-            if (capitalize && !Character.isWhitespace(sb.charAt(pos))) {
-
-                sb.setCharAt(pos, Character.toUpperCase(sb.charAt(pos)));
-            }
-            else if (!capitalize && !Character.isWhitespace(sb.charAt(pos))) {
-
-                sb.setCharAt(pos, Character.toLowerCase(sb.charAt(pos)));
-            }
-
-            if (sb.charAt(pos) == '.' || (capitalize && Character.isWhitespace(sb.charAt(pos)))) {
-
-                capitalize = true;
-            }
-            else {
-
-                capitalize = false;
-            }
-
-            pos++;
+        if (str == null) {
+            return null;
         }
 
-        return sb.toString();
+        boolean space = true;
+        StringBuilder builder = new StringBuilder(str);
+        final int len = builder.length();
+
+        for (int i = 0; i < len; ++i) {
+            char c = builder.charAt(i);
+            if (space) {
+                if (!Character.isWhitespace(c)) {
+                    // Convert to title case and switch out of whitespace mode.
+                    builder.setCharAt(i, Character.toTitleCase(c));
+                    space = false;
+                }
+            } else if (Character.isWhitespace(c)) {
+                space = true;
+            } else {
+                builder.setCharAt(i, Character.toLowerCase(c));
+            }
+        }
+
+        return builder.toString();
     }
 
 }
