@@ -46,8 +46,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -90,6 +94,7 @@ public class MainVisitor extends AppCompatActivity {
     FirebaseDatabase fbase = FirebaseDatabase.getInstance();
     private AutoCompleteTextView spinner;
     private EmployeeAdapter empAdapter;
+    private FirebaseAuth emAuth;
 
 
     //Var untuk foto dan upload foto
@@ -177,6 +182,8 @@ public class MainVisitor extends AppCompatActivity {
             btnFoto.setEnabled(false);
             ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
         }
+
+
 
 
         Button btnSubmit = findViewById(R.id.btn_submit);

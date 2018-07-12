@@ -32,24 +32,24 @@ public class Home extends AppCompatActivity {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MM yyyy");
         final String date = dateFormat.format(calendar.getTime());
 
-        DatabaseReference dRef = database.getReference("visitors").child(date);
-        dRef.orderByChild("checkout").equalTo("").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()){
-                    Button btnLogout = findViewById(R.id.logout);
-                    btnLogout.setVisibility(View.VISIBLE);
-                }else{
-                    Button btnLogout = findViewById(R.id.logout);
-                    btnLogout.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+//        DatabaseReference dRef = database.getReference("visitors").child(date);
+//        dRef.orderByChild("checkout").equalTo("").addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                if (dataSnapshot.exists()){
+//                    Button btnLogout = findViewById(R.id.logout);
+//                    btnLogout.setVisibility(View.VISIBLE);
+//                }else{
+//                    Button btnLogout = findViewById(R.id.logout);
+//                    btnLogout.setVisibility(View.GONE);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 

@@ -109,84 +109,98 @@ public class VisitorLogout extends AppCompatActivity {
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!validateEmail()) {
-                    return;
-                }
-                AlertDialog.Builder dialogBox = new AlertDialog.Builder(context);
+                validateEmail();
 
-                dialogBox.setTitle("Confirm logout?");
+                if (txt.getText().toString().equals(" ")){
+                    AlertDialog.Builder dialogBox = new AlertDialog.Builder(context);
 
-                dialogBox
-                        .setMessage("")
-                        .setCancelable(false)
-                        .setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                // kembali ke halaman visitor logout
-                            }
-                        })
-                        .setPositiveButton("Ya", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                final AlertDialog.Builder box2 = new AlertDialog.Builder(context);
-                                final String emailVis = email.getText().toString();
-                                Calendar calendar = Calendar.getInstance();
-                                SimpleDateFormat dateFormat = new SimpleDateFormat("dd MM yyyy");
-                                final String date = dateFormat.format(calendar.getTime());
-                                SimpleDateFormat jamFormat = new SimpleDateFormat("HH:mm:ss");
-                                final String jamCheckout = jamFormat.format(calendar.getTime());
+                    dialogBox.setTitle("Anda belum melakukan checkin")
+                            .setCancelable(true)
+                            .setIcon(R.drawable.ic_warning)
+                            .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
 
-                                final DatabaseReference ref = database.getReference("visitors").child(date);
-                                ref.orderByChild("email").equalTo(emailVis).addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        if (dataSnapshot.exists()){
-                                            for (DataSnapshot data : dataSnapshot.getChildren()){
-                                                String key = data.getKey();
-                                                ref.child(key).child("checkout").setValue(jamCheckout);
+                                }
+                            });
+                    AlertDialog alertDialog = dialogBox.create();
+                    alertDialog.show();
+                } else {
+                    AlertDialog.Builder dialogBox = new AlertDialog.Builder(context);
+
+                    dialogBox.setTitle("Confirm logout?");
+
+                    dialogBox
+                            .setMessage("")
+                            .setCancelable(false)
+                            .setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    // kembali ke halaman visitor logout
+                                }
+                            })
+                            .setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    final AlertDialog.Builder box2 = new AlertDialog.Builder(context);
+                                    final String emailVis = email.getText().toString();
+                                    Calendar calendar = Calendar.getInstance();
+                                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd MM yyyy");
+                                    final String date = dateFormat.format(calendar.getTime());
+                                    SimpleDateFormat jamFormat = new SimpleDateFormat("HH:mm:ss");
+                                    final String jamCheckout = jamFormat.format(calendar.getTime());
+
+                                    final DatabaseReference ref = database.getReference("visitors").child(date);
+                                    ref.orderByChild("email").equalTo(emailVis).addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            if (dataSnapshot.exists()){
+                                                for (DataSnapshot data : dataSnapshot.getChildren()){
+                                                    String key = data.getKey();
+                                                    ref.child(key).child("checkout").setValue(jamCheckout);
+                                                }
+                                                box2.setTitle("Anda Berhasil Keluar");
+                                                box2
+                                                        .setCancelable(true)
+                                                        .setMessage("Terimakasih ")
+                                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                                Intent intent = new Intent(VisitorLogout.this, Home.class);
+                                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                                startActivity(intent);                                            }
+                                                        });
+                                                AlertDialog alertDia = box2.create();
+
+                                                alertDia.show();
+                                            }else {
+                                                box2.setTitle("Email anda tidak ada");
+                                                box2
+                                                        .setCancelable(true)
+                                                        .setMessage("Silahkan masukkan ulang email anda ")
+                                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                            }
+                                                        });
+                                                AlertDialog alertDia = box2.create();
+
+                                                alertDia.show();
                                             }
-                                            box2.setTitle("Anda Berhasil Keluar");
-                                            box2
-                                                    .setCancelable(true)
-                                                    .setMessage("Terimakasih ")
-                                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                                            Intent intent = new Intent(VisitorLogout.this, Home.class);
-                                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                                            startActivity(intent);                                            }
-                                                    });
-                                            AlertDialog alertDia = box2.create();
-
-                                            alertDia.show();
-                                        }else {
-                                            box2.setTitle("Email anda tidak ada");
-                                            box2
-                                                    .setCancelable(true)
-                                                    .setMessage("Silahkan masukkan ulang email anda ")
-                                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                                                                                       }
-                                                    });
-                                            AlertDialog alertDia = box2.create();
-
-                                            alertDia.show();
                                         }
-                                    }
 
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
 
-                                    }
-                                });
+                                        }
+                                    });
 
-                            }
-                        });
-                AlertDialog alertDialog = dialogBox.create();
+                                }
+                            });
+                    AlertDialog alertDialog = dialogBox.create();
 
-                alertDialog.show();
-
+                    alertDialog.show();
+                }
             }
         });
     }
