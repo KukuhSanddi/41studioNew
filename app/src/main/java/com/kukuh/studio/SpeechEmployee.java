@@ -172,8 +172,8 @@ public class SpeechEmployee extends AppCompatActivity {
             Log.d(TAG,"result: "+matches.get(i));
             str += matches.get(i);
         }
-        mText.setText(matches.get(0));
-        searchEmployee(matches.get(0));
+        mText.setText(sentenceCaseForText(matches.get(0)));
+        searchEmployee(sentenceCaseForText(matches.get(0)));
     }
 
     //Search Employee
@@ -236,6 +236,40 @@ public class SpeechEmployee extends AppCompatActivity {
 
             }
         });
+    }
+
+    public static String sentenceCaseForText(String text) {
+
+        if (text == null) return "";
+
+        int pos = 0;
+        boolean capitalize = true;
+        StringBuilder sb = new StringBuilder(text);
+
+        while (pos < sb.length()) {
+
+            if (capitalize && !Character.isWhitespace(sb.charAt(pos))) {
+
+                sb.setCharAt(pos, Character.toUpperCase(sb.charAt(pos)));
+            }
+            else if (!capitalize && !Character.isWhitespace(sb.charAt(pos))) {
+
+                sb.setCharAt(pos, Character.toLowerCase(sb.charAt(pos)));
+            }
+
+            if (sb.charAt(pos) == '.' || (capitalize && Character.isWhitespace(sb.charAt(pos)))) {
+
+                capitalize = true;
+            }
+            else {
+
+                capitalize = false;
+            }
+
+            pos++;
+        }
+
+        return sb.toString();
     }
 
 }
