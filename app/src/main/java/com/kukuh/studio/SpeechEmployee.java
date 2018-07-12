@@ -193,12 +193,27 @@ public class SpeechEmployee extends AppCompatActivity {
                     for (DataSnapshot data : dataSnapshot.getChildren()){
                         Employee empTemp = data.getValue(Employee.class);
                         final Employee emp = new Employee(empTemp.getNama(),empTemp.getEmail(),jamCheckin,"");
-                        refAbs.orderByChild("checkout").equalTo("").addListenerForSingleValueEvent(new ValueEventListener() {
+                        refAbs.orderByChild("nama").equalTo(nama).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 if(dataSnapshot.exists()){
-                                    dbase.checkoutEmp(emp.getNama());
-                                    Toast.makeText(SpeechEmployee.this,"Anda berhasil checkout",Toast.LENGTH_SHORT).show();
+                                    refAbs.orderByChild("checkout").equalTo("").addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            if (dataSnapshot.exists()){
+                                                dbase.checkoutEmp(emp.getNama());
+                                                Toast.makeText(SpeechEmployee.this,"Anda berhasil checkout",Toast.LENGTH_SHORT).show();
+                                            }
+                                            else {
+                                                Toast.makeText(SpeechEmployee.this,"Anda sudah melakukan checkout",Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
                                 }else{
                                     dbase.checkinEmp(emp);
                                     Toast.makeText(SpeechEmployee.this,"Anda berhasil checkin",Toast.LENGTH_SHORT).show();
