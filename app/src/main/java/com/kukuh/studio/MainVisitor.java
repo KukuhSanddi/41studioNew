@@ -74,6 +74,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 
 public class MainVisitor extends AppCompatActivity {
@@ -83,8 +84,10 @@ public class MainVisitor extends AppCompatActivity {
     private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutNo, inputLayoutKep, inputLayoutSpin;
     private ImageButton btnFoto;
     private TextView jdlFoto;
-    private String emailEmp;
+    private String emailEmp, nameEmp;
     Bitmap bmp = null;
+    final ArrayList<Employee> listNama = new ArrayList<Employee>();
+
 
 
 
@@ -152,6 +155,7 @@ public class MainVisitor extends AppCompatActivity {
                 in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 finish();
 
+
             }
         });
 
@@ -183,8 +187,15 @@ public class MainVisitor extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
         }
 
-
-
+//        emAuth.createUserWithEmailAndPassword(inputEmail.getText().toString(), inputName.getText().toString())
+//                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//                        if (!task.isSuccessful()){
+//
+//                        }
+//                    }
+//                })
 
         Button btnSubmit = findViewById(R.id.btn_submit);
         btnSubmit.setOnClickListener(new View.OnClickListener() {
@@ -196,7 +207,7 @@ public class MainVisitor extends AppCompatActivity {
                 final String kepVis = inputKep.getText().toString();
 
                 submitForm();
-                if ((validateName())&& (validateEmail())
+                if ((validateCam())&&(validateName())&& (validateEmail())
                         && (validatePhone()) && (validateKep()) && (validateSpinner())){
                     vis = new Visitor(namaVis,emailVis,noVis,jamCheckin,"",kepVis,urlFoto);
                     database.checkinVis(vis);
@@ -213,6 +224,8 @@ public class MainVisitor extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 dispatchTakePictureIntent();
+                jdlFoto.setError(null);
+
             }
         });
 
@@ -238,9 +251,9 @@ public class MainVisitor extends AppCompatActivity {
 
     private void submitForm() {
 
-//        if (!validateCam()){
-//        return;
-//        }
+        if (!validateCam()){
+        return;
+        }
 
         if (!validateName()) {
             return;
@@ -271,29 +284,28 @@ public class MainVisitor extends AppCompatActivity {
      */
     private boolean validateSpinner(){
         String name = spinner.getText().toString();
-       if (spinner.getText().toString().trim().isEmpty()){
-           spinner.setError(getString(R.string.err_msg_form));
-           spinner.setHint(getString(R.string.err_msg_form));
-           spinner.setHintTextColor(Color.RED);
+       if (spinner.getText().toString().trim().isEmpty() || !spinner.getText().toString().equals(nameEmp)){
+           spinner.setError("Employee Tidak Terdaftar");
+           spinner.setHint("Employee Tidak Terdaftar");
            inputLayoutSpin.setError(" ");
            requestFocus(spinner);
            return false;
        }
-
         return true;
     }
 
     /**
      * Validation Camera
      */
-//    private boolean validateCam(){
-//        if (jdlFoto.getText().toString().equals("Ambil foto data diri anda")) {
-//            jdlFoto.setError("Foto data diri anda");
-//            requestFocus(btnFoto);
-//            return false;
-//        }
-//        return true;
-//    }
+    private boolean validateCam(){
+        if (jdlFoto.getText().toString().equals("Ambil foto data diri anda")) {
+            jdlFoto.setError("Foto data diri anda");
+            requestFocus(btnFoto);
+            return false;
+        }
+
+        return true;
+    }
 
 
     /**
@@ -479,6 +491,7 @@ public class MainVisitor extends AppCompatActivity {
             }
         }
 
+
     }
 
     @Override
@@ -573,7 +586,6 @@ public class MainVisitor extends AppCompatActivity {
 
     //Read data employee from database
     public void getEmailEmployee(){
-        final ArrayList<Employee> listNama = new ArrayList<Employee>();
         final DatabaseReference dRef = fbase.getReference("employees").child("dataKaryawan");
 
         dRef.addValueEventListener(new ValueEventListener() {
@@ -593,7 +605,7 @@ public class MainVisitor extends AppCompatActivity {
                 //Set dropdown resource from database
                 empAdapter = new EmployeeAdapter(MainVisitor.this, R.layout.spinner_item, listNama);
                 empAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-                spinner.setThreshold(1);
+                spinner.setThreshold(0);
                 spinner.setAdapter(empAdapter);
 
                 spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -601,6 +613,9 @@ public class MainVisitor extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         Employee emp = (Employee) adapterView.getItemAtPosition(i);
                         emailEmp = emp.getEmail().toString();
+                        nameEmp = emp.getNama().toString();
+                        spinner.setError(null);
+                        inputLayoutSpin.setErrorEnabled(false);
                     }
                 });
             }
@@ -610,4 +625,5 @@ public class MainVisitor extends AppCompatActivity {
             }
         });
     }
+
 }

@@ -164,7 +164,7 @@
                             android:layout_height="50dp"
                             android:layout_marginBottom="3dp"
                             android:layout_marginTop="20dp"
-                            android:completionThreshold="0"
+                            android:completionThreshold="10"
                             android:drawableRight="@drawable/ic_dropdown_24"
                             android:elevation="1dp"
                             android:hint="@string/selected_one"
