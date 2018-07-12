@@ -83,7 +83,6 @@
                         android:layout_marginTop="20dp"
                         android:layout_marginStart="5dp"
                         android:layout_toRightOf="@id/btn_cam"
-                        android:layout_weight="2"
                         android:gravity="center"
                         android:text="Ambil foto data diri anda"
                         android:textSize="14sp" />

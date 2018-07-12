@@ -125,6 +125,7 @@ public class MainVisitor extends AppCompatActivity {
         inputNo = findViewById(R.id.input_phone);
         inputKep = findViewById(R.id.input_kep);
         spinner = findViewById(R.id.dropdown);
+        jdlFoto = findViewById(R.id.jdlFoto);
 
         spinner.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -229,9 +230,13 @@ public class MainVisitor extends AppCompatActivity {
      */
 
     private void submitForm() {
+
+//        if (!validateCam()){
+//        return;
+//        }
+
         if (!validateName()) {
             return;
-
         }
 
         if (!validateEmail()) {
@@ -249,6 +254,7 @@ public class MainVisitor extends AppCompatActivity {
         if (!validateKep()){
             return;
         }
+
 
         Toast.makeText(getApplicationContext(), "Thank You!", Toast.LENGTH_SHORT).show();
     }
@@ -269,6 +275,18 @@ public class MainVisitor extends AppCompatActivity {
 
         return true;
     }
+
+    /**
+     * Validation Camera
+     */
+//    private boolean validateCam(){
+//        if (jdlFoto.getText().toString().equals("Ambil foto data diri anda")) {
+//            jdlFoto.setError("Foto data diri anda");
+//            requestFocus(btnFoto);
+//            return false;
+//        }
+//        return true;
+//    }
 
 
     /**
@@ -461,7 +479,6 @@ public class MainVisitor extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         //Result for camera activity
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
-            jdlFoto = findViewById(R.id.jdlFoto);
             try{
                 jdlFoto.setText(createImageFile().getName());
                 bmp = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
