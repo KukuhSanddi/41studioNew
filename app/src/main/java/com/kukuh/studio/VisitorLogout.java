@@ -26,6 +26,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
@@ -111,7 +112,7 @@ public class VisitorLogout extends AppCompatActivity {
             public void onClick(View view) {
                 validateEmail();
 
-                if (txt.getText().toString().equals(" ")){
+                if (email.getText().toString().equals("")){
                     AlertDialog.Builder dialogBox = new AlertDialog.Builder(context);
 
                     dialogBox.setTitle("Anda belum melakukan checkin")
@@ -130,51 +131,110 @@ public class VisitorLogout extends AppCompatActivity {
 
                     dialogBox.setTitle("Confirm logout?");
 
-                    dialogBox
-                            .setMessage("")
-                            .setCancelable(false)
-                            .setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    // kembali ke halaman visitor logout
-                                }
-                            })
-                            .setPositiveButton("Ya", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    final AlertDialog.Builder box2 = new AlertDialog.Builder(context);
-                                    final String emailVis = email.getText().toString();
-                                    Calendar calendar = Calendar.getInstance();
-                                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd MM yyyy");
-                                    final String date = dateFormat.format(calendar.getTime());
-                                    SimpleDateFormat jamFormat = new SimpleDateFormat("HH:mm:ss");
-                                    final String jamCheckout = jamFormat.format(calendar.getTime());
+                    dialogBox.setMessage("");
+                    dialogBox.setCancelable(false);
+                    dialogBox.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            // kembali ke halaman visitor logout
+                        }
+                    });
+                    dialogBox.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            final AlertDialog.Builder box2 = new AlertDialog.Builder(context);
+                            final String emailVis = email.getText().toString();
+                            Calendar calendar = Calendar.getInstance();
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("dd MM yyyy");
+                            final String date = dateFormat.format(calendar.getTime());
+                            SimpleDateFormat jamFormat = new SimpleDateFormat("HH:mm:ss");
+                            final String jamCheckout = jamFormat.format(calendar.getTime());
 
-                                    final DatabaseReference ref = database.getReference("visitors").child(date);
-                                    ref.orderByChild("email").equalTo(emailVis).addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(DataSnapshot dataSnapshot) {
-                                            if (dataSnapshot.exists()){
-                                                for (DataSnapshot data : dataSnapshot.getChildren()){
-                                                    String key = data.getKey();
-                                                    ref.child(key).child("checkout").setValue(jamCheckout);
-                                                }
-                                                box2.setTitle("Anda Berhasil Keluar");
-                                                box2
-                                                        .setCancelable(true)
-                                                        .setMessage("Terimakasih ")
-                                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                                            @Override
-                                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                                Intent intent = new Intent(VisitorLogout.this, Home.class);
-                                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                                                startActivity(intent);                                            }
-                                                        });
-                                                AlertDialog alertDia = box2.create();
+                            final DatabaseReference ref = database.getReference("visitors").child(date);
+//                                ref.orderByChild("email").equalTo(emailVis).limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
+//                                    @Override
+//                                    public void onDataChange(DataSnapshot dataSnapshot) {
+//                                        if (dataSnapshot.exists()){
+//
+////                                            ref.orderByChild("checkout").equalTo("").limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
+////                                                @Override
+////                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+////                                                    if(dataSnapshot.exists()){
+////                                                        Toast.makeText(VisitorLogout.this,"Anda sudah checkout",Toast.LENGTH_SHORT).show();
+////                                                    }else if(dataSnapshot.exists()){
+////                                                        dBase.checkoutVis(emailVis);
+////                                                    }
+////                                                }
+////
+////                                                @Override
+////                                                public void onCancelled(@NonNull DatabaseError databaseError) {
+////
+////                                                }
+////                                            });
+//                                            box2.setTitle("Anda Berhasil Keluar");
+//                                            box2
+//                                                    .setCancelable(true)
+//                                                    .setMessage("Terimakasih ")
+//                                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                                                        @Override
+//                                                        public void onClick(DialogInterface dialogInterface, int i) {
+//                                                            Intent intent = new Intent(VisitorLogout.this, Home.class);
+//                                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                                                            startActivity(intent);                                            }
+//                                                    });
+//                                            AlertDialog alertDia = box2.create();
+//
+//                                                alertDia.show();
+//                                            }else {
+//                                                box2.setTitle("Email anda tidak ada");
+//                                                box2
+//                                                        .setCancelable(true)
+//                                                        .setMessage("Silahkan masukkan ulang email anda ")
+//                                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                                                            @Override
+//                                                            public void onClick(DialogInterface dialogInterface, int i) {
+//                                                            }
+//                                                        });
+//                                                AlertDialog alertDia = box2.create();
+//
+//                                                alertDia.show();
+//                                            }
+//                                        }
+//
+//                                        @Override
+//                                        public void onCancelled(DatabaseError databaseError) {
+//
+//                                        }
+//                                    });
+
+                            ref.orderByChild("email").equalTo(emailVis).limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if(dataSnapshot.exists()){
+                                        for(DataSnapshot data :dataSnapshot.getChildren()){
+                                            if (data.hasChild("checkout")){
+                                                Toast.makeText(VisitorLogout.this,"Anda sudah melakukan logout",Toast.LENGTH_SHORT).show();
+                                            } else if(!data.hasChild("checkout")){
+                                                dBase.checkoutVis(emailVis);
+                                                Toast.makeText(VisitorLogout.this,"Logout berhasil",Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                        box2.setTitle("Anda Berhasil Keluar");
+                                            box2
+                                                    .setCancelable(true)
+                                                    .setMessage("Terimakasih ")
+                                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                                            Intent intent = new Intent(VisitorLogout.this, Home.class);
+                                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                            startActivity(intent);                                            }
+                                                    });
+                                            AlertDialog alertDia = box2.create();
 
                                                 alertDia.show();
-                                            }else {
-                                                box2.setTitle("Email anda tidak ada");
+                                    }else{
+                                        box2.setTitle("Email anda tidak ada");
                                                 box2
                                                         .setCancelable(true)
                                                         .setMessage("Silahkan masukkan ulang email anda ")
@@ -186,17 +246,16 @@ public class VisitorLogout extends AppCompatActivity {
                                                 AlertDialog alertDia = box2.create();
 
                                                 alertDia.show();
-                                            }
-                                        }
+                                    }
+                                }
 
-                                        @Override
-                                        public void onCancelled(DatabaseError databaseError) {
-
-                                        }
-                                    });
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
 
                                 }
                             });
+                        }
+                    });
                     AlertDialog alertDialog = dialogBox.create();
 
                     alertDialog.show();

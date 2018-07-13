@@ -42,6 +42,34 @@ public class Database {
         myRef.push().setValue(vis);
     }
 
+    public void checkoutVis(String email){
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MM yyyy");
+        final String date = dateFormat.format(calendar.getTime());
+        SimpleDateFormat jamFormat = new SimpleDateFormat("HH:mm:ss");
+        final String jamCheckout = jamFormat.format(calendar.getTime());
+
+        final DatabaseReference ref = database.getReference("visitors").child(date);
+        ref.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    for (DataSnapshot data : dataSnapshot.getChildren()){
+                        String key = data.getKey();
+                        ref.child(key).child("checkout").setValue(jamCheckout);
+                    }
+                }else {
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 
     /**
      * Employee Section
