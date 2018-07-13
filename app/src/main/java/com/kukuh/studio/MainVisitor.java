@@ -209,7 +209,7 @@ public class MainVisitor extends AppCompatActivity {
                 submitForm();
                 if ((validateCam())&&(validateName())&& (validateEmail())
                         && (validatePhone()) && (validateKep()) && (validateSpinner())){
-                    vis = new Visitor(namaVis,emailVis,noVis,jamCheckin,"",kepVis,urlFoto);
+                    vis = new Visitor(namaVis,emailVis,noVis,jamCheckin,null,kepVis,urlFoto);
                     database.checkinVis(vis);
                     sendEmail();
                     Intent intent = new Intent(MainVisitor.this, Home.class);

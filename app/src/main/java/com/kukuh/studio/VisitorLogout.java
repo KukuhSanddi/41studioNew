@@ -213,26 +213,26 @@ public class VisitorLogout extends AppCompatActivity {
                                     if(dataSnapshot.exists()){
                                         for(DataSnapshot data :dataSnapshot.getChildren()){
                                             if (data.hasChild("checkout")){
-                                                Toast.makeText(VisitorLogout.this,"Anda sudah melakukan logout",Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(VisitorLogout.this,"Anda sudah logout",Toast.LENGTH_SHORT).show();
                                             } else if(!data.hasChild("checkout")){
                                                 dBase.checkoutVis(emailVis);
                                                 Toast.makeText(VisitorLogout.this,"Logout berhasil",Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-                                        box2.setTitle("Anda Berhasil Keluar");
-                                            box2
-                                                    .setCancelable(true)
-                                                    .setMessage("Terimakasih ")
-                                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                                            Intent intent = new Intent(VisitorLogout.this, Home.class);
-                                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                                            startActivity(intent);                                            }
-                                                    });
-                                            AlertDialog alertDia = box2.create();
+                                                box2.setTitle("Anda Berhasil Keluar");
+                                                box2
+                                                        .setCancelable(true)
+                                                        .setMessage("Terimakasih ")
+                                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                                Intent intent = new Intent(VisitorLogout.this, Home.class);
+                                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                                startActivity(intent);                                            }
+                                                        });
+                                                AlertDialog alertDia = box2.create();
 
                                                 alertDia.show();
+                                            }
+                                        }
                                     }else{
                                         box2.setTitle("Email anda tidak ada");
                                                 box2

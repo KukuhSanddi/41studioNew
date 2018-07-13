@@ -38,7 +38,6 @@ public class Database {
 
         DatabaseReference myRef = database.getReference("visitors/"+date);
 
-        String email = vis.getEmail().toString();
         myRef.push().setValue(vis);
     }
 
