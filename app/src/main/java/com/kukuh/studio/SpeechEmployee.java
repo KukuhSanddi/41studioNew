@@ -92,47 +92,58 @@ public class SpeechEmployee extends AppCompatActivity {
         SpeechRecognitionListener listener = new SpeechRecognitionListener();
         mSpeechRecognizer.setRecognitionListener(listener);
 
-        recogView.setSpeechRecognizer(mSpeechRecognizer);
-        recogView.setRecognitionListener(new RecognitionListenerAdapter() {
-            @Override
-            public void onResults(Bundle results) {
-                showResults(results);
-            }
-        });
+//        recogView.setSpeechRecognizer(mSpeechRecognizer);
+//        recogView.setRecognitionListener(new RecognitionListenerAdapter() {
+//            @Override
+//            public void onResults(Bundle results) {
+//                showResults(results);
+//            }
+//        });
+//
+//        recogView.setColors(colors);
+//        recogView.setBarMaxHeightsInDp(heights);
+//        recogView.setCircleRadiusInDp(8);
+//        recogView.setSpacingInDp(20);
+//        recogView.setIdleStateAmplitudeInDp(15);
+//        recogView.setRotationRadiusInDp(30);
+//        recogView.play();
 
-        recogView.setColors(colors);
-        recogView.setBarMaxHeightsInDp(heights);
-        recogView.setCircleRadiusInDp(8);
-        recogView.setSpacingInDp(20);
-        recogView.setIdleStateAmplitudeInDp(15);
-        recogView.setRotationRadiusInDp(30);
-        recogView.play();
 
-        speechBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               if (ContextCompat.checkSelfPermission(SpeechEmployee.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED){
-                   requestRecordAudioPermission();
-               } else {
-                   pulsator.start();
-                   startRecognition();
-                   Toast.makeText(SpeechEmployee.this,"Start Listening",Toast.LENGTH_SHORT).show();
-                   recogView.postDelayed(new Runnable() {
-                       @Override
-                       public void run() {
-                           startRecognition();
-                       }
-                   }, 50);
-               }
-            }
-        });
+        if (ContextCompat.checkSelfPermission(SpeechEmployee.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            requestRecordAudioPermission();
+        } else {
+            pulsator.start();
+            startRecognition();
+            Toast.makeText(SpeechEmployee.this, "Start Listening", Toast.LENGTH_SHORT).show();
+        }
+
+
+//        speechBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//               if (ContextCompat.checkSelfPermission(SpeechEmployee.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED){
+//                   requestRecordAudioPermission();
+//               } else {
+//                   pulsator.start();
+//                   startRecognition();
+//                   Toast.makeText(SpeechEmployee.this,"Start Listening",Toast.LENGTH_SHORT).show();
+////                   recogView.postDelayed(new Runnable() {
+////                       @Override
+////                       public void run() {
+////                           startRecognition();
+////                       }
+////                   }, 50);
+//               }
+//            }
+//        });
 
         stopBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 pulsator.stop();
-                recogView.stop();
-                recogView.play();
+                mSpeechRecognizer.stopListening();
+//                recogView.stop();
+//                recogView.play();
             }
         });
 
@@ -176,19 +187,19 @@ public class SpeechEmployee extends AppCompatActivity {
         mSpeechRecognizer.startListening(mSpeechRecognizerIntent);
     }
 
-    private void showResults(Bundle results) {
-        Log.d(TAG, "onResults" + results); //$NON-NLS-1$
-        ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-        // matches are the return values of speech recognition engine
-        // Use these values for whatever you wish to do
-        String str = new String();
-        for (int i=0; i<matches.size(); i++){
-            Log.d(TAG,"result: "+matches.get(i));
-            str += matches.get(i);
-        }
-        mText.setText(toTitleCase(matches.get(0)));
-        searchEmployee(toTitleCase(matches.get(0)));
-    }
+//    private void showResults(Bundle results) {
+//        Log.d(TAG, "onResults" + results); //$NON-NLS-1$
+//        ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+//        // matches are the return values of speech recognition engine
+//        // Use these values for whatever you wish to do
+//        String str = new String();
+//        for (int i=0; i<matches.size(); i++){
+//            Log.d(TAG,"result: "+matches.get(i));
+//            str += matches.get(i);
+//        }
+//        mText.setText(toTitleCase(matches.get(0)));
+//        searchEmployee(toTitleCase(matches.get(0)));
+//    }
 
     protected class SpeechRecognitionListener implements RecognitionListener
     {
@@ -254,7 +265,9 @@ public class SpeechEmployee extends AppCompatActivity {
                 Log.d(TAG,"result: "+matches.get(i));
                 str += matches.get(i);
             }
-            mText.setText("Results: "+String.valueOf(matches.size()));
+            mText.setText(toTitleCase(matches.get(0)));
+            searchEmployee(toTitleCase(matches.get(0)));
+            startRecognition();
         }
 
         @Override
