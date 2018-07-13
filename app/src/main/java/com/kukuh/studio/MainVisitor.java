@@ -27,10 +27,12 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Adapter;
 import android.widget.AdapterView;
@@ -145,7 +147,7 @@ public class MainVisitor extends AppCompatActivity {
             }
         });
 
-
+//        autoFill();
 
         img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -625,5 +627,43 @@ public class MainVisitor extends AppCompatActivity {
             }
         });
     }
+
+//    public void autoFill(){
+//        inputEmail.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+//            @Override
+//            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+//                final String emailVis= inputEmail.getText().toString();
+//
+//
+//                if (i == EditorInfo.IME_ACTION_NEXT) {
+//                        Calendar calendar = Calendar.getInstance();
+//                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MM yy");
+//                        final String date = dateFormat.format(calendar.getTime());
+//                        final DatabaseReference ref = fbase.getReference("visitor").child(date);
+//                        ref.orderByChild("email").equalTo(emailVis).addListenerForSingleValueEvent(new ValueEventListener() {
+//                            @Override
+//                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                                if (dataSnapshot.exists()){
+//                                    for (DataSnapshot data : dataSnapshot.getChildren()){
+//                                        Visitor vis = data.getValue(Visitor.class);
+//                                        Toast.makeText(MainVisitor.this, vis.getNama().toString(), Toast.LENGTH_SHORT).show();
+//                                        inputName.setText(vis.getNama());
+//                                        inputNo.setText(vis.getPhone());
+//                                    }
+//                                }
+//                            }
+//
+//                            @Override
+//                            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                            }
+//                        });
+//                        return true;
+//
+//                }
+//                return false;
+//            }
+//        });
+//    }
 
 }
