@@ -16,6 +16,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -87,6 +88,7 @@ public class VisitorLogout extends AppCompatActivity {
                                         Visitor vis = data.getValue(Visitor.class);
                                         txt.setText(vis.getNama());
                                         namaVis[0] = vis.getNama();
+
                                     }
 
                                 }
@@ -100,6 +102,8 @@ public class VisitorLogout extends AppCompatActivity {
 
                             }
                         });
+                        InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        in.hideSoftInputFromWindow(textView.getApplicationWindowToken(), 0);
                         return true;
                     }
                 }

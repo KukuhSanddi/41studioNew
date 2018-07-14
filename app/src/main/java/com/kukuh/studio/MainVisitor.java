@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -72,6 +73,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -86,10 +89,11 @@ public class MainVisitor extends AppCompatActivity {
     private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutNo, inputLayoutKep, inputLayoutSpin;
     private ImageButton btnFoto;
     private TextView jdlFoto;
-    private String emailEmp, nameEmp, nameVis, noVis, emailVis;
+    private String emailEmp, nameEmp, nameVis, noVis, urlVis, emailVis, kepVis;
     Bitmap bmp = null;
     final ArrayList<Employee> listNama = new ArrayList<Employee>();
     final ArrayList<Visitor> listVis = new ArrayList<Visitor>();
+    Context context;
 
 
 
@@ -148,14 +152,14 @@ public class MainVisitor extends AppCompatActivity {
             }
         });
 
-        inputEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if (b){
-                    inputEmail.showDropDown();
-                }
-            }
-        });
+//        inputEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View view, boolean b) {
+//                if (b){
+//                    inputEmail.showDropDown();
+//                }
+//            }
+//        });
 
 //        autoFill();
 
@@ -664,7 +668,7 @@ public void getVisitorObj(){
             //Set dropdown resource from database
             visAdapter = new VisitorAdapter(MainVisitor.this, R.layout.spinner_email, listVis);
             visAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-            inputEmail.setThreshold(6);
+            inputEmail.setThreshold(2);
             inputEmail.setAdapter(visAdapter);
 
             inputEmail.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -674,8 +678,13 @@ public void getVisitorObj(){
                     emailVis = vis.getEmail().toString();
                     nameVis = vis.getNama().toString();
                     noVis = vis.getPhone().toString();
+                    urlVis = vis.getUrlFoto().toString();
+                    kepVis = vis.getKeperluan();
+                    new DownLoadImageTask(btnFoto).execute(urlVis);
+                    jdlFoto.setText(urlVis);
                     inputName.setText(nameVis);
                     inputNo.setText(noVis);
+                    inputKep.setText(kepVis);
                     inputEmail.setError(null);
                     inputLayoutEmail.setErrorEnabled(false);
                     InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -693,29 +702,46 @@ public void getVisitorObj(){
 }
 
 
-    public void autoFill(){
-        final String emailVis= inputEmail.getText().toString();
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MM yy");
-        final String date = dateFormat.format(calendar.getTime());
-        final DatabaseReference ref = fbase.getReference("visitor").child(date);
-        ref.orderByChild("email").equalTo(emailVis).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()){
-                    for (DataSnapshot data : dataSnapshot.getChildren()){
-                        Visitor vis = data.getValue(Visitor.class);
-                        Toast.makeText(MainVisitor.this, vis.getNama().toString(), Toast.LENGTH_SHORT).show();
-                        inputName.setText(vis.getNama());
-                        inputNo.setText(vis.getPhone());
-                    }
-                }
-            }
+    private class DownLoadImageTask extends AsyncTask<String,Void,Bitmap> {
+        ImageButton imageBtn;
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+        public DownLoadImageTask(ImageButton imageBtn){
+            this.imageBtn = imageBtn;
+        }
 
+        /*
+            doInBackground(Params... params)
+                Override this method to perform a computation on a background thread.
+         */
+        protected Bitmap doInBackground(String...urls){
+            String urlOfImage = urls[0];
+            Bitmap logo = null;
+            try{
+                InputStream is = new URL(urlOfImage).openStream();
+                /*
+                    decodeStream(InputStream is)
+                        Decode an input stream into a bitmap.
+                 */
+                logo = BitmapFactory.decodeStream(is);
+            }catch(Exception e){ // Catch the download exception
+                e.printStackTrace();
             }
-        });
+            return logo;
+        }
+
+        /*
+            onPostExecute(Result result)
+                Runs on the UI thread after doInBackground(Params...).
+         */
+
+//        public static File getFile(Context context, Uri uri){
+//            if (uri != null){
+//                String path = getPath(context, uri)
+//            }
+//        }
+
+        protected void onPostExecute(Bitmap result){
+            imageBtn.setImageBitmap(result);
+        }
     }
 }

@@ -107,7 +107,7 @@
                             android:textSize="14sp"
                             android:spinnerMode="dropdown"
                             android:singleLine="true"
-                            android:completionThreshold="1"/>
+                            android:completionThreshold="6"/>
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
