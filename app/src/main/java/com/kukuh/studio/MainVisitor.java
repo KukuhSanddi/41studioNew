@@ -445,8 +445,6 @@ public class MainVisitor extends AppCompatActivity {
                     break;
                 case R.id.input_email:
                     validateEmail();
-                    inputName.setText("HAHAHAHA");
-                    autoFill();
                     break;
                 case R.id.input_layout_phone:
                     validatePhone();
@@ -666,7 +664,7 @@ public void getVisitorObj(){
             //Set dropdown resource from database
             visAdapter = new VisitorAdapter(MainVisitor.this, R.layout.spinner_email, listVis);
             visAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-            inputEmail.setThreshold(0);
+            inputEmail.setThreshold(6);
             inputEmail.setAdapter(visAdapter);
 
             inputEmail.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -675,8 +673,15 @@ public void getVisitorObj(){
                     Visitor vis = (Visitor) adapterView.getItemAtPosition(i);
                     emailVis = vis.getEmail().toString();
                     nameVis = vis.getNama().toString();
+                    noVis = vis.getPhone().toString();
+                    inputName.setText(nameVis);
+                    inputNo.setText(noVis);
                     inputEmail.setError(null);
                     inputLayoutEmail.setErrorEnabled(false);
+                    InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    in.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
+
+
                 }
             });
         }
