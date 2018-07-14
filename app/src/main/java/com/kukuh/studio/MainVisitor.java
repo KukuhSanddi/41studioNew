@@ -82,13 +82,15 @@ import java.util.List;
 public class MainVisitor extends AppCompatActivity {
     //-----------------------------------------------------------//
     //Var XML
-    private EditText inputName, inputEmail, inputNo, inputKep;
+    private EditText inputName, inputNo, inputKep;
     private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutNo, inputLayoutKep, inputLayoutSpin;
     private ImageButton btnFoto;
     private TextView jdlFoto;
-    private String emailEmp, nameEmp;
+    private String emailEmp, nameEmp, nameVis, noVis, emailVis;
     Bitmap bmp = null;
     final ArrayList<Employee> listNama = new ArrayList<Employee>();
+    final ArrayList<Visitor> listVis = new ArrayList<Visitor>();
+
 
 
 
@@ -97,8 +99,9 @@ public class MainVisitor extends AppCompatActivity {
     Visitor vis;
     Database database = new Database();
     FirebaseDatabase fbase = FirebaseDatabase.getInstance();
-    private AutoCompleteTextView spinner;
+    private AutoCompleteTextView spinner, inputEmail;
     private EmployeeAdapter empAdapter;
+    private VisitorAdapter visAdapter;
     private FirebaseAuth emAuth;
 
 
@@ -108,7 +111,7 @@ public class MainVisitor extends AppCompatActivity {
     private Uri filePath;
     public int REQUEST_TAKE_PHOTO = 1;
     public String urlFoto;
-    String[] listArr;
+    String[] listArr, listArrVis;
 
 
     @Override
@@ -118,9 +121,6 @@ public class MainVisitor extends AppCompatActivity {
 
         getWindow().getAttributes().windowAnimations = R.style.Fade;
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat jamFormat = new SimpleDateFormat("HH:mm:ss");
         final String jamCheckin = jamFormat.format(calendar.getTime());
@@ -128,6 +128,7 @@ public class MainVisitor extends AppCompatActivity {
         mStorRef = FirebaseStorage.getInstance().getReference();
 
         getEmailEmployee();
+        getVisitorObj();
 
         ImageView img = findViewById(R.id.long_logo);
         inputName = findViewById(R.id.input_name);
@@ -143,6 +144,15 @@ public class MainVisitor extends AppCompatActivity {
                 if (b){
                     spinner.showDropDown();
 
+                }
+            }
+        });
+
+        inputEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (b){
+                    inputEmail.showDropDown();
                 }
             }
         });
@@ -435,6 +445,8 @@ public class MainVisitor extends AppCompatActivity {
                     break;
                 case R.id.input_email:
                     validateEmail();
+                    inputName.setText("HAHAHAHA");
+                    autoFill();
                     break;
                 case R.id.input_layout_phone:
                     validatePhone();
@@ -589,7 +601,6 @@ public class MainVisitor extends AppCompatActivity {
     //Read data employee from database
     public void getEmailEmployee(){
         final DatabaseReference dRef = fbase.getReference("employees").child("dataKaryawan");
-
         dRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -602,6 +613,7 @@ public class MainVisitor extends AppCompatActivity {
                 listArr = new String[listNama.size()];
                 for (int i=0; i<listNama.size();i++){
                     listArr[i]=listNama.get(i).getNama();
+                    Log.d("TAG",listArr[i]);
                 }
 
                 //Set dropdown resource from database
@@ -628,42 +640,80 @@ public class MainVisitor extends AppCompatActivity {
         });
     }
 
-//    public void autoFill(){
-//        inputEmail.setOnEditorActionListener(new EditText.OnEditorActionListener() {
-//            @Override
-//            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-//                final String emailVis= inputEmail.getText().toString();
-//
-//
-//                if (i == EditorInfo.IME_ACTION_NEXT) {
-//                        Calendar calendar = Calendar.getInstance();
-//                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MM yy");
-//                        final String date = dateFormat.format(calendar.getTime());
-//                        final DatabaseReference ref = fbase.getReference("visitor").child(date);
-//                        ref.orderByChild("email").equalTo(emailVis).addListenerForSingleValueEvent(new ValueEventListener() {
-//                            @Override
-//                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                                if (dataSnapshot.exists()){
-//                                    for (DataSnapshot data : dataSnapshot.getChildren()){
-//                                        Visitor vis = data.getValue(Visitor.class);
-//                                        Toast.makeText(MainVisitor.this, vis.getNama().toString(), Toast.LENGTH_SHORT).show();
-//                                        inputName.setText(vis.getNama());
-//                                        inputNo.setText(vis.getPhone());
-//                                    }
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                            }
-//                        });
-//                        return true;
-//
-//                }
-//                return false;
-//            }
-//        });
-//    }
+//    Read data visitor from database
+public void getVisitorObj(){
 
+    final DatabaseReference dRef = fbase.getReference("visitor");
+
+    dRef.addValueEventListener(new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            listVis.clear();
+            Log.d("TAG",dataSnapshot.getKey());
+            for (DataSnapshot data : dataSnapshot.getChildren()){
+                Log.d("TAG",data.getKey());
+                for (DataSnapshot data2 : dataSnapshot.getChildren()){
+                    Log.d("TAG",data2.getKey());
+                    Visitor vis = data2.getValue(Visitor.class);
+                    listVis.add(vis);
+                }
+            }
+
+            listArrVis = new String[listVis.size()];
+            for (int i=0; i<listVis.size();i++){
+                listArrVis[i]=listVis.get(i).getEmail();
+                Log.d("TAG", listArrVis[i]);
+            }
+
+
+            //Set dropdown resource from database
+            visAdapter = new VisitorAdapter(MainVisitor.this, R.layout.spinner_email, listVis);
+            visAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+            inputEmail.setThreshold(0);
+            inputEmail.setAdapter(visAdapter);
+
+            inputEmail.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Visitor vis = (Visitor) adapterView.getItemAtPosition(i);
+                    emailVis = vis.getEmail().toString();
+                    nameVis = vis.getNama().toString();
+                    inputEmail.setError(null);
+                    inputLayoutEmail.setErrorEnabled(false);
+                }
+            });
+        }
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+    });
+}
+
+
+    public void autoFill(){
+        final String emailVis= inputEmail.getText().toString();
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MM yy");
+        final String date = dateFormat.format(calendar.getTime());
+        final DatabaseReference ref = fbase.getReference("visitor").child(date);
+        ref.orderByChild("email").equalTo(emailVis).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    for (DataSnapshot data : dataSnapshot.getChildren()){
+                        Visitor vis = data.getValue(Visitor.class);
+                        Toast.makeText(MainVisitor.this, vis.getNama().toString(), Toast.LENGTH_SHORT).show();
+                        inputName.setText(vis.getNama());
+                        inputNo.setText(vis.getPhone());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
 }
