@@ -151,62 +151,6 @@ public class VisitorLogout extends AppCompatActivity {
                             final String jamCheckout = jamFormat.format(calendar.getTime());
 
                             final DatabaseReference ref = database.getReference("visitors").child(date);
-//                                ref.orderByChild("email").equalTo(emailVis).limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
-//                                    @Override
-//                                    public void onDataChange(DataSnapshot dataSnapshot) {
-//                                        if (dataSnapshot.exists()){
-//
-////                                            ref.orderByChild("checkout").equalTo("").limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
-////                                                @Override
-////                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-////                                                    if(dataSnapshot.exists()){
-////                                                        Toast.makeText(VisitorLogout.this,"Anda sudah checkout",Toast.LENGTH_SHORT).show();
-////                                                    }else if(dataSnapshot.exists()){
-////                                                        dBase.checkoutVis(emailVis);
-////                                                    }
-////                                                }
-////
-////                                                @Override
-////                                                public void onCancelled(@NonNull DatabaseError databaseError) {
-////
-////                                                }
-////                                            });
-//                                            box2.setTitle("Anda Berhasil Keluar");
-//                                            box2
-//                                                    .setCancelable(true)
-//                                                    .setMessage("Terimakasih ")
-//                                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                                                        @Override
-//                                                        public void onClick(DialogInterface dialogInterface, int i) {
-//                                                            Intent intent = new Intent(VisitorLogout.this, Home.class);
-//                                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                                                            startActivity(intent);                                            }
-//                                                    });
-//                                            AlertDialog alertDia = box2.create();
-//
-//                                                alertDia.show();
-//                                            }else {
-//                                                box2.setTitle("Email anda tidak ada");
-//                                                box2
-//                                                        .setCancelable(true)
-//                                                        .setMessage("Silahkan masukkan ulang email anda ")
-//                                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                                                            @Override
-//                                                            public void onClick(DialogInterface dialogInterface, int i) {
-//                                                            }
-//                                                        });
-//                                                AlertDialog alertDia = box2.create();
-//
-//                                                alertDia.show();
-//                                            }
-//                                        }
-//
-//                                        @Override
-//                                        public void onCancelled(DatabaseError databaseError) {
-//
-//                                        }
-//                                    });
-
                             ref.orderByChild("email").equalTo(emailVis).limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

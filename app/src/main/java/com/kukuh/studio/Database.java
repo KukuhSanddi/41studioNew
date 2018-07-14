@@ -43,7 +43,7 @@ public class Database {
 
     public void checkoutVis(String email){
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MM yyyy");
         final String date = dateFormat.format(calendar.getTime());
         SimpleDateFormat jamFormat = new SimpleDateFormat("HH:mm:ss");
         final String jamCheckout = jamFormat.format(calendar.getTime());
