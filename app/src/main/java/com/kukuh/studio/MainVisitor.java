@@ -606,6 +606,7 @@ public class MainVisitor extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 listNama.clear();
                 for (DataSnapshot data : dataSnapshot.getChildren()){
+//                    Log.d("Employee",data.getKey());
                     Employee emp = data.getValue(Employee.class);
                     listNama.add(emp);
                 }
@@ -613,7 +614,7 @@ public class MainVisitor extends AppCompatActivity {
                 listArr = new String[listNama.size()];
                 for (int i=0; i<listNama.size();i++){
                     listArr[i]=listNama.get(i).getNama();
-                    Log.d("TAG",listArr[i]);
+//                    Log.d("TAG",listArr[i]);
                 }
 
                 //Set dropdown resource from database
@@ -643,17 +644,14 @@ public class MainVisitor extends AppCompatActivity {
 //    Read data visitor from database
 public void getVisitorObj(){
 
-    final DatabaseReference dRef = fbase.getReference("visitor");
+    final DatabaseReference dRef = fbase.getReference("visitors");
 
     dRef.addValueEventListener(new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             listVis.clear();
-            Log.d("TAG",dataSnapshot.getKey());
             for (DataSnapshot data : dataSnapshot.getChildren()){
-                Log.d("TAG",data.getKey());
-                for (DataSnapshot data2 : dataSnapshot.getChildren()){
-                    Log.d("TAG",data2.getKey());
+                for (DataSnapshot data2 : data.getChildren()){
                     Visitor vis = data2.getValue(Visitor.class);
                     listVis.add(vis);
                 }
@@ -662,7 +660,6 @@ public void getVisitorObj(){
             listArrVis = new String[listVis.size()];
             for (int i=0; i<listVis.size();i++){
                 listArrVis[i]=listVis.get(i).getEmail();
-                Log.d("TAG", listArrVis[i]);
             }
 
 
