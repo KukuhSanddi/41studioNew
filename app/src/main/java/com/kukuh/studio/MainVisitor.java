@@ -209,16 +209,19 @@ public class MainVisitor extends AppCompatActivity {
                 submitForm();
                 if ((validateCam())&&(validateName())&& (validateEmail())
                         && (validatePhone()) && (validateKep()) && (validateSpinner())){
+
                     vis = new Visitor(namaVis,emailVis,noVis,jamCheckin,null,kepVis,urlFoto);
                     final DatabaseReference ref = fbase.getReference().child("visitors").child(date);
                     ref.orderByChild("email").equalTo(emailVis).limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             if(dataSnapshot.exists()){
-                                if (dataSnapshot.hasChild("checkout")){
-                                    database.checkinVis(vis);
-                                }else if(!dataSnapshot.hasChild("checkout")){
-                                    Toast.makeText(MainVisitor.this,"Anda sudah checkin",Toast.LENGTH_LONG).show();
+                                for (DataSnapshot data : dataSnapshot.getChildren()){
+                                    if (data.hasChild("checkout")){
+                                        database.checkinVis(vis);
+                                    }else if(!data.hasChild("checkout")){
+                                        Toast.makeText(MainVisitor.this,"Anda sudah checkin",Toast.LENGTH_LONG).show();
+                                    }
                                 }
                             }else if(!dataSnapshot.exists()){
                                 database.checkinVis(vis);
