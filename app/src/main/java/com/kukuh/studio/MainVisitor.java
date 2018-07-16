@@ -132,7 +132,6 @@ public class MainVisitor extends AppCompatActivity {
         mStorRef = FirebaseStorage.getInstance().getReference();
 
         getEmailEmployee();
-        getVisitorObj();
 
         ImageView img = findViewById(R.id.long_logo);
         inputName = findViewById(R.id.input_name);
@@ -152,7 +151,6 @@ public class MainVisitor extends AppCompatActivity {
             }
         });
 
-        autoFill();
 
         img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -203,6 +201,7 @@ public class MainVisitor extends AppCompatActivity {
 //                        }
 //                    }
 //                })
+        getVisitorObj();
 
         Button btnSubmit = findViewById(R.id.btn_submit);
         btnSubmit.setOnClickListener(new View.OnClickListener() {
@@ -409,12 +408,6 @@ public class MainVisitor extends AppCompatActivity {
      * Spinner Format
      */
 
-    private boolean isValidSpinner(String name){
-        if (spinner.getText() != spinner.getOnItemSelectedListener()){
-            return false;
-        }
-        return true;
-    }
 
     private void requestFocus(View view){
         if (view.requestFocus()){
@@ -626,6 +619,8 @@ public class MainVisitor extends AppCompatActivity {
                         nameEmp = emp.getNama().toString();
                         spinner.setError(null);
                         inputLayoutSpin.setErrorEnabled(false);
+                        InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        in.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
                     }
                 });
             }
@@ -698,13 +693,14 @@ public void getVisitorObj(){
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     Visitor vis = (Visitor) adapterView.getItemAtPosition(i);
-                    emailVis = vis.getEmail().toString();
-                    nameVis = vis.getNama().toString();
-                    noVis = vis.getPhone().toString();
-                    urlVis = vis.getUrlFoto().toString();
+                    emailVis = vis.getEmail();
+                    nameVis = vis.getNama();
+                    noVis = vis.getPhone();
+                    urlVis = vis.getUrlFoto();
                     kepVis = vis.getKeperluan();
                     new DownLoadImageTask(btnFoto).execute(urlVis);
                     jdlFoto.setText("Selamat Datang Kembali "+nameVis);
+                    urlFoto = urlVis;
                     inputName.setText(nameVis);
                     inputNo.setText(noVis);
                     inputKep.setText(kepVis);
@@ -791,6 +787,7 @@ public void getVisitorObj(){
                     urlVis = vis.getUrlFoto();
                     kepVis = vis.getKeperluan();
                     new DownLoadImageTask(btnFoto).execute(urlVis);
+                    urlFoto = vis.getUrlFoto();
                     inputName.setText(nameVis);
                     inputNo.setText(noVis);
                     inputKep.setText(kepVis);
