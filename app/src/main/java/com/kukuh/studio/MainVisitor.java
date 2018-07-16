@@ -128,6 +128,8 @@ public class MainVisitor extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat jamFormat = new SimpleDateFormat("HH:mm:ss");
         final String jamCheckin = jamFormat.format(calendar.getTime());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MM yyyy");
+        final String date = dateFormat.format(calendar.getTime());
 
         mStorRef = FirebaseStorage.getInstance().getReference();
 
@@ -192,15 +194,6 @@ public class MainVisitor extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
         }
 
-//        emAuth.createUserWithEmailAndPassword(inputEmail.getText().toString(), inputName.getText().toString())
-//                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        if (!task.isSuccessful()){
-//
-//                        }
-//                    }
-//                })
         getVisitorObj();
 
         Button btnSubmit = findViewById(R.id.btn_submit);
@@ -217,7 +210,23 @@ public class MainVisitor extends AppCompatActivity {
                 if ((validateCam())&&(validateName())&& (validateEmail())
                         && (validatePhone()) && (validateKep()) && (validateSpinner())){
                     vis = new Visitor(namaVis,emailVis,noVis,jamCheckin,null,kepVis,urlFoto);
-                    database.checkinVis(vis);
+                    final DatabaseReference ref = fbase.getReference().child("visitors").child(date);
+                    ref.orderByChild("email").equalTo(emailVis).limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.hasChild("checkout")){
+                                database.checkinVis(vis);
+                            }else if(!dataSnapshot.hasChild("checkout")){
+                                Toast.makeText(MainVisitor.this,"Anda sudah checkin",Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
                     sendEmail();
                     Intent intent = new Intent(MainVisitor.this, Home.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -594,7 +603,6 @@ public class MainVisitor extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 listNama.clear();
                 for (DataSnapshot data : dataSnapshot.getChildren()){
-//                    Log.d("Employee",data.getKey());
                     Employee emp = data.getValue(Employee.class);
                     listNama.add(emp);
                 }
@@ -602,7 +610,6 @@ public class MainVisitor extends AppCompatActivity {
                 listArr = new String[listNama.size()];
                 for (int i=0; i<listNama.size();i++){
                     listArr[i]=listNama.get(i).getNama();
-//                    Log.d("TAG",listArr[i]);
                 }
 
                 //Set dropdown resource from database
@@ -659,35 +666,6 @@ public void getVisitorObj(){
             inputEmail.setThreshold(6);
             inputEmail.setAdapter(visAdapter);
 
-//            inputEmail.addTextChangedListener(new TextWatcher() {
-//                @Override
-//                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//                }
-//
-//                @Override
-//                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                    int o = 0;
-//                    String string = charSequence.toString();
-//                    for (char c : string.toCharArray()){
-//                        if (c == '@'){
-//                            o++;
-//                        }
-//                    }
-//                    if (o==1){
-//                        String req = string.substring(0, string.indexOf("@"));
-//                        inputEmail.showDropDown();
-//                        inputEmail.setAdapter(visAdapter);
-//                    } else if (o == 0){
-//                        inputEmail.dismissDropDown();
-//                    }
-//                }
-//
-//                @Override
-//                public void afterTextChanged(Editable editable) {
-//
-//                }
-//            });
 
             inputEmail.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -753,12 +731,6 @@ public void getVisitorObj(){
             onPostExecute(Result result)
                 Runs on the UI thread after doInBackground(Params...).
          */
-
-//        public static File getFile(Context context, Uri uri){
-//            if (uri != null){
-//                String path = getPath(context, uri)
-//            }
-//        }
 
         protected void onPostExecute(Bitmap result){
             imageBtn.setImageBitmap(result);
