@@ -214,10 +214,14 @@ public class MainVisitor extends AppCompatActivity {
                     ref.orderByChild("email").equalTo(emailVis).limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.hasChild("checkout")){
+                            if(dataSnapshot.exists()){
+                                if (dataSnapshot.hasChild("checkout")){
+                                    database.checkinVis(vis);
+                                }else if(!dataSnapshot.hasChild("checkout")){
+                                    Toast.makeText(MainVisitor.this,"Anda sudah checkin",Toast.LENGTH_LONG).show();
+                                }
+                            }else if(!dataSnapshot.exists()){
                                 database.checkinVis(vis);
-                            }else if(!dataSnapshot.hasChild("checkout")){
-                                Toast.makeText(MainVisitor.this,"Anda sudah checkin",Toast.LENGTH_LONG).show();
                             }
                         }
 
