@@ -9,6 +9,7 @@ public class Visitor {
     public String checkout;
     public String keperluan;
     public String urlFoto;
+    public String jdlFoto;
 
 
     public Visitor(String nama, String email, String phone, String checkin, String checkout, String keperluan) {
@@ -36,6 +37,7 @@ public class Visitor {
         this.checkout = checkout;
         this.keperluan = keperluan;
         this.urlFoto = urlFoto;
+
     }
 
     public Visitor() {
@@ -95,5 +97,13 @@ public class Visitor {
 
     public void setUrlFoto(String urlFoto) {
         this.urlFoto = urlFoto;
+    }
+
+    public String getJdlFoto() {
+        return jdlFoto;
+    }
+
+    public void setJdlFoto(String jdlFoto) {
+        this.jdlFoto = jdlFoto;
     }
 }

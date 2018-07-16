@@ -89,7 +89,7 @@ public class MainVisitor extends AppCompatActivity {
     private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutNo, inputLayoutKep, inputLayoutSpin;
     private ImageButton btnFoto;
     private TextView jdlFoto;
-    private String emailEmp, nameEmp, nameVis, noVis, urlVis, emailVis, kepVis;
+    private String emailEmp, nameEmp, nameVis, noVis, urlVis, emailVis, kepVis, jdlFotVis;
     Bitmap bmp = null;
     final ArrayList<Employee> listNama = new ArrayList<Employee>();
     final ArrayList<Visitor> listVis = new ArrayList<Visitor>();
@@ -152,16 +152,7 @@ public class MainVisitor extends AppCompatActivity {
             }
         });
 
-//        inputEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View view, boolean b) {
-//                if (b){
-//                    inputEmail.showDropDown();
-//                }
-//            }
-//        });
-
-//        autoFill();
+        autoFill();
 
         img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -221,6 +212,7 @@ public class MainVisitor extends AppCompatActivity {
                 final String emailVis = inputEmail.getText().toString();
                 final String noVis = inputNo.getText().toString();
                 final String kepVis = inputKep.getText().toString();
+                final String jdlVis = jdlFoto.getText().toString();
 
                 submitForm();
                 if ((validateCam())&&(validateName())&& (validateEmail())
@@ -449,6 +441,7 @@ public class MainVisitor extends AppCompatActivity {
                     break;
                 case R.id.input_email:
                     validateEmail();
+                    autoFill();
                     break;
                 case R.id.input_layout_phone:
                     validatePhone();
@@ -668,8 +661,38 @@ public void getVisitorObj(){
             //Set dropdown resource from database
             visAdapter = new VisitorAdapter(MainVisitor.this, R.layout.spinner_email, listVis);
             visAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-            inputEmail.setThreshold(2);
+            inputEmail.setThreshold(6);
             inputEmail.setAdapter(visAdapter);
+
+//            inputEmail.addTextChangedListener(new TextWatcher() {
+//                @Override
+//                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//                }
+//
+//                @Override
+//                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//                    int o = 0;
+//                    String string = charSequence.toString();
+//                    for (char c : string.toCharArray()){
+//                        if (c == '@'){
+//                            o++;
+//                        }
+//                    }
+//                    if (o==1){
+//                        String req = string.substring(0, string.indexOf("@"));
+//                        inputEmail.showDropDown();
+//                        inputEmail.setAdapter(visAdapter);
+//                    } else if (o == 0){
+//                        inputEmail.dismissDropDown();
+//                    }
+//                }
+//
+//                @Override
+//                public void afterTextChanged(Editable editable) {
+//
+//                }
+//            });
 
             inputEmail.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -681,7 +704,7 @@ public void getVisitorObj(){
                     urlVis = vis.getUrlFoto().toString();
                     kepVis = vis.getKeperluan();
                     new DownLoadImageTask(btnFoto).execute(urlVis);
-                    jdlFoto.setText(urlVis);
+                    jdlFoto.setText("Selamat Datang Kembali "+nameVis);
                     inputName.setText(nameVis);
                     inputNo.setText(noVis);
                     inputKep.setText(kepVis);
@@ -693,6 +716,7 @@ public void getVisitorObj(){
 
                 }
             });
+
         }
         @Override
         public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -743,5 +767,37 @@ public void getVisitorObj(){
         protected void onPostExecute(Bitmap result){
             imageBtn.setImageBitmap(result);
         }
+    }
+
+    public void autoFill(){
+        final String emailVis = inputEmail.getText().toString();
+        final DatabaseReference dRef = fbase.getReference("visitors");
+        inputEmail.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.toString().equals(dRef.orderByChild("email").toString().equals(emailVis))){
+                    nameVis = vis.getNama();
+                    noVis = vis.getPhone();
+                    urlVis = vis.getUrlFoto();
+                    kepVis = vis.getKeperluan();
+                    new DownLoadImageTask(btnFoto).execute(urlVis);
+                    inputName.setText(nameVis);
+                    inputNo.setText(noVis);
+                    inputKep.setText(kepVis);
+                    inputEmail.setError(null);
+                    inputLayoutEmail.setErrorEnabled(false);
+                }
+            }
+        });
     }
 }

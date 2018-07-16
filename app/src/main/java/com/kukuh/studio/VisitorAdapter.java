@@ -70,7 +70,7 @@ public class VisitorAdapter extends ArrayAdapter<Visitor> {
             if(constraint != null) {
                 suggestions.clear();
                 for (Visitor vis : visAll) {
-                    if(vis.getNama().toLowerCase().startsWith(constraint.toString().toLowerCase())){
+                    if(vis.getEmail().toLowerCase().startsWith(constraint.toString().toLowerCase())){
                         suggestions.add(vis);
                     }
                 }
