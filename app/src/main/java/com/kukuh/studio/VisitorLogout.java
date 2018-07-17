@@ -161,10 +161,23 @@ public class VisitorLogout extends AppCompatActivity {
                                     if(dataSnapshot.exists()){
                                         for(DataSnapshot data :dataSnapshot.getChildren()){
                                             if (data.hasChild("checkout")){
-                                                Toast.makeText(VisitorLogout.this,"Anda sudah logout",Toast.LENGTH_SHORT).show();
+//                                                Toast.makeText(VisitorLogout.this,"Anda sudah logout",Toast.LENGTH_SHORT).show();
+                                                box2.setTitle("Anda sudah logout");
+                                                box2
+                                                        .setCancelable(true)
+                                                        .setIcon(R.drawable.ic_warning)
+                                                        .setMessage(" Silahkan check-in terlebih dahulu")
+                                                        .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                                                                            }
+                                                        });
+                                                AlertDialog alertDia = box2.create();
+
+                                                alertDia.show();
                                             } else if(!data.hasChild("checkout")){
                                                 dBase.checkoutVis(emailVis);
-                                                Toast.makeText(VisitorLogout.this,"Logout berhasil",Toast.LENGTH_SHORT).show();
+//                                                Toast.makeText(VisitorLogout.this,"Logout berhasil",Toast.LENGTH_SHORT).show();
                                                 box2.setTitle("Anda Berhasil Keluar");
                                                 box2
                                                         .setCancelable(true)

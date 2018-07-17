@@ -12,6 +12,7 @@ import android.widget.Filter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class VisitorAdapter extends ArrayAdapter<Visitor> {
     private Context context;
@@ -59,7 +60,7 @@ public class VisitorAdapter extends ArrayAdapter<Visitor> {
         return emailFilter;
     }
 
-    Filter emailFilter = new Filter() {
+    private Filter emailFilter = new Filter() {
         @Override
         public String convertResultToString(Object resultValue) {
             String str = ((Visitor)(resultValue)).getEmail();
@@ -67,6 +68,7 @@ public class VisitorAdapter extends ArrayAdapter<Visitor> {
         }
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
+            FilterResults filterResults = new FilterResults();
             if(constraint != null) {
                 suggestions.clear();
                 for (Visitor vis : visAll) {
@@ -74,9 +76,8 @@ public class VisitorAdapter extends ArrayAdapter<Visitor> {
                         suggestions.add(vis);
                     }
                 }
-                FilterResults filterResults = new FilterResults();
                 filterResults.values = suggestions;
-                filterResults.count = suggestions.size();
+                filterResults.count = 1;
                 return filterResults;
             } else {
                 return new FilterResults();

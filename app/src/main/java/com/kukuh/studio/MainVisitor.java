@@ -1,8 +1,10 @@
 package com.kukuh.studio;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
@@ -175,7 +177,6 @@ public class MainVisitor extends AppCompatActivity {
                 return true;
             }
         });
-
         inputLayoutName = findViewById(R.id.input_layout_name);
         inputLayoutEmail = findViewById(R.id.input_layout_email);
         inputLayoutNo = findViewById(R.id.input_layout_phone);
@@ -211,6 +212,7 @@ public class MainVisitor extends AppCompatActivity {
                         && (validatePhone()) && (validateKep()) && (validateSpinner())){
 
                     vis = new Visitor(namaVis,emailVis,noVis,jamCheckin,null,kepVis,urlFoto);
+                    final AlertDialog.Builder dialog = new AlertDialog.Builder(MainVisitor.this);
                     final DatabaseReference ref = fbase.getReference().child("visitors").child(date);
                     ref.orderByChild("email").equalTo(emailVis).limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -219,25 +221,55 @@ public class MainVisitor extends AppCompatActivity {
                                 for (DataSnapshot data : dataSnapshot.getChildren()){
                                     if (data.hasChild("checkout")){
                                         database.checkinVis(vis);
+                                        dialog.setTitle("Anda Berhasil Check-in")
+                                                .setMessage("Selamat Datang Kembali")
+                                                .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                                        sendEmail();
+                                                        Intent intent = new Intent(MainVisitor.this, Home.class);
+                                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                        startActivity(intent);
+                                                    }
+                                                });
+                                        AlertDialog alert = dialog.create();
+                                        alert.show();
                                     }else if(!data.hasChild("checkout")){
-                                        Toast.makeText(MainVisitor.this,"Anda sudah checkin",Toast.LENGTH_LONG).show();
+                                        dialog.setTitle("Anda Sudah Check-in")
+                                                .setMessage("Silahkan Check-out Terlebih dulu")
+                                                .setIcon(R.drawable.ic_warning)
+                                                .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                                    }
+                                                });
+                                        AlertDialog alert = dialog.create();
+                                        alert.show();
                                     }
                                 }
                             }else if(!dataSnapshot.exists()){
                                 database.checkinVis(vis);
+                                dialog.setTitle("Anda Berhasil Check-in")
+                                        .setMessage("")
+                                        .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                sendEmail();
+                                                Intent intent = new Intent(MainVisitor.this, Home.class);
+                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                startActivity(intent);
+                                            }
+                                        });
+                                AlertDialog alert = dialog.create();
+                                alert.show();
                             }
                         }
-
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
 
                         }
                     });
-
-                    sendEmail();
-                    Intent intent = new Intent(MainVisitor.this, Home.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
                 }
 
             }
@@ -297,9 +329,7 @@ public class MainVisitor extends AppCompatActivity {
         if (!validateKep()){
             return;
         }
-
-
-        Toast.makeText(getApplicationContext(), "Thank You!", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "Thank You!", Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -325,6 +355,9 @@ public class MainVisitor extends AppCompatActivity {
             jdlFoto.setError("Foto data diri anda");
             requestFocus(btnFoto);
             return false;
+        } else if (!jdlFoto.getText().toString().equals("Ambil foto data diri anda")){
+            jdlFoto.setError(null);
+            return true;
         }
 
         return true;
@@ -450,7 +483,6 @@ public class MainVisitor extends AppCompatActivity {
                     break;
                 case R.id.input_email:
                     validateEmail();
-                    autoFill();
                     break;
                 case R.id.input_layout_phone:
                     validatePhone();
@@ -524,7 +556,7 @@ public class MainVisitor extends AppCompatActivity {
                 uploadImage();
             }
             catch (IOException e){
-
+                e.printStackTrace();
             }
         }
     }
@@ -691,6 +723,7 @@ public void getVisitorObj(){
                     inputKep.setText(kepVis);
                     inputEmail.setError(null);
                     inputLayoutEmail.setErrorEnabled(false);
+                    jdlFoto.setError(null);
                     InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     in.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
 
@@ -742,38 +775,5 @@ public void getVisitorObj(){
         protected void onPostExecute(Bitmap result){
             imageBtn.setImageBitmap(result);
         }
-    }
-
-    public void autoFill(){
-        final String emailVis = inputEmail.getText().toString();
-        final DatabaseReference dRef = fbase.getReference("visitors");
-        inputEmail.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (editable.toString().equals(dRef.orderByChild("email").toString().equals(emailVis))){
-                    nameVis = vis.getNama();
-                    noVis = vis.getPhone();
-                    urlVis = vis.getUrlFoto();
-                    kepVis = vis.getKeperluan();
-                    new DownLoadImageTask(btnFoto).execute(urlVis);
-                    urlFoto = vis.getUrlFoto();
-                    inputName.setText(nameVis);
-                    inputNo.setText(noVis);
-                    inputKep.setText(kepVis);
-                    inputEmail.setError(null);
-                    inputLayoutEmail.setErrorEnabled(false);
-                }
-            }
-        });
     }
 }
