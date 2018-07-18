@@ -80,8 +80,12 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 
 public class MainVisitor extends AppCompatActivity {
@@ -679,7 +683,6 @@ public class MainVisitor extends AppCompatActivity {
 
 //    Read data visitor from database
 public void getVisitorObj(){
-
     final DatabaseReference dRef = fbase.getReference("visitors");
 
     dRef.addValueEventListener(new ValueEventListener() {
@@ -693,14 +696,17 @@ public void getVisitorObj(){
                 }
             }
 
-            listArrVis = new String[listVis.size()];
-            for (int i=0; i<listVis.size();i++){
-                listArrVis[i]=listVis.get(i).getEmail();
-            }
+//            listArrVis = new String[listVis.size()];
+//            for (int i=0; i<listVis.size();i++){
+//                listArrVis[i]=listVis.get(i).getEmail();
+//            }
 
 
             //Set dropdown resource from database
             visAdapter = new VisitorAdapter(MainVisitor.this, R.layout.spinner_email, listVis);
+
+            visAdapter.add(vis);
+            
             visAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
             inputEmail.setThreshold(6);
             inputEmail.setAdapter(visAdapter);
@@ -776,4 +782,5 @@ public void getVisitorObj(){
             imageBtn.setImageBitmap(result);
         }
     }
+
 }

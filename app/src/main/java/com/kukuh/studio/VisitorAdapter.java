@@ -9,12 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class VisitorAdapter extends ArrayAdapter<Visitor> {
+public class VisitorAdapter extends ArrayAdapter<Visitor> implements Filterable{
     private Context context;
     private int resource;
     private ArrayList<Visitor> vis;
@@ -69,6 +70,11 @@ public class VisitorAdapter extends ArrayAdapter<Visitor> {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults filterResults = new FilterResults();
+            final List<Visitor> list = visAll;
+            int size = list.size();
+            final ArrayList<Visitor> vList = new ArrayList<>(size);
+            String duplicate;
+
             if(constraint != null) {
                 suggestions.clear();
                 for (Visitor vis : visAll) {
@@ -76,8 +82,13 @@ public class VisitorAdapter extends ArrayAdapter<Visitor> {
                         suggestions.add(vis);
                     }
                 }
+                if (suggestions.size()>1){
+                    Visitor item = suggestions.get(0);
+                    suggestions.clear();
+                    suggestions.add(item);
+                }
                 filterResults.values = suggestions;
-                filterResults.count = 1;
+                filterResults.count = suggestions.size();
                 return filterResults;
             } else {
                 return new FilterResults();

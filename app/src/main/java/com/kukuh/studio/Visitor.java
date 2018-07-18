@@ -106,4 +106,5 @@ public class Visitor {
     public void setJdlFoto(String jdlFoto) {
         this.jdlFoto = jdlFoto;
     }
+
 }
