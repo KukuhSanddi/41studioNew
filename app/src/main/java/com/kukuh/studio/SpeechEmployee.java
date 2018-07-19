@@ -9,6 +9,7 @@ import android.os.Build;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.speech.tts.TextToSpeech;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -38,6 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 import pl.bclogic.pulsator4droid.library.PulsatorLayout;
 
@@ -54,6 +56,7 @@ public class SpeechEmployee extends AppCompatActivity {
     TextView mText;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     Database dbase = new Database();
+    private TextToSpeech textToSpeech;
 
 
     @Override
@@ -78,6 +81,12 @@ public class SpeechEmployee extends AppCompatActivity {
         pulsator = findViewById(R.id.pulsator);
         ImageView imgV = findViewById(R.id.circleImageView);
         imgV.bringToFront();
+        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int i) {
+                textToSpeech.setLanguage(new Locale("Indonesian", "indonesia"));
+            }
+        });
 
 
 
@@ -99,14 +108,14 @@ public class SpeechEmployee extends AppCompatActivity {
 //                showResults(results);
 //            }
 //        });
-//
-//        recogView.setColors(colors);
-//        recogView.setBarMaxHeightsInDp(heights);
-//        recogView.setCircleRadiusInDp(8);
-//        recogView.setSpacingInDp(20);
-//        recogView.setIdleStateAmplitudeInDp(15);
-//        recogView.setRotationRadiusInDp(30);
-//        recogView.play();
+
+        recogView.setColors(colors);
+        recogView.setBarMaxHeightsInDp(heights);
+        recogView.setCircleRadiusInDp(8);
+        recogView.setSpacingInDp(20);
+        recogView.setIdleStateAmplitudeInDp(15);
+        recogView.setRotationRadiusInDp(30);
+        recogView.play();
 
 
         if (ContextCompat.checkSelfPermission(SpeechEmployee.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
@@ -114,6 +123,7 @@ public class SpeechEmployee extends AppCompatActivity {
         } else {
             pulsator.start();
             startRecognition();
+            recogView.play();
             Toast.makeText(SpeechEmployee.this, "Start Listening", Toast.LENGTH_SHORT).show();
         }
 
@@ -303,6 +313,7 @@ public class SpeechEmployee extends AppCompatActivity {
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                             if (dataSnapshot.exists()){
                                                 dbase.checkoutEmp(emp.getNama());
+                                                textToSpeech.speak("Sampai Jumpa "+mText.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
                                                 Toast.makeText(SpeechEmployee.this,"Anda berhasil checkout",Toast.LENGTH_SHORT).show();
                                             }
                                             else {
@@ -317,6 +328,7 @@ public class SpeechEmployee extends AppCompatActivity {
                                     });
                                 }else{
                                     dbase.checkinEmp(emp);
+                                    textToSpeech.speak("Selamat Datang "+mText.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
                                     Toast.makeText(SpeechEmployee.this,"Anda berhasil checkin",Toast.LENGTH_SHORT).show();
                                 }
                             }

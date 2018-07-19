@@ -696,19 +696,13 @@ public void getVisitorObj(){
                 }
             }
 
-//            listArrVis = new String[listVis.size()];
-//            for (int i=0; i<listVis.size();i++){
-//                listArrVis[i]=listVis.get(i).getEmail();
-//            }
-
-
             //Set dropdown resource from database
             visAdapter = new VisitorAdapter(MainVisitor.this, R.layout.spinner_email, listVis);
 
             visAdapter.add(vis);
             
             visAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-            inputEmail.setThreshold(6);
+            inputEmail.setThreshold(10);
             inputEmail.setAdapter(visAdapter);
 
 
