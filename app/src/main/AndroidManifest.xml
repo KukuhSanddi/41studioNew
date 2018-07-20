@@ -38,26 +38,9 @@
             android:screenOrientation="portrait"/>
         <activity
             android:theme="@style/MyMaterialTheme"
-            android:name=".MainEmployee"
-            android:parentActivityName=".Home"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:theme="@style/MyMaterialTheme"
-            android:name=".EmployeeProfile"
-            android:parentActivityName=".MainEmployee" />
-        <activity
-            android:theme="@style/MyMaterialTheme"
             android:name=".VisitorLogout"
             android:parentActivityName=".MainVisitor"
             android:screenOrientation="portrait"/>
-        <activity
-            android:theme="@style/MyMaterialTheme"
-            android:name=".AddEmployee"
-            android:parentActivityName=".MainEmployee" />
-        <activity
-            android:theme="@style/MyMaterialTheme"
-            android:name=".EditEmployee"
-            android:parentActivityName=".EmployeeProfile" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

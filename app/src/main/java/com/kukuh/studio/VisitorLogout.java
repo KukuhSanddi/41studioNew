@@ -57,9 +57,6 @@ public class VisitorLogout extends AppCompatActivity {
 
         getWindow().getAttributes().windowAnimations = R.style.Fade;
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         Toasty.Config.getInstance()
                 .setErrorColor(Color.RED)
                 .setSuccessColor(Color.GREEN);
