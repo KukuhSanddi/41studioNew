@@ -3,6 +3,7 @@ package com.kukuh.studio;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
@@ -14,12 +15,14 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +36,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import es.dmoral.toasty.Toasty;
 
 public class VisitorLogout extends AppCompatActivity {
 
@@ -54,6 +59,10 @@ public class VisitorLogout extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Toasty.Config.getInstance()
+                .setErrorColor(Color.RED)
+                .setSuccessColor(Color.GREEN);
 
         inputLayoutEmail = findViewById(R.id.input_layout_email_log);
         txt = findViewById(R.id.text_email);
@@ -93,7 +102,7 @@ public class VisitorLogout extends AppCompatActivity {
 
                                 }
                                 else {
-                                    Toast.makeText(VisitorLogout.this,"Email anda tidak ada",Toast.LENGTH_LONG).show();
+                                    Toasty.error(VisitorLogout.this,"Email anda tidak ada",Toast.LENGTH_SHORT).show();
                                 }
                             }
 
@@ -173,8 +182,11 @@ public class VisitorLogout extends AppCompatActivity {
                                                                                                             }
                                                         });
                                                 AlertDialog alertDia = box2.create();
-
                                                 alertDia.show();
+                                                final Button negativeButton = alertDia.getButton(android.app.AlertDialog.BUTTON_NEGATIVE);
+                                                LinearLayout.LayoutParams negativeButtonLL = (LinearLayout.LayoutParams) negativeButton.getLayoutParams();
+                                                negativeButtonLL.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                                                negativeButton.setLayoutParams(negativeButtonLL);
                                             } else if(!data.hasChild("checkout")){
                                                 dBase.checkoutVis(emailVis);
 //                                                Toast.makeText(VisitorLogout.this,"Logout berhasil",Toast.LENGTH_SHORT).show();
@@ -185,28 +197,22 @@ public class VisitorLogout extends AppCompatActivity {
                                                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                                             @Override
                                                             public void onClick(DialogInterface dialogInterface, int i) {
+                                                                Toasty.success(VisitorLogout.this,"Anda berhasil checkout",Toast.LENGTH_SHORT).show();
                                                                 Intent intent = new Intent(VisitorLogout.this, Home.class);
                                                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                                                 startActivity(intent);                                            }
                                                         });
                                                 AlertDialog alertDia = box2.create();
-
                                                 alertDia.show();
+                                                final Button negativeButton = alertDia.getButton(android.app.AlertDialog.BUTTON_NEGATIVE);
+                                                LinearLayout.LayoutParams negativeButtonLL = (LinearLayout.LayoutParams) negativeButton.getLayoutParams();
+                                                negativeButtonLL.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                                                negativeButton.setLayoutParams(negativeButtonLL);
                                             }
                                         }
                                     }else{
-                                        box2.setTitle("Email anda tidak ada");
-                                                box2
-                                                        .setCancelable(true)
-                                                        .setMessage("Silahkan masukkan ulang email anda ")
-                                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                                            @Override
-                                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                            }
-                                                        });
-                                                AlertDialog alertDia = box2.create();
+                                        Toasty.error(VisitorLogout.this,"Email anda tidak ada",Toast.LENGTH_SHORT).show();
 
-                                                alertDia.show();
                                     }
                                 }
 
@@ -220,6 +226,12 @@ public class VisitorLogout extends AppCompatActivity {
                     AlertDialog alertDialog = dialogBox.create();
 
                     alertDialog.show();
+                    final Button negativeButton = alertDialog.getButton(android.app.AlertDialog.BUTTON_NEGATIVE);
+                    final Button positiveButton = alertDialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE);
+                    LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) negativeButton.getLayoutParams();
+                    layoutParams.weight = 10;
+                    negativeButton.setLayoutParams(layoutParams);
+                    positiveButton.setLayoutParams(layoutParams);
                 }
             }
         });

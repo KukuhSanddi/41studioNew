@@ -3,6 +3,7 @@ package com.kukuh.studio;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.app.assist.AssistStructure;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -30,6 +31,7 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -46,6 +48,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -86,6 +89,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+
+import es.dmoral.toasty.Toasty;
 
 
 public class MainVisitor extends AppCompatActivity {
@@ -138,6 +143,9 @@ public class MainVisitor extends AppCompatActivity {
         final String date = dateFormat.format(calendar.getTime());
 
         mStorRef = FirebaseStorage.getInstance().getReference();
+
+        Toasty.Config.getInstance()
+                .setSuccessColor(Color.GREEN);
 
         getEmailEmployee();
 
@@ -231,6 +239,7 @@ public class MainVisitor extends AppCompatActivity {
                                                     @Override
                                                     public void onClick(DialogInterface dialogInterface, int i) {
                                                         sendEmail();
+                                                        Toasty.success(MainVisitor.this,"Anda berhasil checkin",Toast.LENGTH_SHORT).show();
                                                         Intent intent = new Intent(MainVisitor.this, Home.class);
                                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                                         startActivity(intent);
@@ -238,6 +247,10 @@ public class MainVisitor extends AppCompatActivity {
                                                 });
                                         AlertDialog alert = dialog.create();
                                         alert.show();
+                                        final Button negativeButton = alert.getButton(AlertDialog.BUTTON_NEGATIVE);
+                                        LinearLayout.LayoutParams negativeButtonLL = (LinearLayout.LayoutParams) negativeButton.getLayoutParams();
+                                        negativeButtonLL.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                                        negativeButton.setLayoutParams(negativeButtonLL);
                                     }else if(!data.hasChild("checkout")){
                                         dialog.setTitle("Anda Sudah Check-in")
                                                 .setMessage("Silahkan Check-out Terlebih dulu")
@@ -250,6 +263,10 @@ public class MainVisitor extends AppCompatActivity {
                                                 });
                                         AlertDialog alert = dialog.create();
                                         alert.show();
+                                        final Button negativeButton = alert.getButton(AlertDialog.BUTTON_NEGATIVE);
+                                        LinearLayout.LayoutParams negativeButtonLL = (LinearLayout.LayoutParams) negativeButton.getLayoutParams();
+                                        negativeButtonLL.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                                        negativeButton.setLayoutParams(negativeButtonLL);
                                     }
                                 }
                             }else if(!dataSnapshot.exists()){
@@ -260,6 +277,7 @@ public class MainVisitor extends AppCompatActivity {
                                             @Override
                                             public void onClick(DialogInterface dialogInterface, int i) {
                                                 sendEmail();
+                                                Toasty.success(MainVisitor.this,"Anda berhasil checkin",Toast.LENGTH_SHORT).show();
                                                 Intent intent = new Intent(MainVisitor.this, Home.class);
                                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                                 startActivity(intent);
@@ -267,6 +285,10 @@ public class MainVisitor extends AppCompatActivity {
                                         });
                                 AlertDialog alert = dialog.create();
                                 alert.show();
+                                final Button negativeButton = alert.getButton(AlertDialog.BUTTON_NEGATIVE);
+                                LinearLayout.LayoutParams negativeButtonLL = (LinearLayout.LayoutParams) negativeButton.getLayoutParams();
+                                negativeButtonLL.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                                negativeButton.setLayoutParams(negativeButtonLL);
                             }
                         }
                         @Override

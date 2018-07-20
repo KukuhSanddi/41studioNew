@@ -10,6 +10,7 @@
     android:clickable="true"
     android:focusable="true"
     android:background="@drawable/bg_41studio"
+    tools:context=".MainVisitor"
     >
 
     <ScrollView
