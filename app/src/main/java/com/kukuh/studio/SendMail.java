@@ -102,3 +102,4 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
         return null;
     }
 }
+//    <!--Code By M. Adli Rachman-->

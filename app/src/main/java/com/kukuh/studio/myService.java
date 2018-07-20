@@ -17,3 +17,4 @@ public class myService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 }
+//    <!--Code By M. Adli Rachman-->

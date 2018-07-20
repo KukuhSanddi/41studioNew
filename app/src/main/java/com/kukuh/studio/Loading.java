@@ -21,3 +21,4 @@ public class Loading extends AppCompatActivity {
         }, 3000);
     }
 }
+//    <!--Code By M. Adli Rachman-->

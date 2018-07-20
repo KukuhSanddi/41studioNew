@@ -109,3 +109,4 @@ public class VisitorAdapter extends ArrayAdapter<Visitor> implements Filterable{
 
 
 }
+//    <!--Code By Kukuh Sanddi Razaq & M. Adli Rachman-->

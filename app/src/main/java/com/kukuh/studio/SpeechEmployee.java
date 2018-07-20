@@ -380,3 +380,4 @@ public class SpeechEmployee extends AppCompatActivity {
     }
 
 }
+//    <!--Code By Kukuh Sanddi Razaq & M. Adli Rachman-->
