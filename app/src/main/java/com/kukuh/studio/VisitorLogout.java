@@ -40,9 +40,10 @@ import java.util.Calendar;
 import es.dmoral.toasty.Toasty;
 
 public class VisitorLogout extends AppCompatActivity {
-
+    //Call class Context of this page
     final Context context = this;
     Button btnLogout;
+    //initiate database
     Database dBase = new Database();
     FirebaseDatabase database = FirebaseDatabase.getInstance();
 
@@ -52,28 +53,36 @@ public class VisitorLogout extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Call layout on this page
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_visitor_logout);
 
+        //Transition
         getWindow().getAttributes().windowAnimations = R.style.Fade;
 
+        //Set color of toast
         Toasty.Config.getInstance()
                 .setErrorColor(Color.RED)
                 .setSuccessColor(Color.GREEN);
 
+        //Initiate variable from layout
         inputLayoutEmail = findViewById(R.id.input_layout_email_log);
         txt = findViewById(R.id.text_email);
         btnLogout = findViewById(R.id.btn_logout);
         email = findViewById(R.id.email_log);
         ImageView logo = findViewById(R.id.logo_out);
 
+
         final String[] namaVis = new String[1];
+        //Set listener button on logo
         logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();
             }
         });
+
+        //Set listener edittext email from
         ((EditText)findViewById(R.id.email_log)).setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
@@ -117,6 +126,7 @@ public class VisitorLogout extends AppCompatActivity {
             }
         });
 
+        //Set btnLogout listener
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

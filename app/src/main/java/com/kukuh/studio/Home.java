@@ -22,44 +22,38 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class Home extends AppCompatActivity {
+    //Initate database
     FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+    //Initiate context this page
     final Context context = this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Call calendar class
         Calendar calendar = Calendar.getInstance();
+
+        //Call jam format
         SimpleDateFormat jamFormat = new SimpleDateFormat("HH:mm:ss");
         final String jamCheckin = jamFormat.format(calendar.getTime());
+
+        //Call date format
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MM yyyy");
         final String date = dateFormat.format(calendar.getTime());
 
-//        DatabaseReference dRef = database.getReference("visitors").child(date);
-//        dRef.orderByChild("checkout").equalTo("").addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                if (dataSnapshot.exists()){
-//                    Button btnLogout = findViewById(R.id.logout);
-//                    btnLogout.setVisibility(View.VISIBLE);
-//                }else{
-//                    Button btnLogout = findViewById(R.id.logout);
-//                    btnLogout.setVisibility(View.GONE);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
+        //Load view from XML
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-
+        //Transition
         getWindow().getAttributes().windowAnimations = R.style.Fade;
 
+        //Call class myService
         startService(new Intent(this,myService.class));
 
+        //initiate btnVisitor
         Button btnVisitor = findViewById(R.id.btn_Visitor);
 
+        //Set btnVisitor listener
         btnVisitor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,6 +63,7 @@ public class Home extends AppCompatActivity {
             }
         });
 
+        //initiate and set listener of btnLogout
         Button btnLogout1 = findViewById(R.id.logout);
         btnLogout1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +74,7 @@ public class Home extends AppCompatActivity {
         });
     }
 
+    //method onclick button Employee
     public void toEmployee (View view){
         Intent intent = new Intent (this, SpeechEmployee.class);
         startActivity(intent);

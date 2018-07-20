@@ -30,3 +30,4 @@
         app:layout_constraintRight_toRightOf="@id/splash_screen" />
 
 </android.support.constraint.ConstraintLayout>
+    <!--Code By Kukuh Sanddi Razaq-->
