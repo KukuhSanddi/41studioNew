@@ -74,17 +74,17 @@ public class SpeechEmployee extends AppCompatActivity {
                 ContextCompat.getColor(this, R.color.colorWhite)
         };
 
-        int[] heights = { 55, 59, 53, 58, 51, 55, };
+        int[] heights = { 55, 59, 53, 58, 51, 55 };
 
-        Button speechBtn =  findViewById(R.id.speech_btn);
-        Button stopBtn = findViewById(R.id.speech_btn_out);
+//        Button speechBtn =  findViewById(R.id.speech_btn);
+//        Button stopBtn = findViewById(R.id.speech_btn_out);
         pulsator = findViewById(R.id.pulsator);
         ImageView imgV = findViewById(R.id.circleImageView);
         imgV.bringToFront();
         textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int i) {
-                textToSpeech.setLanguage(new Locale("Indonesian", "indonesia"));
+                textToSpeech.setLanguage(new Locale("id", "ID"));
             }
         });
 
@@ -147,15 +147,15 @@ public class SpeechEmployee extends AppCompatActivity {
 //            }
 //        });
 
-        stopBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                pulsator.stop();
-                mSpeechRecognizer.stopListening();
-//                recogView.stop();
-//                recogView.play();
-            }
-        });
+//        stopBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                pulsator.stop();
+//                mSpeechRecognizer.stopListening();
+////                recogView.stop();
+////                recogView.play();
+//            }
+//        });
 
 
 

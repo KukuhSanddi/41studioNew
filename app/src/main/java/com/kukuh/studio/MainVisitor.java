@@ -233,9 +233,7 @@ public class MainVisitor extends AppCompatActivity {
                                 for (DataSnapshot data : dataSnapshot.getChildren()){
                                     if (data.hasChild("checkout")){
                                         database.checkinVis(vis);
-                                        dialog.setTitle("Anda Berhasil Check-in")
-                                                .setIcon(R.drawable.ic_check_24dp)
-                                                .setMessage("Selamat Datang Kembali")
+                                        dialog.setView(R.layout.alert_dialog)
                                                 .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -254,9 +252,7 @@ public class MainVisitor extends AppCompatActivity {
                                         negativeButtonLL.width = ViewGroup.LayoutParams.MATCH_PARENT;
                                         negativeButton.setLayoutParams(negativeButtonLL);
                                     }else if(!data.hasChild("checkout")){
-                                        dialog.setTitle("Anda Sudah Check-in")
-                                                .setMessage("Silahkan Check-out Terlebih dulu")
-                                                .setIcon(R.drawable.ic_warning)
+                                        dialog.setView(R.layout.alert_dialog_warning)
                                                 .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -274,9 +270,7 @@ public class MainVisitor extends AppCompatActivity {
                                 }
                             }else if(!dataSnapshot.exists()){
                                 database.checkinVis(vis);
-                                dialog.setTitle("Anda Berhasil Check-in")
-                                        .setMessage("")
-                                        .setIcon(R.drawable.ic_check_24dp)
+                                dialog.setView(R.layout.alert_dialog)
                                         .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialogInterface, int i) {

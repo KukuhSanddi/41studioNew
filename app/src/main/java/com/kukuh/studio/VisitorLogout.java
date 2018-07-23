@@ -51,6 +51,7 @@ public class VisitorLogout extends AppCompatActivity {
     EditText email;
     TextInputLayout inputLayoutEmail;
     TextView txt;
+    Visitor vis = new Visitor();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +102,7 @@ public class VisitorLogout extends AppCompatActivity {
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 if (dataSnapshot.exists()) {
                                     for (DataSnapshot data : dataSnapshot.getChildren()) {
-                                        Visitor vis = data.getValue(Visitor.class);
+                                        vis = data.getValue(Visitor.class);
                                         txt.setText(vis.getNama());
                                         namaVis[0] = vis.getNama();
 
@@ -133,12 +134,10 @@ public class VisitorLogout extends AppCompatActivity {
             public void onClick(View view) {
                 validateEmail();
 
-                if (email.getText().toString().equals("")){
+                if (email.getText().toString().equals("")) {
                     AlertDialog.Builder dialogBox = new AlertDialog.Builder(context);
 
-                    dialogBox.setTitle("Anda belum melakukan checkin")
-                            .setCancelable(true)
-                            .setIcon(R.drawable.ic_close_24dp)
+                    dialogBox.setView(R.layout.alert_dialog_x_logout)
                             .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -148,6 +147,10 @@ public class VisitorLogout extends AppCompatActivity {
                     AlertDialog alertDialog = dialogBox.create();
                     alertDialog.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
                     alertDialog.show();
+                    final Button negativeButton = alertDialog.getButton(android.app.AlertDialog.BUTTON_NEGATIVE);
+                    LinearLayout.LayoutParams negativeButtonLL = (LinearLayout.LayoutParams) negativeButton.getLayoutParams();
+                    negativeButtonLL.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                    negativeButton.setLayoutParams(negativeButtonLL);
 
                 } else {
                     AlertDialog.Builder dialogBox = new AlertDialog.Builder(context);
@@ -181,11 +184,7 @@ public class VisitorLogout extends AppCompatActivity {
                                         for(DataSnapshot data :dataSnapshot.getChildren()){
                                             if (data.hasChild("checkout")){
 //                                                Toast.makeText(VisitorLogout.this,"Anda sudah logout",Toast.LENGTH_SHORT).show();
-                                                box2.setTitle("Anda sudah logout");
-                                                box2
-                                                        .setCancelable(true)
-                                                        .setIcon(R.drawable.ic_close_24dp)
-                                                        .setMessage(" Silahkan check-in terlebih dahulu")
+                                                box2.setView(R.layout.alert_dialog_x_logout)
                                                         .setNegativeButton("OK", new DialogInterface.OnClickListener() {
                                                             @Override
                                                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -202,11 +201,8 @@ public class VisitorLogout extends AppCompatActivity {
                                             } else if(!data.hasChild("checkout")){
                                                 dBase.checkoutVis(emailVis);
 //                                                Toast.makeText(VisitorLogout.this,"Logout berhasil",Toast.LENGTH_SHORT).show();
-                                                box2.setTitle("Anda Berhasil Keluar");
-                                                box2
+                                                box2.setView(R.layout.alert_dialog_logout)
                                                         .setCancelable(true)
-                                                        .setMessage("Terimakasih ")
-                                                        .setIcon(R.drawable.ic_check_24dp)
                                                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                                             @Override
                                                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -220,7 +216,7 @@ public class VisitorLogout extends AppCompatActivity {
 
                                                 alertDia.show();
 
-                                                final Button negativeButton = alertDia.getButton(android.app.AlertDialog.BUTTON_NEGATIVE);
+                                                final Button negativeButton = alertDia.getButton(android.app.AlertDialog.BUTTON_POSITIVE);
                                                 LinearLayout.LayoutParams negativeButtonLL = (LinearLayout.LayoutParams) negativeButton.getLayoutParams();
                                                 negativeButtonLL.width = ViewGroup.LayoutParams.MATCH_PARENT;
                                                 negativeButton.setLayoutParams(negativeButtonLL);
