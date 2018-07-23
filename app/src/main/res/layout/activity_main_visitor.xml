@@ -209,7 +209,7 @@
                             android:textSize="14sp" />
                     </android.support.design.widget.TextInputLayout>
 
-                    <android.support.design.button.MaterialButton
+                    <Button
                         android:id="@+id/btn_submit"
                         style="@style/ImageButton"
                         android:layout_width="match_parent"
@@ -223,7 +223,7 @@
                         android:textColor="@android:color/white"
                         android:textSize="16sp">
 
-                    </android.support.design.button.MaterialButton>
+                    </Button>
 
 
                 </RelativeLayout>

@@ -17,6 +17,13 @@
         <item name="android:startColor">@color/colorPrimary</item>
     </style>
 
+    <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">#546E7A</item>
+        <item name="android:textColorPrimary">#37474F</item>
+        <item name="android:background">#B0BEC5</item>
+        <item name="android:buttonStyle">@style/Widget.MaterialComponents.Button.TextButton.Dialog</item>
+</style>
+
     <style name="Widget.Shrine.Toolbar." parent="Widget.AppCompat.Toolbar">
         <item name="android:background">?attr/colorAccent</item>
         <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
@@ -35,6 +42,14 @@
         <item name="android:background">@color/newColor</item>
     </style>
 
+    <style name="Widget.MaterialComponents.Button.">
+        <item name="buttonBarStyle">@style/Widget.AppCompat.ButtonBar</item>
+        <item name="buttonBarButtonStyle">@style/Button.Theme</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.MaterialComponents.Button.TextButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Widget.MaterialComponents.Button.TextButton</item>
+        <item name="buttonBarNeutralButtonStyle">@style/Widget.MaterialComponents.Button.TextButton</item>
+    </style>
+
     <style name="Fade">
         <item name="android:windowEnterAnimation">@anim/fadein</item>
     </style>
@@ -42,5 +57,15 @@
     <style name="ImageButton" parent="Widget.MaterialComponents.Button">
         <item name="android:colorButtonNormal">@color/newColor</item>
     </style>
+
+    <style name="dialog_animation">
+
+        <item name="android:windowEnterAnimation">@anim/slide_left</item>
+
+        <item name="android:windowExitAnimation">@anim/slide_right</item>
+
+    </style>
+
+
 
 </resources>

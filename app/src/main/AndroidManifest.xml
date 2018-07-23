@@ -39,7 +39,7 @@
         <activity
             android:theme="@style/MyMaterialTheme"
             android:name=".VisitorLogout"
-            android:parentActivityName=".MainVisitor"
+            android:parentActivityName=".Home"
             android:screenOrientation="portrait"/>
 
         <provider

@@ -104,7 +104,7 @@ public class MainVisitor extends AppCompatActivity {
     Bitmap bmp = null;
     final ArrayList<Employee> listNama = new ArrayList<Employee>();
     final ArrayList<Visitor> listVis = new ArrayList<Visitor>();
-    Context context;
+    Context context = this;
 
 
 
@@ -224,7 +224,7 @@ public class MainVisitor extends AppCompatActivity {
                         && (validatePhone()) && (validateKep()) && (validateSpinner())){
 
                     vis = new Visitor(namaVis,emailVis,noVis,jamCheckin,null,kepVis,urlFoto);
-                    final AlertDialog.Builder dialog = new AlertDialog.Builder(MainVisitor.this);
+                    final AlertDialog.Builder dialog = new AlertDialog.Builder(context);
                     final DatabaseReference ref = fbase.getReference().child("visitors").child(date);
                     ref.orderByChild("email").equalTo(emailVis).limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -234,6 +234,7 @@ public class MainVisitor extends AppCompatActivity {
                                     if (data.hasChild("checkout")){
                                         database.checkinVis(vis);
                                         dialog.setTitle("Anda Berhasil Check-in")
+                                                .setIcon(R.drawable.ic_check_24dp)
                                                 .setMessage("Selamat Datang Kembali")
                                                 .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
                                                     @Override
@@ -246,6 +247,7 @@ public class MainVisitor extends AppCompatActivity {
                                                     }
                                                 });
                                         AlertDialog alert = dialog.create();
+                                        alert.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
                                         alert.show();
                                         final Button negativeButton = alert.getButton(AlertDialog.BUTTON_NEGATIVE);
                                         LinearLayout.LayoutParams negativeButtonLL = (LinearLayout.LayoutParams) negativeButton.getLayoutParams();
@@ -262,6 +264,7 @@ public class MainVisitor extends AppCompatActivity {
                                                     }
                                                 });
                                         AlertDialog alert = dialog.create();
+                                        alert.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
                                         alert.show();
                                         final Button negativeButton = alert.getButton(AlertDialog.BUTTON_NEGATIVE);
                                         LinearLayout.LayoutParams negativeButtonLL = (LinearLayout.LayoutParams) negativeButton.getLayoutParams();
@@ -273,6 +276,7 @@ public class MainVisitor extends AppCompatActivity {
                                 database.checkinVis(vis);
                                 dialog.setTitle("Anda Berhasil Check-in")
                                         .setMessage("")
+                                        .setIcon(R.drawable.ic_check_24dp)
                                         .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -284,6 +288,7 @@ public class MainVisitor extends AppCompatActivity {
                                             }
                                         });
                                 AlertDialog alert = dialog.create();
+                                alert.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
                                 alert.show();
                                 final Button negativeButton = alert.getButton(AlertDialog.BUTTON_NEGATIVE);
                                 LinearLayout.LayoutParams negativeButtonLL = (LinearLayout.LayoutParams) negativeButton.getLayoutParams();

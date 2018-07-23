@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
@@ -82,7 +83,7 @@ public class VisitorLogout extends AppCompatActivity {
             }
         });
 
-        //Set listener edittext email from
+        //Set listener edittext email form
         ((EditText)findViewById(R.id.email_log)).setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
@@ -137,7 +138,7 @@ public class VisitorLogout extends AppCompatActivity {
 
                     dialogBox.setTitle("Anda belum melakukan checkin")
                             .setCancelable(true)
-                            .setIcon(R.drawable.ic_warning)
+                            .setIcon(R.drawable.ic_close_24dp)
                             .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -145,7 +146,9 @@ public class VisitorLogout extends AppCompatActivity {
                                 }
                             });
                     AlertDialog alertDialog = dialogBox.create();
+                    alertDialog.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
                     alertDialog.show();
+
                 } else {
                     AlertDialog.Builder dialogBox = new AlertDialog.Builder(context);
 
@@ -181,7 +184,7 @@ public class VisitorLogout extends AppCompatActivity {
                                                 box2.setTitle("Anda sudah logout");
                                                 box2
                                                         .setCancelable(true)
-                                                        .setIcon(R.drawable.ic_warning)
+                                                        .setIcon(R.drawable.ic_close_24dp)
                                                         .setMessage(" Silahkan check-in terlebih dahulu")
                                                         .setNegativeButton("OK", new DialogInterface.OnClickListener() {
                                                             @Override
@@ -189,6 +192,8 @@ public class VisitorLogout extends AppCompatActivity {
                                                                                                             }
                                                         });
                                                 AlertDialog alertDia = box2.create();
+                                                alertDia.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
+
                                                 alertDia.show();
                                                 final Button negativeButton = alertDia.getButton(android.app.AlertDialog.BUTTON_NEGATIVE);
                                                 LinearLayout.LayoutParams negativeButtonLL = (LinearLayout.LayoutParams) negativeButton.getLayoutParams();
@@ -201,6 +206,7 @@ public class VisitorLogout extends AppCompatActivity {
                                                 box2
                                                         .setCancelable(true)
                                                         .setMessage("Terimakasih ")
+                                                        .setIcon(R.drawable.ic_check_24dp)
                                                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                                             @Override
                                                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -210,7 +216,10 @@ public class VisitorLogout extends AppCompatActivity {
                                                                 startActivity(intent);                                            }
                                                         });
                                                 AlertDialog alertDia = box2.create();
+                                                alertDia.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
+
                                                 alertDia.show();
+
                                                 final Button negativeButton = alertDia.getButton(android.app.AlertDialog.BUTTON_NEGATIVE);
                                                 LinearLayout.LayoutParams negativeButtonLL = (LinearLayout.LayoutParams) negativeButton.getLayoutParams();
                                                 negativeButtonLL.width = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -231,7 +240,7 @@ public class VisitorLogout extends AppCompatActivity {
                         }
                     });
                     AlertDialog alertDialog = dialogBox.create();
-
+                    alertDialog.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
                     alertDialog.show();
                     final Button negativeButton = alertDialog.getButton(android.app.AlertDialog.BUTTON_NEGATIVE);
                     final Button positiveButton = alertDialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE);
