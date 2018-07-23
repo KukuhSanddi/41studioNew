@@ -249,6 +249,8 @@ public class VisitorLogout extends AppCompatActivity {
         });
     }
 
+
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
