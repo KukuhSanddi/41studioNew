@@ -1,10 +1,14 @@
 package com.kukuh.studio;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.media.AudioFormat;
+import android.media.AudioRecord;
+import android.media.MediaRecorder;
 import android.os.Build;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
@@ -15,6 +19,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -33,8 +38,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.github.zagum.speechrecognitionview.RecognitionProgressView;
 import com.github.zagum.speechrecognitionview.adapters.RecognitionListenerAdapter;
 
+import AlizeSpkRec.*;
+
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.text.SimpleDateFormat;
@@ -58,13 +66,52 @@ public class SpeechEmployee extends AppCompatActivity {
     Database dbase = new Database();
     private TextToSpeech textToSpeech;
 
+    //Alize Speaker Recognition
+    SimpleSpkDetSystem alizeSystem;
+    AudioRecord audioRecord = null;
+    boolean isRecording = false;
+    int buffSize2 = 0;
+    short[] shortBuffer2 = new short[1024];
+    int sampleRate = 48000;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_speech_employee);
 
         getWindow().getAttributes().windowAnimations = R.style.Fade;
+
+        //AlizeSR loadBackgroundModel
+        try {
+            config();
+            loadBackgroundmodel();
+            InputStream inputKerry = getResources().openRawResource(R.raw.kerry);
+            trainWavModel(inputKerry,"Dani");
+            alizeSystem.resetAudio();
+            InputStream inputCarter = getResources().openRawResource(R.raw.carter);
+            trainWavModel(inputCarter,"Via Nisa");
+            alizeSystem.resetAudio();
+            alizeSystem.resetFeatures();
+            InputStream inputRumsfeld = getResources().openRawResource(R.raw.rumsfeld);
+            trainWavModel(inputRumsfeld,"Lorem");
+            alizeSystem.resetAudio();
+            alizeSystem.resetFeatures();
+            InputStream inputBush= getResources().openRawResource(R.raw.bush);
+            trainWavModel(inputBush,"Davis");
+            alizeSystem.resetAudio();
+            alizeSystem.resetFeatures();
+            InputStream inputChurchill = getResources().openRawResource(R.raw.churchill);
+            trainWavModel(inputChurchill,"Ipsum");
+            alizeSystem.resetAudio();
+            alizeSystem.resetFeatures();
+            Log.d("Alize Status", "Speaker Count: "+String.valueOf(alizeSystem.speakerCount()));
+            Log.d("Alize Status", "isUBMLoaded  : "+String.valueOf(alizeSystem.isUBMLoaded()));
+        } catch (AlizeException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         int[] colors = {
                 ContextCompat.getColor(this, R.color.colorBlue),
@@ -76,11 +123,11 @@ public class SpeechEmployee extends AppCompatActivity {
 
         int[] heights = { 55, 59, 53, 58, 51, 55 };
 
-//        Button speechBtn =  findViewById(R.id.speech_btn);
+        Button speechBtn =  findViewById(R.id.btn_record);
 //        Button stopBtn = findViewById(R.id.speech_btn_out);
         pulsator = findViewById(R.id.pulsator);
-        ImageView imgV = findViewById(R.id.circleImageView);
-        imgV.bringToFront();
+//        ImageView imgV = findViewById(R.id.circleImageView);
+//        imgV.bringToFront();
         textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int i) {
@@ -121,11 +168,33 @@ public class SpeechEmployee extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(SpeechEmployee.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             requestRecordAudioPermission();
         } else {
-            pulsator.start();
-            startRecognition();
+//            pulsator.start();
+//            startRecognition();
             recogView.play();
-            Toast.makeText(SpeechEmployee.this, "Start Listening", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(SpeechEmployee.this, "Start Listening", Toast.LENGTH_SHORT).show();
         }
+
+
+        speechBtn.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+                        Toast.makeText(SpeechEmployee.this,"Start Recording",Toast.LENGTH_SHORT).show();
+                        startRecording();
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        Toast.makeText(SpeechEmployee.this,"Recording stopped",Toast.LENGTH_SHORT).show();
+                        try {
+                            stopRecording();
+                        } catch (AlizeException e) {
+                            e.printStackTrace();
+                        }
+
+                }
+                return false;
+            }
+        });
 
 
 //        speechBtn.setOnClickListener(new View.OnClickListener() {
@@ -157,13 +226,9 @@ public class SpeechEmployee extends AppCompatActivity {
 //            }
 //        });
 
-
-
         mText = findViewById(R.id.mText);
 
     }
-
-
 
     @Override
     public void onDestroy() {
@@ -196,20 +261,6 @@ public class SpeechEmployee extends AppCompatActivity {
                 this.getPackageName());
         mSpeechRecognizer.startListening(mSpeechRecognizerIntent);
     }
-
-//    private void showResults(Bundle results) {
-//        Log.d(TAG, "onResults" + results); //$NON-NLS-1$
-//        ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-//        // matches are the return values of speech recognition engine
-//        // Use these values for whatever you wish to do
-//        String str = new String();
-//        for (int i=0; i<matches.size(); i++){
-//            Log.d(TAG,"result: "+matches.get(i));
-//            str += matches.get(i);
-//        }
-//        mText.setText(toTitleCase(matches.get(0)));
-//        searchEmployee(toTitleCase(matches.get(0)));
-//    }
 
     protected class SpeechRecognitionListener implements RecognitionListener
     {
@@ -377,6 +428,76 @@ public class SpeechEmployee extends AppCompatActivity {
         }
 
         return builder.toString();
+    }
+
+    //Alize SR
+
+    private void startRecording(){
+        buffSize2 = AudioRecord.getMinBufferSize(sampleRate, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT );
+        audioRecord = new AudioRecord(MediaRecorder.AudioSource.MIC, sampleRate, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, buffSize2);
+        audioRecord.startRecording();
+
+        isRecording=true;
+        audioRecord.read(shortBuffer2,0,shortBuffer2.length);
+    }
+
+    private void stopRecording() throws AlizeException {
+        audioRecord.stop();
+        isRecording = false;
+        identifySpeaker(shortBuffer2);
+
+
+    }
+
+    private void loadBackgroundmodel() throws IOException, AlizeException {
+        InputStream backgroundModelAsset = getApplicationContext().getAssets().open("gmm/world.gmm");
+        alizeSystem.loadBackgroundModel(backgroundModelAsset);
+        backgroundModelAsset.close();
+    }
+
+    private void config() throws IOException, AlizeException {
+        InputStream configAsset = getApplicationContext().getAssets().open("AlizeConfigurationExample.cfg");
+        alizeSystem = new SimpleSpkDetSystem(configAsset,getApplicationContext().getFilesDir().getPath());
+        configAsset.close();
+    }
+
+
+
+    public void trainSpeakerModel(short[] input) throws AlizeException {
+//        if(input != null){
+//            String nama = mNama.getText().toString();
+//            alizeSystem.addAudio(input);
+//            alizeSystem.createSpeakerModel(nama);
+//            alizeSystem.saveSpeakerModel(nama,"test_"+nama);
+//            Toast.makeText(MainActivity.this,"Train Speaker berhasil!",Toast.LENGTH_SHORT).show();
+//            Log.d("System Status", "speaker : "+String.valueOf(alizeSystem.speakerCount()));
+//        }
+    }
+
+    public void trainWavModel(InputStream is,String nama) throws IOException, AlizeException {
+        InputStream wavSpeaker = is;
+        byte[] speaker = new byte[wavSpeaker.available()];
+        alizeSystem.addAudio(speaker);
+        wavSpeaker.close();
+        alizeSystem.createSpeakerModel(nama);
+        alizeSystem.adaptSpeakerModel(nama);
+        alizeSystem.saveSpeakerModel(nama,"test_"+nama);
+    }
+
+    public void identifySpeaker(short[] data) throws AlizeException {
+        try {
+            alizeSystem.resetAudio();
+            alizeSystem.resetFeatures();
+            alizeSystem.addAudio(data);
+            SimpleSpkDetSystem.SpkRecResult identificationRes = alizeSystem.identifySpeaker();
+            String nama = identificationRes.speakerId;
+            mText.setText("Hello "+nama);
+            Float score = identificationRes.score;
+            Log.d("Score",score.toString());
+            searchEmployee(nama);
+        } catch (AlizeException e) {
+            e.printStackTrace();
+        }
     }
 
 }

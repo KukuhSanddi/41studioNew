@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,7 +11,9 @@
         android:id="@+id/relativeLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="44dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -25,60 +27,75 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="30dp"
             android:fontFamily="@font/russo_one"
+            android:gravity="center"
             android:text="Voice Text"
-            android:textSize="50sp"
-            android:gravity="center"/>
+            android:textSize="50sp" />
     </RelativeLayout>
 
     <com.github.zagum.speechrecognitionview.RecognitionProgressView
         android:id="@+id/recognition_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
         android:layout_gravity="center"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="76dp"
+        android:layout_marginBottom="262dp"
         app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pulsator" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/circleImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_mic_black_24dp"
-        app:civ_circle_background_color="@color/colorWhite"
-        app:layout_constraintBottom_toBottomOf="@+id/pulsator"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/pulsator"
-        app:layout_constraintVertical_chainStyle="packed"
-        android:elevation="3dp"/>
+    <!--<de.hdodenhof.circleimageview.CircleImageView-->
+        <!--android:id="@+id/circleImageView"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginBottom="8dp"-->
+        <!--android:layout_marginEnd="8dp"-->
+        <!--android:layout_marginStart="8dp"-->
+        <!--android:layout_marginTop="8dp"-->
+        <!--android:scaleType="centerCrop"-->
+        <!--android:src="@drawable/ic_mic_black_24dp"-->
+        <!--app:civ_circle_background_color="@color/colorWhite"-->
+        <!--app:layout_constraintBottom_toBottomOf="@+id/pulsator"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="@+id/pulsator"-->
+        <!--app:layout_constraintVertical_chainStyle="packed"-->
+        <!--android:elevation="3dp"/>-->
 
-    <pl.bclogic.pulsator4droid.library.PulsatorLayout
-        android:id="@+id/pulsator"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="100dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:pulse_color="#464545"
-        app:pulse_count="5"
-        app:pulse_duration="1000"
-        app:pulse_interpolator="Linear"
-        app:pulse_repeat="0"
-        app:pulse_startFromScratch="false" />
+    <!--<pl.bclogic.pulsator4droid.library.PulsatorLayout-->
+        <!--android:id="@+id/pulsator"-->
+        <!--android:layout_width="150dp"-->
+        <!--android:layout_height="150dp"-->
+        <!--android:layout_marginEnd="8dp"-->
+        <!--android:layout_marginStart="8dp"-->
+        <!--android:layout_marginTop="100dp"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent"-->
+        <!--app:pulse_color="#464545"-->
+        <!--app:pulse_count="5"-->
+        <!--app:pulse_duration="1000"-->
+        <!--app:pulse_interpolator="Linear"-->
+        <!--app:pulse_repeat="0"-->
+        <!--app:pulse_startFromScratch="false" />-->
+
+    <android.support.design.button.MaterialButton
+        style="@style/Widget.MaterialComponents.Button"
+        android:id="@+id/btn_record"
+        android:layout_width="120dp"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="62dp"
+        android:elevation="3dp"
+        android:scaleType="center"
+        app:icon="@drawable/ic_mic_black_24dp"
+        tools:layout_editor_absoluteX="132dp"
+        tools:layout_editor_absoluteY="139dp"
+        app:iconPadding="10dp"
+        />
 
     <!--<LinearLayout-->
         <!--android:id="@+id/linearLayout"-->
@@ -113,5 +130,5 @@
     <!--</LinearLayout>-->
 
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
     <!--Code By Kukuh Sanddi Razaq-->
